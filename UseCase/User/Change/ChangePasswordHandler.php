@@ -1,0 +1,119 @@
+<?php
+/*
+ *  Copyright 2022.  Baks.dev <admin@baks.dev>
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *  http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *   limitations under the License.
+ *
+ */
+
+namespace BaksDev\Auth\Email\UseCase\User\Change;
+
+use BaksDev\Auth\Email\Entity as EntityAccount;
+use BaksDev\Auth\Email\Repository\ExistAccountByEmail\ExistAccountByEmailInterface;
+use BaksDev\Auth\Email\UseCase\User\Registration\RegistrationDTO;
+use BaksDev\Users\User\Entity\User;
+use Doctrine\ORM\EntityManagerInterface;
+use Psr\Log\LoggerInterface;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
+
+final class ChangePasswordHandler
+{
+    private EntityManagerInterface $entityManager;
+    //private ImageUploadInterface $imageUpload;
+    private UserPasswordHasherInterface $userPasswordHasher;
+    private ValidatorInterface $validator;
+
+    //private CountUserAccountByEmailInterface $countUserAccountByEmail;
+    private LoggerInterface $logger;
+    private ExistAccountByEmailInterface $existAccountByEmail;
+
+    public function __construct(
+        EntityManagerInterface       $entityManager,
+        UserPasswordHasherInterface  $userPasswordHasher,
+        ValidatorInterface           $validator,
+        LoggerInterface              $logger,
+        ExistAccountByEmailInterface $existAccountByEmail
+    )
+    {
+        $this->entityManager = $entityManager;
+        $this->userPasswordHasher = $userPasswordHasher;
+        $this->validator = $validator;
+        $this->logger = $logger;
+        $this->existAccountByEmail = $existAccountByEmail;
+    }
+
+    public function handle(
+		ChangePasswordDTO $command,
+        //?UploadedFile $cover = null
+    ): string|EntityAccount\Account
+    {
+        /* Валидация */
+        $errors = $this->validator->validate($command);
+
+        if (count($errors) > 0) {
+            $uniqid = uniqid('', false);
+            $errorsString = (string)$errors;
+            $this->logger->error($uniqid . ': ' . $errorsString);
+            return $uniqid;
+        }
+	
+		$EventRepo = $this->entityManager->getRepository(EntityAccount\Event\AccountEvent::class)->find($command->getEvent());
+	
+		if ($EventRepo === null)
+		{
+			$uniqid = uniqid('', false);
+			$errorsString = sprintf('Ошибка при сбросе пароля сущности AccountEvent с id: %s', $command->getEvent()) ;
+			$this->logger->error($uniqid . ': ' . $errorsString);
+			return $uniqid;
+		}
+	
+		$this->entityManager->clear();
+		$Event = $EventRepo->cloneEntity();
+		
+		
+        /* Хешируем и присваиваем пароль */
+        $passwordNash = $this->userPasswordHasher->hashPassword(
+            $Event,
+            $command->getPasswordPlain()
+        );
+        $command->setPasswordHash($passwordNash);
+
+        /* AccountEvent */
+		$Event->setEntity($command);
+		$this->entityManager->persist($Event);
+	
+	
+		/* Account */
+		$Account = $this->entityManager->getRepository(EntityAccount\Account::class)->findOneBy(
+			['event' => $command->getEvent()]);
+	
+		if ($Account === null)
+		{
+			$uniqid = uniqid('', false);
+			$errorsString = sprintf('Ошибка при сбросе пароля сущности Account с событием event: %s', $command->getEvent()) ;
+			$this->logger->error($uniqid . ': ' . $errorsString);
+			return $uniqid;
+		}
+
+        /* Присвиваем зависимости */
+        $Event->setAccount($Account);
+        $Account->setEvent($Event);
+
+        $this->entityManager->flush();
+
+        return $Account;
+    }
+
+}
+

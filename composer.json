@@ -1,0 +1,44 @@
+{
+  "name": "baks-dev/auth-email",
+  "description": "Модуль вторизации пользователя по e-mail",
+  "homepage": "https://github.com/baks-dev/auth-email",
+  "keywords": ["library", "symfony", "auth", "email"],
+  "license": "MIT",
+  "type": "library",
+  "authors": [
+    {
+      "name": "Baks Development",
+      "email": "admin@baks.dev"
+    }
+  ],
+  
+  "require": {
+    "php": ">=8.1",
+    "baks-dev/core": "^1.0",
+    "baks-dev/users-user": "^1.0"
+  },
+
+  "require-dev": {
+    "roave/security-advisories": "dev-latest",
+    "symfony/test-pack": "^1.0"
+  },
+
+  "autoload": {
+    "psr-4": {
+      "BaksDev\\Auth\\Email\\": ""
+    }
+  },
+
+  "autoload-dev": {
+    "psr-4": {
+      "BaksDev\\Auth\\Email\\": "Tests/"
+    }
+  },
+
+  "config": {
+    "sort-packages": true,
+    "allow-plugins": {
+      "symfony/flex": true
+    }
+  }
+}
