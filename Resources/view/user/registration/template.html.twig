@@ -1,7 +1,7 @@
 {% trans_default_domain 'user.reg' %}
 
 {# ---- ШАБЛОН ------------------------------------------------------------ #}
-{% extends '@Template/default/user/base.html.twig' %}
+{% extends '@Core/user/base.html.twig' %}
 
 {% block title %}{{ 'user.page'|trans }}{% endblock %}
 
@@ -28,6 +28,7 @@
 
     {{ include(_self|replace({ "template.html.twig": "content.html.twig" })) }}
 
+
     {# CSS #}
     {# <div style="display: none !important;" class="ms-3 dropdown-menu dropright w-400px menu-content d-flex align-items-center px-3 symbol symbol-50px me-5 symbol-circle symbol-label flex-column fw-bolder fs-5 text-dark badge badge-light-success  fs-8 px-2 py-1 ms-2 fw-bold text-muted text-hover-primary fs-7 dropdown-divider dropdown-item p-1 rounded bg-light  position-absolute end-0 me-2 px-4 float-start text-hover-dark"></div> #}
 {% endblock %}
@@ -44,7 +45,7 @@
 
  <script nonce="{{ csp_nonce() }}" class="lazy" type="module" data-src="https://cdn.jsdelivr.net/npm/friendly-challenge@0.9.9/widget.module.min.js"></script>
 
-<script nonce="{{ csp_nonce() }}">
+{#<script nonce="{{ csp_nonce() }}">
 
         let btnLogin = document.getElementById('registration_form_registration');
         btnLogin.disabled = true;
@@ -70,7 +71,7 @@
             console.log("Error " + error);
         }
 
-    </script>
+    </script>#}
 
  {% endblock %}
 

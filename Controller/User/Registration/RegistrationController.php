@@ -23,7 +23,7 @@ final class RegistrationController extends AbstractController
         RegistrationHandler $handler,
         //AccountAggregate $aggregate,
         MessageBusInterface $bus,
-        FriendlyCaptcha $captcha
+        //FriendlyCaptcha $captcha
         //GetEmailAccountSettingsInterface $accountSettings
     ) : Response
     {

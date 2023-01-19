@@ -67,7 +67,6 @@ final class UserEmailAuthenticator extends AbstractAuthenticator
 		$LoginDTO = new LoginDTO();
 		$form = $this->form->create(LoginForm::class, $LoginDTO);
 		$form->handleRequest($request);
-		
 		/** Получаем паспорт */
 		return new SelfValidatingPassport(
 			new UserBadge($LoginDTO->getEmail(), function() use ($LoginDTO, $form){

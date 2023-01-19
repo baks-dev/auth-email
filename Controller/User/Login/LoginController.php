@@ -40,7 +40,7 @@ final class LoginController extends AbstractController
 	
 	) : Response
 	{
-		
+
 		if($this->getUser())
 		{
 			/* Редирект на главную страницу */
