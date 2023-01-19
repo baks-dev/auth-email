@@ -9,6 +9,7 @@ return static function(ContainerConfigurator $configurator){
 		->autoconfigure() // Automatically registers your services as commands, event subscribers, etc.
 	;
 	
+	
 	$namespace = 'BaksDev\Auth\Email';
 	
 	$services->load($namespace.'\Controller\\', __DIR__.'/../../Controller')

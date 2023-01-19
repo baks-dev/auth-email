@@ -1,6 +1,6 @@
 # BaksDev Auth Email
 
-![Version](https://img.shields.io/badge/version-1.0-blue) ![php 8.1+](https://img.shields.io/badge/php-min%208.1-red.svg)
+![Version](https://img.shields.io/badge/version-6.2-blue) ![php 8.1+](https://img.shields.io/badge/php-min%208.1-red.svg)
 
 Модуль авторизации пользователя по E-mail
 
