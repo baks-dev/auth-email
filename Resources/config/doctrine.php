@@ -31,5 +31,4 @@ return static function (DoctrineConfig $doctrine)
 		->isBundle(false)
 		->prefix('BaksDev\Auth\Email\Entity')
 		->alias('AuthEmail');
-
 };
