@@ -18,8 +18,7 @@
 
 namespace BaksDev\Auth\Email\Entity;
 
-
-use BaksDev\Auth\Email\Type\Settings\AccountSettings;
+use BaksDev\Auth\Email\Type\Settings\AccountSettingsIdentifier;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -27,14 +26,14 @@ use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity()]
 #[ORM\Table(name: 'users_account_settings')]
-class Settings
+class AccountSettings
 {
     public const TABLE = 'users_account_settings';
 
     /** ID */
     #[ORM\Id]
-    #[ORM\Column(type: AccountSettings::TYPE)]
-    private AccountSettings $id;
+    #[ORM\Column(type: AccountSettingsIdentifier::TYPE)]
+    private AccountSettingsIdentifier $id;
 
     /** Очищать корзину старше n дней */
     #[ORM\Column(name: 'settings_truncate', type: Types::SMALLINT, length: 3, nullable: false)]
@@ -53,79 +52,52 @@ class Settings
     #[ORM\Column(name: 'settings_restore', type: Types::BOOLEAN)]
     private bool $isRestore = true;
 
-    public function __construct() { $this->id = new AccountSettings();  }
+    public function __construct() { $this->id = new AccountSettingsIdentifier();  }
 
-    /**
-    * @return AccountSettings
-    */
-    public function getId() : AccountSettings
+
+    public function getId() : AccountSettingsIdentifier
     {
         return $this->id;
     }
-
-    /**
-     * @return int
-     */
+	
     public function getSettingsTruncate() : int
     {
         return $this->settingsTruncate;
     }
     
-    /**
-     * @param int $settingsTruncate
-     */
+
     public function setSettingsTruncate(int $settingsTruncate) : void
     {
         $this->settingsTruncate = $settingsTruncate;
     }
-    
-    /**
-     * @return int
-     */
+
     public function getSettingsHistory() : int
     {
         return $this->settingsHistory;
     }
-    
-    /**
-     * @param int $settingsHistory
-     */
+
     public function setSettingsHistory(int $settingsHistory) : void
     {
         $this->settingsHistory = $settingsHistory;
     }
-    
-    /**
-     * @return bool
-     */
+
     public function isRegistration() : bool
     {
         return $this->isRegistration;
     }
-    
-    /**
-     * @param bool $isRegistration
-     */
+
     public function setIsRegistration(bool $isRegistration) : void
     {
         $this->isRegistration = $isRegistration;
     }
-    
-    /**
-     * @return bool
-     */
+
     public function isRestore() : bool
     {
         return $this->isRestore;
     }
-    
-    /**
-     * @param bool $isRestore
-     */
+
     public function setIsRestore(bool $isRestore) : void
     {
         $this->isRestore = $isRestore;
     }
-    
-    
 }

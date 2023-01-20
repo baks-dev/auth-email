@@ -47,12 +47,7 @@ final class AccountFixtures extends Fixture
     public function __construct(
         ExistAccountByEmailInterface      $existAccountByEmail,
         UseCase\AccountHandler            $handler,
-        //OutputInterface $output,
         AccountEventActiveByEmailInterface $userAccountByEmail
-        //AccountHandler $accountHandler,
-        //UserPasswordHasherInterface $userPasswordHasher,
-        //GetUserAccountByEmailInterface $getUserAccountByEmail,
-        //AccountAggregate $accountAggregate,
     )
     {
 
@@ -60,17 +55,16 @@ final class AccountFixtures extends Fixture
         $this->handler = $handler;
         //$this->output = $output;
         $this->userAccountByEmail = $userAccountByEmail;
-
-
+		
         $this->io = new SymfonyStyle(new ArrayInput([]), new ConsoleOutput());
-
-
+		
     }
 
     public function load(ObjectManager $manager): void
     {
         # php bin/console doctrine:fixtures:load --append
 
+		
         $email = new AccountEmail(self::USER_EMAIL);
 
         /* Проверяем, имеется ли такой пользователь */
@@ -90,11 +84,6 @@ final class AccountFixtures extends Fixture
             }
 
             $this->io->success(sprintf('Добавили пользователя: %s / %s', $AccountFixturesDTO->getEmail(), $AccountFixturesDTO->getPasswordPlain()));
-            
-
-            //$this->output->writeln();
-            //$this->accountHandler->handle($AccountFixturesDTO);
-            //dump('Добавили пользователя: '.$AccountFixturesDTO->getEmail().' : '.$AccountFixturesDTO->getPasswordPlain());
 
         }
 

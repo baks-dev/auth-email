@@ -18,7 +18,7 @@
 
 namespace BaksDev\Auth\Email\Type\Settings;
 
-final class AccountSettings
+final class AccountSettingsIdentifier
 {
     public const TYPE = 'account_settings';
     
