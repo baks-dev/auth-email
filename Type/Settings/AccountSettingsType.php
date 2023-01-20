@@ -26,17 +26,17 @@ final class AccountSettingsType extends StringType
     
     public function convertToDatabaseValue($value, AbstractPlatform $platform) : mixed
     {
-        return $value instanceof AccountSettings ? $value->getValue() : $value;
+        return $value instanceof AccountSettingsIdentifier ? $value->getValue() : $value;
     }
     
     public function convertToPHPValue($value, AbstractPlatform $platform) : mixed
     {
-        return !empty($value) ? new AccountSettings() : $value;
+        return !empty($value) ? new AccountSettingsIdentifier() : $value;
     }
     
     public function getName() : string
     {
-        return AccountSettings::TYPE;
+        return AccountSettingsIdentifier::TYPE;
     }
     
     public function requiresSQLCommentHint(AbstractPlatform $platform) : bool
