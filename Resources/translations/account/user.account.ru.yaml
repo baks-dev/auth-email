@@ -3,3 +3,5 @@ user:
   link:
     breadcrumb:
       page: 'Персональные данные пользователя'
+  profile:
+    type: 'Пользователь'

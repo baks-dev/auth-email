@@ -2,6 +2,9 @@
 
 namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 
+use BaksDev\Auth\Email\Repository\CurrentUserAccount\CurrentUserAccountInterface;
+use BaksDev\Auth\Email\Repository\CurrentUserAccount\UserProfileEmailDecorator;
+
 return static function(ContainerConfigurator $configurator){
 	$services = $configurator->services()
 		->defaults()
@@ -30,6 +33,13 @@ return static function(ContainerConfigurator $configurator){
 	;
 	
 	$services->load($namespace.'\DataFixtures\\', __DIR__.'/../../DataFixtures');
+	
+	$services->set(UserProfileEmailDecorator::class)
+		->decorate(\BaksDev\Users\User\Repository\UserProfile\UserProfileInterface::class, null, 20)
+		->arg('$profile', service('.inner'))
+		->arg('$current', service(CurrentUserAccountInterface::class))
+		->autowire()
+	;
 	
 };
 

@@ -1,7 +1,7 @@
 user:
-  page: 'Персональные данные'
+  page: 'Personal data'
   link:
     breadcrumb:
-      page: 'Персональные данные пользователя'
-
-
+      page: "User's personal data"
+  profile:
+    type: 'User'
