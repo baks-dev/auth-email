@@ -23,32 +23,36 @@ use Doctrine\DBAL\Types\StringType;
 
 final class AccountStatusType extends StringType
 {
-
-    public function convertToDatabaseValue($value, AbstractPlatform $platform) : mixed
-    {
-        return $value instanceof AccountStatus ? $value->getValue() : (new AccountStatus($value))->getValue();
-    }
-    
-    public function convertToPHPValue($value, AbstractPlatform $platform) : mixed
-    {
-        return $value ? new AccountStatus($value) : null;
-    }
-    
-    public function getName() : string
-    {
-        return AccountStatus::TYPE;
-    }
-    
-    public function requiresSQLCommentHint(AbstractPlatform $platform) : bool
-    {
-        return true;
-    }
-    
-    public function getSQLDeclaration(array $column, AbstractPlatform $platform) : string
-    {
-        $column['length'] = 3;
-        
-        return $platform->getVarcharTypeDeclarationSQL($column);
-    }
-    
+	
+	public function convertToDatabaseValue($value, AbstractPlatform $platform) : mixed
+	{
+		return $value instanceof AccountStatus ? $value->getValue() : (new AccountStatus($value))->getValue();
+	}
+	
+	
+	public function convertToPHPValue($value, AbstractPlatform $platform) : mixed
+	{
+		return $value ? new AccountStatus($value) : null;
+	}
+	
+	
+	public function getName() : string
+	{
+		return AccountStatus::TYPE;
+	}
+	
+	
+	public function requiresSQLCommentHint(AbstractPlatform $platform) : bool
+	{
+		return true;
+	}
+	
+	
+	public function getSQLDeclaration(array $column, AbstractPlatform $platform) : string
+	{
+		$column['length'] = 3;
+		
+		return $platform->getVarcharTypeDeclarationSQL($column);
+	}
+	
 }

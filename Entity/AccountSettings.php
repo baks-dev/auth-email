@@ -24,80 +24,89 @@ use Doctrine\ORM\Mapping as ORM;
 
 /* Настройки Аккаунта */
 
+
 #[ORM\Entity()]
 #[ORM\Table(name: 'users_account_settings')]
 class AccountSettings
 {
-    public const TABLE = 'users_account_settings';
-
-    /** ID */
-    #[ORM\Id]
-    #[ORM\Column(type: AccountSettingsIdentifier::TYPE)]
-    private AccountSettingsIdentifier $id;
-
-    /** Очищать корзину старше n дней */
-    #[ORM\Column(name: 'settings_truncate', type: Types::SMALLINT, length: 3, nullable: false)]
-    private int $settingsTruncate = 365;
-    
-    
-    /** Очищать события старше n дней */
-    #[ORM\Column(name: 'settings_history', type: Types::SMALLINT, length: 3, nullable: false)]
-    private int $settingsHistory = 365;
-    
-    /** Регистрация пользователей */
-    #[ORM\Column(name: 'settings_registration', type: Types::BOOLEAN)]
-    private bool $isRegistration = true;
-    
-    /** Регистрация пользователей */
-    #[ORM\Column(name: 'settings_restore', type: Types::BOOLEAN)]
-    private bool $isRestore = true;
-
-    public function __construct() { $this->id = new AccountSettingsIdentifier();  }
-
-
-    public function getId() : AccountSettingsIdentifier
-    {
-        return $this->id;
-    }
+	public const TABLE = 'users_account_settings';
 	
-    public function getSettingsTruncate() : int
-    {
-        return $this->settingsTruncate;
-    }
-    
-
-    public function setSettingsTruncate(int $settingsTruncate) : void
-    {
-        $this->settingsTruncate = $settingsTruncate;
-    }
-
-    public function getSettingsHistory() : int
-    {
-        return $this->settingsHistory;
-    }
-
-    public function setSettingsHistory(int $settingsHistory) : void
-    {
-        $this->settingsHistory = $settingsHistory;
-    }
-
-    public function isRegistration() : bool
-    {
-        return $this->isRegistration;
-    }
-
-    public function setIsRegistration(bool $isRegistration) : void
-    {
-        $this->isRegistration = $isRegistration;
-    }
-
-    public function isRestore() : bool
-    {
-        return $this->isRestore;
-    }
-
-    public function setIsRestore(bool $isRestore) : void
-    {
-        $this->isRestore = $isRestore;
-    }
+	/** ID */
+	#[ORM\Id]
+	#[ORM\Column(type: AccountSettingsIdentifier::TYPE)]
+	private AccountSettingsIdentifier $id;
+	
+	/** Очищать корзину старше n дней */
+	#[ORM\Column(name: 'settings_truncate', type: Types::SMALLINT, length: 3, nullable: false)]
+	private int $settingsTruncate = 365;
+	
+	/** Очищать события старше n дней */
+	#[ORM\Column(name: 'settings_history', type: Types::SMALLINT, length: 3, nullable: false)]
+	private int $settingsHistory = 365;
+	
+	/** Регистрация пользователей */
+	#[ORM\Column(name: 'settings_registration', type: Types::BOOLEAN)]
+	private bool $isRegistration = true;
+	
+	/** Регистрация пользователей */
+	#[ORM\Column(name: 'settings_restore', type: Types::BOOLEAN)]
+	private bool $isRestore = true;
+	
+	
+	public function __construct() { $this->id = new AccountSettingsIdentifier(); }
+	
+	
+	public function getId() : AccountSettingsIdentifier
+	{
+		return $this->id;
+	}
+	
+	
+	public function getSettingsTruncate() : int
+	{
+		return $this->settingsTruncate;
+	}
+	
+	
+	public function setSettingsTruncate(int $settingsTruncate) : void
+	{
+		$this->settingsTruncate = $settingsTruncate;
+	}
+	
+	
+	public function getSettingsHistory() : int
+	{
+		return $this->settingsHistory;
+	}
+	
+	
+	public function setSettingsHistory(int $settingsHistory) : void
+	{
+		$this->settingsHistory = $settingsHistory;
+	}
+	
+	
+	public function isRegistration() : bool
+	{
+		return $this->isRegistration;
+	}
+	
+	
+	public function setIsRegistration(bool $isRegistration) : void
+	{
+		$this->isRegistration = $isRegistration;
+	}
+	
+	
+	public function isRestore() : bool
+	{
+		return $this->isRestore;
+	}
+	
+	
+	public function setIsRestore(bool $isRestore) : void
+	{
+		$this->isRestore = $isRestore;
+	}
+	
 }

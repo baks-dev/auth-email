@@ -6,10 +6,11 @@ use BaksDev\Auth\Email\Controller\User\Restore\ResetController;
 use BaksDev\Users\User\Tests\TestUserAccount;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-final class ResetControllerTest  extends WebTestCase
+final class ResetControllerTest extends WebTestCase
 {
 	/** @link ResetController */
 	private string $controller = '/reset';
+	
 	
 	/** Запрет доступа по прямой ссылке */
 	public function testRoleGuestFail() : void
@@ -27,8 +28,9 @@ final class ResetControllerTest  extends WebTestCase
 		
 		$user = TestUserAccount::getUser();
 		$client->loginUser($user, 'user');
-
+		
 		$crawler = $client->request('GET', $this->controller);
 		self::assertResponseRedirects();
 	}
+	
 }

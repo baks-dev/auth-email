@@ -44,17 +44,20 @@ final class ChangePasswordDTO implements AccountEventInterface
 	#[Assert\Valid]
 	private readonly Status\StatusDTO $status;
 	
+	
 	public function __construct(AccountEventUid $id)
 	{
 		$this->status = new Status\StatusDTO();
 		$this->id = $id;
 	}
 	
+	
 	/** Идентификатор  */
 	public function setId(AccountEventUid $id) : void
 	{
 		//$this->id = $id;
 	}
+	
 	
 	public function getEvent() : ?AccountEventUid
 	{
@@ -68,11 +71,13 @@ final class ChangePasswordDTO implements AccountEventInterface
 		return $this->status;
 	}
 	
+	
 	/** Сброс пароля */
 	public function getPasswordPlain() : string
 	{
 		return $this->passwordPlain;
 	}
+	
 	
 	/**
 	 * @param string $passwordPlain
@@ -82,12 +87,14 @@ final class ChangePasswordDTO implements AccountEventInterface
 		$this->passwordPlain = $passwordPlain;
 	}
 	
+	
 	/** Дайджест Пароля */
 	
 	public function getPassword() : ?string
 	{
 		return $this->password;
 	}
+	
 	
 	public function setPasswordHash(string $password) : void
 	{

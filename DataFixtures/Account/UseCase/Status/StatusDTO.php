@@ -33,18 +33,22 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 final class StatusDTO implements AccountStatusInterface
 {
-    /** Статус */
-    #[Assert\NotBlank]
-    private readonly AccountStatus $status;
-    
-    public function __construct() {
-    
-        $this->status = new AccountStatus(AccountStatusEnum::ACTIVE);
-    }
-
-    /** Статус */
-    public function getStatus() : AccountStatus
-    {
-        return $this->status;
-    }
+	/** Статус */
+	#[Assert\NotBlank]
+	private readonly AccountStatus $status;
+	
+	
+	public function __construct()
+	{
+		
+		$this->status = new AccountStatus(AccountStatusEnum::ACTIVE);
+	}
+	
+	
+	/** Статус */
+	public function getStatus() : AccountStatus
+	{
+		return $this->status;
+	}
+	
 }

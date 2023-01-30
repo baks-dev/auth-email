@@ -18,10 +18,11 @@
 
 namespace BaksDev\Auth\Email\Type\Status;
 
-enum AccountStatusEnum: string
+enum AccountStatusEnum : string
 {
-    case NEW = 'new';
-    case UNCONFIRMED = 'unc';
-    case ACTIVE = 'act';
-    case BLOCK = 'ban';
+	case NEW = 'new';
+	case UNCONFIRMED = 'unc';
+	case ACTIVE = 'act';
+	case BLOCK = 'ban';
+	
 }

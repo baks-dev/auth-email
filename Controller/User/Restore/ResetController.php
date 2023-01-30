@@ -22,7 +22,7 @@ final class ResetController extends AbstractController
 		?AccountEventUid $AccountEventUid,
 		UriSigner $uriSigner,
 		UrlTokenGenerator $urlTokenGenerator,
-		AccountEventNotBlockByEventUidInterface $accountEventNotBlockByEventUid
+		AccountEventNotBlockByEventUidInterface $accountEventNotBlockByEventUid,
 	) : Response
 	{
 		/* Если пользователь авторизован - редирект */
@@ -48,14 +48,12 @@ final class ResetController extends AbstractController
 			throw new RouteNotFoundException('Page Not Found');
 		}
 		
-		
 		$Event = $accountEventNotBlockByEventUid->get($AccountEventUid);
 		
 		if($Event === null)
 		{
 			throw new RouteNotFoundException('Page Not Found');
 		}
-		
 		
 		/* Проверяем переданный токен с существующим */
 		$knownToken = $urlTokenGenerator->createToken($Event->getAccount(), $Event->getId());
@@ -69,13 +67,15 @@ final class ResetController extends AbstractController
 		if((time() - (int) $request->get('exp')) > 300)
 		{
 			$this->addFlash('danger', 'user.danger.expired', 'user.reset');
+			
 			return $this->redirectToRoute('AuthEmail:user.restore');
 		}
 		
 		/* Сохраняем идентификатор в сеансе и удаляем его из URL-адреса */
 		$request->getSession()->set('ResetPasswordAccountEvent', $AccountEventUid->getValue());
+		
 		return $this->redirectToRoute('AuthEmail:user.change');
 		
-		
 	}
+	
 }

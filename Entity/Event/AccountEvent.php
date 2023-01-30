@@ -34,136 +34,111 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
 /* События изменений Аккаунта */
 
+
 #[ORM\Entity]
 #[ORM\Table(name: 'users_account_event')]
 #[ORM\Index(columns: ['account'])]
 #[ORM\Index(columns: ['email'])]
 class AccountEvent extends EntityEvent implements PasswordAuthenticatedUserInterface
 {
-    public const TABLE = 'users_account_event';
-    
-    /** UserEvent ID */
-    #[ORM\Id]
-    #[ORM\Column(type: AccountEventUid::TYPE)]
-    private  AccountEventUid $id;
-    
-    /** ID пользователя */
-    #[ORM\Column(type: UserUid::TYPE, nullable: false)]
+	public const TABLE = 'users_account_event';
+	
+	/** UserEvent ID */
+	#[ORM\Id]
+	#[ORM\Column(type: AccountEventUid::TYPE)]
+	private AccountEventUid $id;
+	
+	/** ID пользователя */
+	#[ORM\Column(type: UserUid::TYPE, nullable: false)]
 	private ?UserUid $account = null;
-    
-    /** Email */
-    #[ORM\Column(type: AccountEmail::TYPE, length: 180)]
+	
+	/** Email */
+	#[ORM\Column(type: AccountEmail::TYPE, length: 180)]
 	private AccountEmail $email;
-    
-    /** Пароль */
-    #[ORM\Column(type: Types::STRING)]
+	
+	/** Пароль */
+	#[ORM\Column(type: Types::STRING)]
 	private string $password;
-    
-    /** Статус */
-    #[ORM\OneToOne(mappedBy: 'event', targetEntity: AccountStatus::class, cascade: ['all'])]
+	
+	/** Статус */
+	#[ORM\OneToOne(mappedBy: 'event', targetEntity: AccountStatus::class, cascade: ['all'])]
 	private AccountStatus $status;
-    
-    /** Модификатор */
-    #[ORM\OneToOne(mappedBy: 'event', targetEntity: AccountModify::class, cascade: ['all'])]
+	
+	/** Модификатор */
+	#[ORM\OneToOne(mappedBy: 'event', targetEntity: AccountModify::class, cascade: ['all'])]
 	private AccountModify $modify;
-    
-    public function __construct()
-    {
-        $this->id = new AccountEventUid();
-        $this->status = new AccountStatus($this);
-        $this->modify = new AccountModify($this, new ModifyAction(ModifyActionEnum::NEW));
-    }
-    
-    public function __clone()
-    {
-        $this->id = new AccountEventUid();
-    }
-    
-    /**
-     * @return AccountEventUid
-     */
-    public function getId() : AccountEventUid
-    {
-        return $this->id;
-    }
-    
-
-    /* ACCOUNT */
-    
-    /**
-     * @return UserUid|null
-     */
-    public function getAccount() : ?UserUid
-    {
-        return $this->account;
-    }
-
-    public function setAccount(Account|UserUid $account) : void
-    {
-        $this->account = $account instanceof Account ? $account->getId() : $account;
-    }
-    
-    /**
-     * @return UserUid
-     */
-    public function getUser() : UserUid
-    {
-        return $this->account;
-    }
-    
-    
-    /* email */
-    
-    /**
-     * @return AccountEmail
-     */
-    public function getEmail() : AccountEmail
-    {
-        return $this->email;
-    }
-    
-    
-    /**
-     * @see PasswordAuthenticatedUserInterface
-     */
-    public function getPassword() : string
-    {
-        return $this->password;
-    }
-    
-    //    /**
-    //     * @param string $password
-    //     */
-    //    public function passwordHash(string $password) : void
-    //    {
-    //        $this->password = $password;
-    //    }
-    
-    public function isModifyActionEquals(ModifyActionEnum $action) : bool
-    {
-        return $this->modify->equals($action);
-    }
-    
-
-    public function getDto($dto) : mixed
-    {
-        if($dto instanceof AccountEventInterface)
-        {
-            return parent::getDto($dto);
-        }
-        
-        throw new InvalidArgumentException(sprintf('Class %s interface error', $dto::class));
-    }
-
-    public function setEntity($dto) : mixed
-    {
-        
-        if($dto instanceof AccountEventInterface)
-        {
-            return parent::setEntity($dto);
-        }
-        
-        throw new InvalidArgumentException(sprintf('Class %s interface error', $dto::class));
-    }
-    
+	
+	
+	public function __construct()
+	{
+		$this->id = new AccountEventUid();
+		$this->status = new AccountStatus($this);
+		$this->modify = new AccountModify($this, new ModifyAction(ModifyActionEnum::NEW));
+	}
+	
+	
+	public function __clone()
+	{
+		$this->id = new AccountEventUid();
+	}
+	
+	
+	public function getId() : AccountEventUid
+	{
+		return $this->id;
+	}
+	
+	
+	public function getAccount() : ?UserUid
+	{
+		return $this->account;
+	}
+	
+	
+	public function setAccount(Account|UserUid $account) : void
+	{
+		$this->account = $account instanceof Account ? $account->getId() : $account;
+	}
+	
+	
+	public function getUser() : UserUid
+	{
+		return $this->account;
+	}
+	
+	
+	public function getEmail() : AccountEmail
+	{
+		return $this->email;
+	}
+	
+	
+	public function getPassword() : string
+	{
+		return $this->password;
+	}
+	
+	
+	public function getDto($dto) : mixed
+	{
+		if($dto instanceof AccountEventInterface)
+		{
+			return parent::getDto($dto);
+		}
+		
+		throw new InvalidArgumentException(sprintf('Class %s interface error', $dto::class));
+	}
+	
+	
+	public function setEntity($dto) : mixed
+	{
+		
+		if($dto instanceof AccountEventInterface)
+		{
+			return parent::setEntity($dto);
+		}
+		
+		throw new InvalidArgumentException(sprintf('Class %s interface error', $dto::class));
+	}
+	
 }

@@ -33,7 +33,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 final class UserProfileEmailDecorator implements UserProfileInterface
 {
-
+	
 	public ?UserUid $user;
 	
 	public string $username;
@@ -41,6 +41,7 @@ final class UserProfileEmailDecorator implements UserProfileInterface
 	public string $contact;
 	
 	public string $type;
+	
 	
 	public function __construct(
 		UserProfileInterface $profile,
@@ -55,8 +56,8 @@ final class UserProfileEmailDecorator implements UserProfileInterface
 		$this->username = $Account['account_email'];
 		$this->contact = $Account['account_email'];
 		
-	
 	}
+	
 	
 	/**  Username пользователя */
 	public function getUsername() : ?string
@@ -64,11 +65,13 @@ final class UserProfileEmailDecorator implements UserProfileInterface
 		return $this->username;
 	}
 	
+	
 	/** Контакт */
 	public function getContact() : ?string
 	{
 		return $this->contact;
 	}
+	
 	
 	/** Тип пользователя */
 	public function getType() : ?string
@@ -76,15 +79,18 @@ final class UserProfileEmailDecorator implements UserProfileInterface
 		return $this->type;
 	}
 	
+	
 	/** Адрес персональной страницы */
 	public function getPage() : ?string
 	{
 		return null;
 	}
 	
+	
 	/** Аватарка */
 	public function getImage() : ?string
 	{
 		return null;
 	}
+	
 }

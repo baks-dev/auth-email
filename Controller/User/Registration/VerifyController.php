@@ -26,7 +26,7 @@ final class VerifyController extends AbstractController
 		UriSigner $uriSigner,
 		UserNewByAccountEventInterface $userNewByAccountEvent,
 		UrlTokenGenerator $urlTokenGenerator,
-		VerifyHandler $handler
+		VerifyHandler $handler,
 	) : Response
 	{
 		
@@ -46,7 +46,7 @@ final class VerifyController extends AbstractController
 		{
 			throw new RouteNotFoundException('Page Not Found');
 		}
-
+		
 		$UserUid = $userNewByAccountEvent->get($AccountEventUid);
 		
 		/* Если не найден UserUid */
@@ -67,6 +67,7 @@ final class VerifyController extends AbstractController
 		if((time() - (int) $request->get('exp')) > 3600)
 		{
 			$this->addFlash('danger', 'user.danger.expired', 'user.confirmation');
+			
 			return $this->redirectToRoute('AuthEmail:user.restore');
 		}
 		
@@ -81,10 +82,13 @@ final class VerifyController extends AbstractController
 			
 			/* Редирект на страницу после активации аккаунта */
 			$this->addFlash('user.page', 'user.success.verified', 'user.confirmation');
+			
 			return $this->redirectToRoute('AuthEmail:user.login');
 		}
 		
 		$this->addFlash('danger', 'user.danger.verified', 'user.confirmation', $Account);
+		
 		return $this->redirectToRoute('AuthEmail:user.registration');
 	}
+	
 }

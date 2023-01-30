@@ -17,7 +17,7 @@ final class RestoreController extends AbstractController
 	#[Route('/restore', name: 'user.restore', methods: ['GET', 'POST'])]
 	public function restore(
 		Request $request,
-		MessageBusInterface $bus
+		MessageBusInterface $bus,
 	) : Response
 	{
 		/* Если пользователь авторизован - редирект */
@@ -37,9 +37,11 @@ final class RestoreController extends AbstractController
 			$bus->dispatch($restore);
 			
 			$this->addFlash('success', 'user.success.restore', 'user.restore');
+			
 			return $this->redirectToRoute('AuthEmail:user.login');
 		}
 		
 		return $this->render(['form' => $form->createView()]);
 	}
+	
 }

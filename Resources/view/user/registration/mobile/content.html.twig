@@ -1,45 +1,46 @@
 <main class="main">
-
+	
 	<div class="mt-5">
-		{#{{ include(_self|replace({ "content.html.twig": "breadcrumb.html.twig" })) }}#}
+		{# {{ include(_self|replace({ "content.html.twig": "breadcrumb.html.twig" })) }} #}
 	</div>
-
+	
 	<div class="container d-flex flex-column justify-content-center w-100 my-5 pb-3">
-
-
+		
+		
 		<div class="d-flex gap-3 mb-4 align-items-end small">
 			<h3 class="modal-title text-uppercase h4 fw-bold w-75">Регистрация</h3>
-			<a href="{{ path('AuthEmail:user.login') }}" aria-label="Регистация" class="small mb-1 w-50">Личный кабинет</a>
+			<a href="{{ path('AuthEmail:user.login') }}" aria-label="Регистация" class="small mb-1 w-50">Личный
+																										 кабинет</a>
 		</div>
-
-
+		
+		
 		<div class="w-100">
 			<form action="/" class="d-flex flex-column align-items-end p-4 border shadow rounded-3 w-100">
-
-
+				
+				
 				<div class="d-flex flex-column gap-4 w-100 small">
-
+					
 					<div class="w-100 d-flex flex-column gap-2">
 						<label for="login-email">Электронная почта:</label>
 						<input class="form-control rounded-3"
-							   type="email" id="login-email" required="">
+								type="email" id="login-email" required="">
 					</div>
-
+					
 					<div class="w-100 d-flex flex-column gap-2">
 						<div class="d-flex justify-content-between gap-5 ">
 							<label for="login-password" class="w-50">Пароль:</label>
 						</div>
-
+						
 						<input class="form-control rounded-3"
-							   type="password" id="login-password"
-							   required="">
+								type="password" id="login-password"
+								required="">
 					</div>
-
+					
 					<div class="form-check form-control-lg">
 						<input type="checkbox" id="registration_form_agreeTerms"
-							   name="registration_form[agreeTerms]"
-							   required="required"
-							   class="form-check-input" value="1" checked="checked" >
+								name="registration_form[agreeTerms]"
+								required="required"
+								class="form-check-input" value="1" checked="checked">
 						<label class="form-check-label required small " for="registration_form_agreeTerms">
 							<span class="small">
 								<span class="small ">Согласен с </span>
@@ -47,33 +48,33 @@
 							</span>
 						</label>
 					</div>
-
+					
 					<div class="w-100">
-
+						
 						<div id="my-widget"
-							 class="frc-captcha d-none"
-							 data-sitekey="{{ CAPTCHA }}"
-							 data-start="auto"
-							 data-callback="myCallback"
+								class="frc-captcha d-none"
+								data-sitekey="{{ CAPTCHA }}"
+								data-start="auto"
+								data-callback="myCallback"
 								{# data-error="myCallbackError" #}
-							 data-lang="ru"
+								data-lang="ru"
 						></div>
-
+						
 						<button id="register-submit" type="button"
 								class="btn btn-lg btn-danger w-100 rounded-3 small text-uppercase fw-bolder align-items-center"
 								disabled="disabled"
 						>
 							<span class="small text-uppercase fw-bolder">Зарегистрироваться</span>
 							<span id="indicator-progress" class="spinner-border spinner-border-sm"
-								  role="status" aria-hidden="true" aria-label="Регистрация"></span>
+									role="status" aria-hidden="true" aria-label="Регистрация"></span>
 						</button>
 					</div>
-
+				
 				</div>
-
+			
 			</form>
 		</div>
-
+	
 	</div>
 
 </main>

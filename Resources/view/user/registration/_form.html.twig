@@ -4,78 +4,78 @@
 
 
 <form action="{{ path('AuthEmail:user.registration') }}"
-      class="shadow d-flex flex-column align-items-end p-5 rounded-3 w-100"
+		class="shadow d-flex flex-column align-items-end p-5 rounded-3 w-100"
 >
-
-    <div class="d-flex justify-content-between w-100 mb-4 align-items-end small ps-3">
-        <h3 class="text-uppercase h4 fw-bold mb-0">
-            {{ 'user.page'|trans }}
-        </h3>
-
-        <a href="{{ path('AuthEmail:user.login') }}" class="small py-1"
-           aria-label="{{ 'user.link.breadcrumb.page'|trans({}, 'user.login') }}"
-           title="{{ 'user.link.breadcrumb.page'|trans({}, 'user.login') }}"
-        >
-            {{ 'user.link.breadcrumb.page'|trans({}, 'user.login') }}
-        </a>
-
-    </div>
-
-    <div class="d-flex flex-column gap-3 w-100 small ps-3">
-
-        <div class="w-100 d-flex flex-column">
-            {{ form_row(form.email, {
-                label: 'user.form.label.email'|trans
-            }) }}
-        </div>
-
-        <div class="w-100 d-flex flex-column">
-            {{ form_row(form.passwordPlain, {
-                label: 'user.form.label.password'|trans,
-                help: 'user.form.help.password'|trans
-            }) }}
-        </div>
-
-        <div class="form-control-lg d-flex p-0">
-
-            {{ form_widget(form.agreeTerms, { label: false }) }}
-
-            <label class="form-check-label required small" for="{{ form.agreeTerms.vars.id }}">
+	
+	<div class="d-flex justify-content-between w-100 mb-4 align-items-end small ps-3">
+		<h3 class="text-uppercase h4 fw-bold mb-0">
+			{{ 'user.page'|trans }}
+		</h3>
+		
+		<a href="{{ path('AuthEmail:user.login') }}" class="small py-1"
+				aria-label="{{ 'user.link.breadcrumb.page'|trans({}, 'user.login') }}"
+				title="{{ 'user.link.breadcrumb.page'|trans({}, 'user.login') }}"
+		>
+			{{ 'user.link.breadcrumb.page'|trans({}, 'user.login') }}
+		</a>
+	
+	</div>
+	
+	<div class="d-flex flex-column gap-3 w-100 small ps-3">
+		
+		<div class="w-100 d-flex flex-column">
+			{{ form_row(form.email, {
+				label: 'user.form.label.email'|trans
+			}) }}
+		</div>
+		
+		<div class="w-100 d-flex flex-column">
+			{{ form_row(form.passwordPlain, {
+				label: 'user.form.label.password'|trans,
+				help: 'user.form.help.password'|trans
+			}) }}
+		</div>
+		
+		<div class="form-control-lg d-flex p-0">
+			
+			{{ form_widget(form.agreeTerms, { label: false }) }}
+			
+			<label class="form-check-label required small" for="{{ form.agreeTerms.vars.id }}">
                 <span class="small">
                     {# Согласен с #}
                     <span class="small ">{{ 'user.form.agreterms.label'|trans }}</span>
                     {# Пользовательское соглашение #}
                     <a href="{{ path('AuthEmail:user.agree.terms') }}" class="small"
-                       aria-label="{{ 'user.page'|trans({}, 'agree.terms') }}"
-                       title="{{ 'user.page'|trans({}, 'agree.terms') }}"
-                    >
+							aria-label="{{ 'user.page'|trans({}, 'agree.terms') }}"
+							title="{{ 'user.page'|trans({}, 'agree.terms') }}"
+					>
                         {{ 'user.form.agreterms.link'|trans({}, 'agree.terms') }}
                     </a>
                 </span>
-            </label>
-        </div>
-
-        <div class="w-100">
-
-            <div id="registration-captcha"
-                 class="frc-captcha position-fixed end-0 bottom-0 m-5 d-none bg-body z-index-5"
-                 data-sitekey="{#{{ CAPTCHA }}#}"
-                 data-start="auto"
-                 data-callback="myCallback"
-                 data-lang="ru"
-            ></div>
-
-            {{ form_row(form.registration, {
-                label: '<span>'~ 'user.btn.register'|trans() ~'</span>
+			</label>
+		</div>
+		
+		<div class="w-100">
+			
+			<div id="registration-captcha"
+					class="frc-captcha position-fixed end-0 bottom-0 m-5 d-none bg-body z-index-5"
+					data-sitekey="{# {{ CAPTCHA }} #}"
+					data-start="auto"
+					data-callback="myCallback"
+					data-lang="ru"
+			></div>
+			
+			{{ form_row(form.registration, {
+				label: '<span>'~ 'user.btn.register'|trans() ~'</span>
 				<span id="'~form.registration.vars.id~'-progress" class="spinner-border spinner-border-sm d-none"></span>
 			',
-                attr: { class : 'btn btn-lg btn-danger w-100 rounded-3 small text-uppercase fw-bolder' }
-            }) }}
-
-        </div>
-
-    </div>
-
-    {{ form_end(form) }}
+				attr: { class : 'btn btn-lg btn-danger w-100 rounded-3 small text-uppercase fw-bolder' }
+			}) }}
+		
+		</div>
+	
+	</div>
+	
+	{{ form_end(form) }}
 
 

@@ -62,4 +62,5 @@ final class RegistrationFormTest extends TypeTestCase
 			self::assertArrayHasKey($key, $children);
 		}
 	}
+	
 }

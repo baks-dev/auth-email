@@ -1,25 +1,24 @@
 <main class="main container">
-
+	
 	<div class="container mt-3">
 		{{ include(_self|replace({ "content.html.twig": "breadcrumb.html.twig" })) }}
 	</div>
-
+	
 	<div class="container d-flex justify-content-center w-75 my-5 pb-5">
-
+		
 		<div class="w-100 d-flex position-relative align-items-center">
-			<img data-src="/assets/login/img/login.webp" src="/assets/img/empty.png"
-				 class="lazy position-absolute start-0 w-100" style="margin-left: 5rem;"
-				 alt="..." width="495"
+			<img data-src="/assets/login/img/login.webp" src="/assets/img/empty.webp"
+					class="lazy position-absolute start-0 w-100" style="margin-left: 5rem;"
+					alt="..." width="495"
 			>
 		</div>
-
-
+		
+		
 		<div class="w-100">
 			{{ include(_self|replace({ "content.html.twig": "_form.html.twig" })) }}
 		</div>
-
+	
 	</div>
-
 
 
 </main>

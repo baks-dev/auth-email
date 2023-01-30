@@ -18,13 +18,13 @@
 
 namespace BaksDev\Auth\Email\Entity\Event;
 
-
 use BaksDev\Auth\Email\Type\Event\AccountEventUid;
 
 interface AccountEventInterface
 {
-    public function setId(AccountEventUid $id): void;
-
-    public function getEvent(): ?AccountEventUid;
-
+	public function setId(AccountEventUid $id) : void;
+	
+	
+	public function getEvent() : ?AccountEventUid;
+	
 }

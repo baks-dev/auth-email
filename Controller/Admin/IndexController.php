@@ -33,47 +33,46 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Security("is_granted('ROLE_ADMIN') or is_granted('ROLE_ACCOUNT_EMAIL')")]
 final class IndexController extends AbstractController
 {
-    #[Route('/admin/account/emails/{page<\d+>}', name: 'admin.index',  methods: [
-      'GET',
-      'POST'
-    ])]
-    public function index(
-      Request $request,
-      //GetAllAccountInterface $allAccount,
-      int $page = 0,
-    ) : Response
-    {
-	
+	#[Route('/admin/account/emails/{page<\d+>}', name: 'admin.index', methods: [
+		'GET',
+		'POST',
+	])]
+	public function index(
+		Request $request,
+		//GetAllAccountInterface $allAccount,
+		int $page = 0,
+	) : Response
+	{
+		
 		dd();
 		
-        /* Поиск */
-        $search = new SearchDTO();
-        $searchForm = $this->createForm(SearchForm::class, $search);
-        $searchForm->handleRequest($request);
-        
-
-        /* Получаем список */
-        $stmt = $allAccount->get($search);
-        $query = new Paginator($page, $stmt, $request);
-        
-
-        return $this->render(
-          [
-            'query' => $query,
-            'search' => $searchForm->createView(),
-          ]);
-    }
-
-//    #[Route('/default/style', name: 'admin.user.account.index.css', methods: ['GET'], format: "css")]
-//    public function css() : Response
-//    {
-//        return $this->assets();
-//    }
-    
-//    #[Route('/default/app', name: 'admin.user.account.index.js', methods: ['GET'], format: "js")]
-//    public function js() : Response
-//    {
-//        return $this->assets();
-//    }
-    
+		/* Поиск */
+		$search = new SearchDTO();
+		$searchForm = $this->createForm(SearchForm::class, $search);
+		$searchForm->handleRequest($request);
+		
+		/* Получаем список */
+		$stmt = $allAccount->get($search);
+		$query = new Paginator($page, $stmt, $request);
+		
+		return $this->render(
+			[
+				'query' => $query,
+				'search' => $searchForm->createView(),
+			]
+		);
+	}
+	
+	//    #[Route('/default/style', name: 'admin.user.account.index.css', methods: ['GET'], format: "css")]
+	//    public function css() : Response
+	//    {
+	//        return $this->assets();
+	//    }
+	
+	//    #[Route('/default/app', name: 'admin.user.account.index.js', methods: ['GET'], format: "js")]
+	//    public function js() : Response
+	//    {
+	//        return $this->assets();
+	//    }
+	
 }

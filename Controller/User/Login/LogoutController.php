@@ -10,10 +10,12 @@ use Symfony\Bundle\SecurityBundle\Security;
 
 final class LogoutController extends AbstractController
 {
-    #[Route('/logout', name: 'user.logout')]
-    public function logout(Security $security) : Response
-    {
+	#[Route('/logout', name: 'user.logout')]
+	public function logout(Security $security) : Response
+	{
 		$security->logout(false);
+		
 		return $this->redirectToRoute('Pages:user.homepage');
-    }
+	}
+	
 }

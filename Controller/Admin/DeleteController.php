@@ -22,7 +22,6 @@ use App\Module\User\Entity\User;
 use App\Module\User\Handler\Admin\User\Delete\DeleteForm;
 use App\Module\User\Handler\Admin\User\Delete\Handler;
 
-
 use App\System\Type\Locale\Locale;
 use BaksDev\Core\Controller\AbstractController;
 use BaksDev\Core\Services\Security\RoleSecurity;
@@ -35,40 +34,43 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 #[RoleSecurity(['ROLE_ADMIN', 'ROLE_ACCOUNT_EMAIL_DELETE'])]
 final class DeleteController extends AbstractController
 {
-    
-    #[Route('/admin/account/email/delete/{id}', name: 'admin.delete', methods: ['POST'])]
-    public function delete(
-      Request $request,
-      //TranslatorInterface $translator,
-      //Handler $handler,
-      //User $user,
-    ) : Response
-    {
-        
-        dd();
-        
-        $form = $this->createForm(DeleteForm::class, $user, [
-          'action' => $this->generateUrl('User:admin.user.account.delete', ['id' => $user->getId()]),
-        ]);
-        $form->handleRequest($request);
-        
-        if($form->isSubmitted() && $form->isValid())
-        {
-            if($form->has('delete'))
-            {
-                $handler->handle($user);
-                
-                $this->addFlash(
-                  'success',
-                  $translator->trans('admin.user.account.delete.success', domain: 'user.user'));
-            }
-            return $this->redirectToRoute('User:admin.user.account.index');
-        }
-        
-        /* Получаем название согласно локали */
-        //$name =   $getTransName($user->getEvent(), new Locale($request->getLocale()));
-        
-        return $this->render(['form' => $form->createView()]);
-    }
-
+	
+	#[Route('/admin/account/email/delete/{id}', name: 'admin.delete', methods: ['POST'])]
+	public function delete(
+		Request $request,
+		//TranslatorInterface $translator,
+		//Handler $handler,
+		//User $user,
+	) : Response
+	{
+		
+		dd();
+		
+		$form = $this->createForm(DeleteForm::class, $user, [
+			'action' => $this->generateUrl('User:admin.user.account.delete', ['id' => $user->getId()]),
+		]);
+		$form->handleRequest($request);
+		
+		if($form->isSubmitted() && $form->isValid())
+		{
+			if($form->has('delete'))
+			{
+				$handler->handle($user);
+				
+				$this->addFlash(
+					'success',
+					$translator->trans('admin.user.account.delete.success', domain: 'user.user')
+				);
+			}
+			
+			return $this->redirectToRoute('User:admin.user.account.index');
+		}
+		
+		/* Получаем название согласно локали */
+		
+		//$name =   $getTransName($user->getEvent(), new Locale($request->getLocale()));
+		
+		return $this->render(['form' => $form->createView()]);
+	}
+	
 }

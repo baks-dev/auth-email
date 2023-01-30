@@ -17,17 +17,18 @@ use Symfony\Component\Routing\Annotation\Route;
 
 final class AgreeTermsController extends AbstractController
 {
-    #[Route('/agree/terms', name: 'user.agree.terms', methods: ['GET', 'POST'])]
-    public function registration(
-        Request $request,
-        RegistrationHandler $handler,
-        //AccountAggregate $aggregate,
-        MessageBusInterface $bus,
-        FriendlyCaptcha $captcha
-        //GetEmailAccountSettingsInterface $accountSettings
-    ) : Response
-    {
-        
-        return $this->render();
-    }
+	#[Route('/agree/terms', name: 'user.agree.terms', methods: ['GET', 'POST'])]
+	public function registration(
+		Request $request,
+		RegistrationHandler $handler,
+		//AccountAggregate $aggregate,
+		MessageBusInterface $bus,
+		FriendlyCaptcha $captcha,
+		//GetEmailAccountSettingsInterface $accountSettings
+	) : Response
+	{
+		
+		return $this->render();
+	}
+	
 }

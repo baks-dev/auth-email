@@ -24,81 +24,83 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 final class LoginDTO
 {
-    /** Email пользователя */
-    #[Assert\NotBlank]
-    #[Assert\Email]
-    private ?AccountEmail $email;
-    
-    /** Пароль */
-    #[Assert\NotBlank]
-    #[Assert\Length(min: 8, max: 4096)]
-    private ?string $password;
-    
-    
-    /** Email пользователя */
-    public function getEmail() : ?AccountEmail
-    {
-        return $this->email;
-    }
-    
-    public function setEmail(?AccountEmail $email) : void
-    {
-        $this->email = $email;
-    }
-    
-    /** Пароль */
-    public function getPassword() : ?string
-    {
-        return $this->password;
-    }
-    
-    public function setPassword(?string $password) : void
-    {
-        $this->password = $password;
-    }
-    
-  
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-//    private ?string $token;
-    
-
-//    public function __construct(?string $email = null, ?string $password = null, ?string $token = null)
-//    {
-//        $this->email = $email;
-//        $this->password = $password;
-//        $this->token = $token;
-//    }
-    
-//
-//    public function getLoginEmail() : AccountEmail
-//    {
-//        return new AccountEmail($this->email);
-//    }
-//
-//    /**
-//     * @return string
-//     */
-//    public function getLoginPassword() : string
-//    {
-//        return $this->password;
-//    }
-//
-//    /**
-//     * @return string
-//     */
-//    public function getToken() : string
-//    {
-//        return $this->token;
-//    }
+	/** Email пользователя */
+	#[Assert\NotBlank]
+	#[Assert\Email]
+	private ?AccountEmail $email;
+	
+	/** Пароль */
+	#[Assert\NotBlank]
+	#[Assert\Length(min: 8, max: 4096)]
+	private ?string $password;
+	
+	
+	/** Email пользователя */
+	public function getEmail() : ?AccountEmail
+	{
+		return $this->email;
+	}
+	
+	
+	public function setEmail(?AccountEmail $email) : void
+	{
+		$this->email = $email;
+	}
+	
+	
+	/** Пароль */
+	public function getPassword() : ?string
+	{
+		return $this->password;
+	}
+	
+	
+	public function setPassword(?string $password) : void
+	{
+		$this->password = $password;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	//    private ?string $token;
+	
+	//    public function __construct(?string $email = null, ?string $password = null, ?string $token = null)
+	//    {
+	//        $this->email = $email;
+	//        $this->password = $password;
+	//        $this->token = $token;
+	//    }
+	
+	//
+	//    public function getLoginEmail() : AccountEmail
+	//    {
+	//        return new AccountEmail($this->email);
+	//    }
+	//
+	//    /**
+	//     * @return string
+	//     */
+	//    public function getLoginPassword() : string
+	//    {
+	//        return $this->password;
+	//    }
+	//
+	//    /**
+	//     * @return string
+	//     */
+	//    public function getToken() : string
+	//    {
+	//        return $this->token;
+	//    }
 }

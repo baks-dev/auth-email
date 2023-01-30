@@ -30,84 +30,88 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 final class AccountDTO implements AccountEventInterface
 {
-
-    /** UserEvent ID */
-    #[Assert\IsNull]
-    private readonly ?AccountEventUid $id;
-
-    /** Email */
-    #[Assert\NotBlank]
-    #[Assert\Email]
-    private readonly AccountEmail $email;
-
-    /** Дайджест Пароля */
-    #[Assert\Blank]
-    private readonly string $password;
-
-    /** Пароль */
-    #[Assert\NotBlank]
-    private readonly string $passwordPlain;
-
-    /** Статус */
-    #[Assert\Valid]
-    private readonly StatusDTO $status;
-    
-    public function __construct(AccountEmail $email)
-    {
-        $this->email = $email;
-    
-        do {
-            $bytes = openssl_random_pseudo_bytes(5, $innerStrong);
-        } while(!$bytes || !$innerStrong);
-        
-        $this->passwordPlain = \bin2hex($bytes);
-        $this->status = new StatusDTO();
-
-        $this->id = null;
-    }
-
-    /** UserEvent ID */
-
-    public function setId(AccountEventUid $id): void { }
-
-    public function getEvent(): ?AccountEventUid
-    {
-        return $this->id;
-    }
-
-    /** Email */
-    public function getEmail(): AccountEmail
-    {
-        return $this->email;
-    }
-
-
-    /** Пароль */
-    public function setPasswordHash(string $password): void
-    {
-        $this->password = $password;
-    }
-
-    public function getPassword(): string
-    {
-        return $this->password;
-    }
-
-    public function getPasswordPlain(): string
-    {
-        return $this->passwordPlain;
-    }
-
-
-
-    /** Статус */
-    public function getStatus(): StatusDTO
-    {
-        return $this->status;
-    }
-
-
-
-
+	
+	/** UserEvent ID */
+	#[Assert\IsNull]
+	private readonly ?AccountEventUid $id;
+	
+	/** Email */
+	#[Assert\NotBlank]
+	#[Assert\Email]
+	private readonly AccountEmail $email;
+	
+	/** Дайджест Пароля */
+	#[Assert\Blank]
+	private readonly string $password;
+	
+	/** Пароль */
+	#[Assert\NotBlank]
+	private readonly string $passwordPlain;
+	
+	/** Статус */
+	#[Assert\Valid]
+	private readonly StatusDTO $status;
+	
+	
+	public function __construct(AccountEmail $email)
+	{
+		$this->email = $email;
+		
+		do
+		{
+			$bytes = openssl_random_pseudo_bytes(5, $innerStrong);
+		}
+		while(!$bytes || !$innerStrong);
+		
+		$this->passwordPlain = \bin2hex($bytes);
+		$this->status = new StatusDTO();
+		
+		$this->id = null;
+	}
+	
+	
+	/** UserEvent ID */
+	
+	public function setId(AccountEventUid $id) : void {}
+	
+	
+	public function getEvent() : ?AccountEventUid
+	{
+		return $this->id;
+	}
+	
+	
+	/** Email */
+	public function getEmail() : AccountEmail
+	{
+		return $this->email;
+	}
+	
+	
+	/** Пароль */
+	public function setPasswordHash(string $password) : void
+	{
+		$this->password = $password;
+	}
+	
+	
+	public function getPassword() : string
+	{
+		return $this->password;
+	}
+	
+	
+	public function getPasswordPlain() : string
+	{
+		return $this->passwordPlain;
+	}
+	
+	
+	/** Статус */
+	public function getStatus() : StatusDTO
+	{
+		return $this->status;
+	}
+	
 }
 

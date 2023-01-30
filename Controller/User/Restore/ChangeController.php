@@ -13,7 +13,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Exception\RouteNotFoundException;
 
-
 final class ChangeController extends AbstractController
 {
 	
@@ -41,7 +40,6 @@ final class ChangeController extends AbstractController
 		$form = $this->createForm(ChangePasswordForm::class, $ChangePasswordDTO);
 		$form->handleRequest($request);
 		
-		
 		if($form->isSubmitted() && $form->isValid())
 		{
 			/* Сбрасываем сессию после смены пароля */
@@ -57,21 +55,25 @@ final class ChangeController extends AbstractController
 					
 					/* Редирект на страницу после активации аккаунта */
 					$this->addFlash('success', 'user.success.change', 'user.reset');
+					
 					return $this->redirectToRoute('AuthEmail:user.login');
 				}
 			}
 			
 			$this->addFlash('danger', 'user.danger.change', 'user.reset', $Account);
+			
 			return $this->redirectToRoute('AuthEmail:user.login');
 		}
 		
 		return $this->render(['form' => $form->createView()]);
 	}
 	
+	
 	private function getSessionResetPasswordAccountEvent(Request $request)
 	{
 		return $request->getSession()->get('ResetPasswordAccountEvent');
 	}
+	
 	
 	private function cleanSessionAfterReset(Request $request) : void
 	{

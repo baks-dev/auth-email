@@ -48,7 +48,6 @@ final class ChangePasswordFormTest extends TypeTestCase
 		$expected->setPasswordPlain($passwordPlain);
 		
 		self::assertEquals($expected, $model);
-
 		
 		/* VIEW */
 		$view = $form->createView();
@@ -59,4 +58,5 @@ final class ChangePasswordFormTest extends TypeTestCase
 			self::assertArrayHasKey($key, $children);
 		}
 	}
+	
 }

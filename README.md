@@ -10,6 +10,28 @@
 $ composer require baks-dev/auth-email
 ```
 
+## Дополнительно
+
+Установка файловых ресурсов в публичную директорию (javascript, css, image ...):
+
+``` bash
+$ php bin/console baks:assets:install
+```
+
+Роли администартора с помощью Fixtures
+
+``` bash
+$ php bin/console doctrine:fixtures:load --append
+```
+
+Изменения в схеме базы данных с помощью миграции
+
+``` bash
+$ php bin/console doctrine:migrations:diff
+
+$ php bin/console doctrine:migrations:migrate
+```
+
 ## Журнал изменений ![Changelog](https://img.shields.io/badge/changelog-yellow)
 
 О том, что изменилось за последнее время, обратитесь к [CHANGELOG](CHANGELOG.md) за дополнительной информацией.

@@ -14,9 +14,10 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 final class LoginControllerTest extends WebTestCase
 {
-    /** @link LoginController */
-    private string $controller = '/login';
-
+	/** @link LoginController */
+	private string $controller = '/login';
+	
+	
 	/** Редирект авторизананных пользователей */
 	public function testRoleGuestSuccessful() : void
 	{
@@ -30,15 +31,16 @@ final class LoginControllerTest extends WebTestCase
 	}
 	
 	
-    /** Редирект авторизананных пользователей */
-    public function testRoleUserRedirect() : void
-    {
-        $client = static::createClient();
+	/** Редирект авторизананных пользователей */
+	public function testRoleUserRedirect() : void
+	{
+		$client = static::createClient();
 		$user = TestUserAccount::getUser();
 		
-        $client->loginUser($user, 'user');
+		$client->loginUser($user, 'user');
 		
-        $crawler = $client->request('GET', $this->controller);
+		$crawler = $client->request('GET', $this->controller);
 		self::assertResponseRedirects();
-    }
+	}
+	
 }

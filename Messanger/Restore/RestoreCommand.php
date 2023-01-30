@@ -9,17 +9,20 @@ use BaksDev\Users\User\Type\Id\UserUid;
 
 final class RestoreCommand
 {
-    /** Электронная почта */
-    private readonly AccountEmail $email;
-
-    public function __construct(AccountEmail $email)
-    {
-        $this->email = $email;
-    }
-
-    public function getEmail(): AccountEmail
-    {
-        return $this->email;
-    }
+	/** Электронная почта */
+	private readonly AccountEmail $email;
+	
+	
+	public function __construct(AccountEmail $email)
+	{
+		$this->email = $email;
+	}
+	
+	
+	public function getEmail() : AccountEmail
+	{
+		return $this->email;
+	}
+	
 }
 

@@ -21,19 +21,36 @@
  *  THE SOFTWARE.
  */
 
-namespace BaksDev\Auth\Email\Repository\CurrentUserAccount;
+declare(strict_types=1);
 
-use BaksDev\Users\User\Type\Id\UserUid;
+namespace BaksDev\Auth\Email;
 
-interface CurrentUserAccountInterface
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\Config\Definition\Configurator\DefinitionConfigurator;
+use Symfony\Component\HttpKernel\Bundle\AbstractBundle;
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use Symfony\Component\Routing\RouteCollection;
+
+class BaksDevAuthEmailBundle extends AbstractBundle
 {
-	/** Текущий аккаунт авторизованного пользователя
-	 * возвращает массив с полями:
-	 *
-	 * account_id - ID аккаунта; <br>
-	 * account_event - ID события; <br>
-	 * account_email - Email пользователя; <br>
-	 */
-	public function fetchAccountAssociative(UserUid $uid) : ?array;
+	
+	public function prependExtension(ContainerConfigurator $container, ContainerBuilder $builder) : void
+	{
+		
+		$path = __DIR__.'/Resources/config/';
+		
+		foreach(new \DirectoryIterator($path) as $config)
+		{
+			if($config->isDot() || $config->isDir())
+			{
+				continue;
+			}
+			
+			if($config->isFile() && $config->getFilename() !== 'routes.php')
+			{
+				$container->import($config->getPathname());
+			}
+		}
+	}
 	
 }

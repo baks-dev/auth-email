@@ -21,4 +21,5 @@ final class LoginTest extends KernelTestCase
 		self::assertEquals($newDTO->getPassword(), $password);
 		
 	}
+	
 }

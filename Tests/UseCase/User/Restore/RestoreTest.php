@@ -33,7 +33,7 @@ final class RestoreTest extends KernelTestCase
 		
 		/* Проверка заполнения */
 		self::assertEquals($AccountEmail, $newDTO->getEmail());
-
+		
 	}
 	
 }

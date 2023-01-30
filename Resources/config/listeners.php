@@ -23,19 +23,20 @@ use BaksDev\Auth\Email\EntityListeners;
 
 use BaksDev\Users\User\Entity\User;
 
-return static function (ContainerConfigurator $configurator)
-{
-    $services = $configurator->services()
-      ->defaults()
-      ->autowire()
-      ->autoconfigure();
-    
+return static function(ContainerConfigurator $configurator) {
+	$services = $configurator->services()
+		->defaults()
+		->autowire()
+		->autoconfigure()
+	;
 	
-    /** EntityListeners */
-    $services->set('auth.email.modify.entity.listeners')
-      ->class(EntityListeners\AccountModifyListener::class)
-      ->tag(
-        'doctrine.orm.entity_listener',
-        ['event' => 'prePersist', 'lazy' => true, 'entity' => Entity\Modify\AccountModify::class]);
+	/** EntityListeners */
+	$services->set('auth.email.modify.entity.listeners')
+		->class(EntityListeners\AccountModifyListener::class)
+		->tag(
+			'doctrine.orm.entity_listener',
+			['event' => 'prePersist', 'lazy' => true, 'entity' => Entity\Modify\AccountModify::class]
+		)
+	;
 	
 };

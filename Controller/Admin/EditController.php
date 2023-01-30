@@ -18,7 +18,6 @@
 
 namespace BaksDev\Auth\Email\Controller\Admin;
 
-
 use App\Module\User\AuthEmail\Account\Entity\Event\Event;
 use App\Module\User\AuthEmail\Account\UseCase\AccountAggregate;
 use App\Module\User\AuthEmail\Account\UseCase\Admin\NewEdit\AccountDTO;
@@ -36,37 +35,38 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 #[RoleSecurity(['ROLE_ADMIN', 'ROLE_ACCOUNT_EMAIL_EDIT'])]
 final class EditController extends AbstractController
 {
-    
-    #[Route('/admin/account/email/edit/{id}', name: 'admin.newedit.edit', methods: ['GET', 'POST'])]
-    //#[ParamConverter('Event', Event::class)]
-    public function edit(
-      Request $request,
-      //Event $Event,
-     // AccountAggregate $accountAggregate,
-    ) : Response
-    {
 	
+	#[Route('/admin/account/email/edit/{id}', name: 'admin.newedit.edit', methods: ['GET', 'POST'])]
+	//#[ParamConverter('Event', Event::class)]
+	public function edit(
+		Request $request,
+		//Event $Event,
+		// AccountAggregate $accountAggregate,
+	) : Response
+	{
+		
 		dd();
 		
-        $account = new AccountDTO();
-        $Event->getDto($account);
-        
-        /* Форма добавления */
-        $form = $this->createForm(AccountForm::class, $account);
-        $form->handleRequest($request);
-    
-    
-        if($form->isSubmitted() && $form->isValid())
-        {
-            $handle = $accountAggregate->handle($account);
-    
-            if($handle)
-            {
-                $this->addFlash('success', 'admin.account.update.success', 'account.email');
-                return $this->redirectToRoute('AccountEmail:admin.account.index');
-            }
-        }
-    
-        return $this->render(['form' => $form->createView()]);
-    }
+		$account = new AccountDTO();
+		$Event->getDto($account);
+		
+		/* Форма добавления */
+		$form = $this->createForm(AccountForm::class, $account);
+		$form->handleRequest($request);
+		
+		if($form->isSubmitted() && $form->isValid())
+		{
+			$handle = $accountAggregate->handle($account);
+			
+			if($handle)
+			{
+				$this->addFlash('success', 'admin.account.update.success', 'account.email');
+				
+				return $this->redirectToRoute('AccountEmail:admin.account.index');
+			}
+		}
+		
+		return $this->render(['form' => $form->createView()]);
+	}
+	
 }

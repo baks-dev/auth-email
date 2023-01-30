@@ -12,10 +12,6 @@ final class VerifyControllerTest extends WebTestCase
 	private string $controller = '/verify/email';
 	
 	
-	
-	
-	
-	
 	/** Запрет на прямой дуступ гостей */
 	public function testRoleGuestFail() : void
 	{
@@ -36,4 +32,5 @@ final class VerifyControllerTest extends WebTestCase
 		$crawler = $client->request('GET', $this->controller);
 		self::assertResponseStatusCodeSame(500, 'Page Not Found');
 	}
+	
 }

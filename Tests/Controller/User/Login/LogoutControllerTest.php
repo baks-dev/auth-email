@@ -8,9 +8,10 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 final class LogoutControllerTest extends WebTestCase
 {
-    /** @link LogoutController */
-    private string $controller = '/logout';
-
+	/** @link LogoutController */
+	private string $controller = '/logout';
+	
+	
 	/** Редирект авторизананных пользователей */
 	public function testRoleGuestSuccessful() : void
 	{
@@ -20,15 +21,16 @@ final class LogoutControllerTest extends WebTestCase
 	}
 	
 	
-    /** Редирект авторизананных пользователей */
-    public function testRoleUserRedirect() : void
-    {
-        $client = static::createClient();
-
+	/** Редирект авторизананных пользователей */
+	public function testRoleUserRedirect() : void
+	{
+		$client = static::createClient();
+		
 		$user = TestUserAccount::getUser();
-        $client->loginUser($user, 'user');
-
-        $crawler = $client->request('GET', $this->controller);
+		$client->loginUser($user, 'user');
+		
+		$crawler = $client->request('GET', $this->controller);
 		self::assertResponseRedirects();
-    }
+	}
+	
 }

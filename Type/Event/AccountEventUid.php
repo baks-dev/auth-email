@@ -11,36 +11,39 @@ use Symfony\Component\Uid\UuidV7;
 
 final class AccountEventUid implements ValueResolverInterface
 {
-    public const TYPE = 'account_event';
-    
-    private Uuid $value;
+	public const TYPE = 'account_event';
 	
-    public  $id;
-    
-    public function __construct(AbstractUid|string|null $value = null)
-    {
-        if($value === null)
-        {
-            $value = Uuid::v7();
-        }
-        
-        else if(is_string($value))
-        {
-            $value = new UuidV7($value);
-        }
-        
-        $this->value = $value;
-    }
-    
-    public function __toString() : string
-    {
-        return $this->value;
-    }
-    
-    public function getValue() : AbstractUid
-    {
-        return $this->value;
-    }
+	private Uuid $value;
+	
+	public $id;
+	
+	
+	public function __construct(AbstractUid|string|null $value = null)
+	{
+		if($value === null)
+		{
+			$value = Uuid::v7();
+		}
+		
+		else if(is_string($value))
+		{
+			$value = new UuidV7($value);
+		}
+		
+		$this->value = $value;
+	}
+	
+	
+	public function __toString() : string
+	{
+		return $this->value;
+	}
+	
+	
+	public function getValue() : AbstractUid
+	{
+		return $this->value;
+	}
 	
 	
 	/**
@@ -51,14 +54,14 @@ final class AccountEventUid implements ValueResolverInterface
 		return $this->id;
 	}
 	
+	
 	/**
 	 * @param Uuid $id
 	 */
-	public function setId( $id) : void
+	public function setId($id) : void
 	{
 		$this->id = $id;
 	}
-	
 	
 	
 	public function resolve(Request $request, ArgumentMetadata $argument) : iterable
@@ -70,7 +73,8 @@ final class AccountEventUid implements ValueResolverInterface
 			return [];
 		}
 		
-		$value = $request->attributes->get($argument->getName()) ?: $request->attributes->get('id') ?: $request->get('id');
+		$value = $request->attributes->get($argument->getName()) ?: $request->attributes->get('id'
+		) ?: $request->get('id');
 		
 		/*if(!is_string($value))
 		{
@@ -79,4 +83,5 @@ final class AccountEventUid implements ValueResolverInterface
 		
 		return [new self($value)];
 	}
+	
 }

@@ -33,73 +33,77 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 final class AccountHandler
 {
-    private EntityManagerInterface $entityManager;
-    private UserPasswordHasherInterface $userPasswordHasher;
-    private ValidatorInterface $validator;
-    private LoggerInterface $logger;
-
-    public function __construct(
-        EntityManagerInterface      $entityManager,
-        UserPasswordHasherInterface $userPasswordHasher,
-        ValidatorInterface          $validator,
-        LoggerInterface $logger
-    )
-    {
-        $this->entityManager = $entityManager;
-        $this->userPasswordHasher = $userPasswordHasher;
-        $this->validator = $validator;
-        $this->logger = $logger;
-    }
-
-    public function handle(
-        EntityAccount\Event\AccountEventInterface $command,
-    ): string|EntityAccount\Account
-    {
-        /* Валидация */
-        $errors = $this->validator->validate($command);
-
-        if (count($errors) > 0) {
-            $uniqid = uniqid('', false);
-            $errorsString = (string) $errors;
-            $this->logger->error($uniqid.': '.$errorsString);
-            return $uniqid;
-        }
-
-        $this->entityManager->clear();
-
-        $Event = new EntityAccount\Event\AccountEvent();
-
-        /* Хешируем и присваиваем пароль */
-        $passwordNash = $this->userPasswordHasher->hashPassword(
-            $Event,
-            $command->getPasswordPlain()
-        );
-
-        $command->setPasswordHash($passwordNash);
-
-        
-
-        /* User */
-        $User = new User();
-        /* Account */
-        $Account = new EntityAccount\Account($User);
-        
-		
-        /* Присвиваем зависимости */
-        $Event->setAccount($Account);
-        $Account->setEvent($Event);
+	private EntityManagerInterface $entityManager;
 	
+	private UserPasswordHasherInterface $userPasswordHasher;
+	
+	private ValidatorInterface $validator;
+	
+	private LoggerInterface $logger;
+	
+	
+	public function __construct(
+		EntityManagerInterface $entityManager,
+		UserPasswordHasherInterface $userPasswordHasher,
+		ValidatorInterface $validator,
+		LoggerInterface $logger,
+	)
+	{
+		$this->entityManager = $entityManager;
+		$this->userPasswordHasher = $userPasswordHasher;
+		$this->validator = $validator;
+		$this->logger = $logger;
+	}
+	
+	
+	public function handle(
+		EntityAccount\Event\AccountEventInterface $command,
+	) : string|EntityAccount\Account
+	{
+		/* Валидация */
+		$errors = $this->validator->validate($command);
+		
+		if(count($errors) > 0)
+		{
+			$uniqid = uniqid('', false);
+			$errorsString = (string) $errors;
+			$this->logger->error($uniqid.': '.$errorsString);
+			
+			return $uniqid;
+		}
+		
+		$this->entityManager->clear();
+		
+		$Event = new EntityAccount\Event\AccountEvent();
+		
+		/* Хешируем и присваиваем пароль */
+		$passwordNash = $this->userPasswordHasher->hashPassword(
+			$Event,
+			$command->getPasswordPlain()
+		);
+		
+		$command->setPasswordHash($passwordNash);
+		
+		/* User */
+		$User = new User();
+		/* Account */
+		$Account = new EntityAccount\Account($User);
+		
+		/* Присвиваем зависимости */
+		$Event->setAccount($Account);
+		$Account->setEvent($Event);
+		
 		/* AccountEvent */
 		$Event->setEntity($command);
 		
 		$this->entityManager->persist($User);
 		$this->entityManager->persist($Account);
 		$this->entityManager->persist($Event);
-
-        $this->entityManager->flush();
 		
-        return $Account;
-    }
-
+		$this->entityManager->flush();
+		
+		return $Account;
+	}
+	
 }
 

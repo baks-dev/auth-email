@@ -24,11 +24,11 @@
 
 {# ---- КОНТЕНТ-БЛОК ------------------------------------------------------------ #}
 {% block content %}
-
+	
 	{{ include(_self|replace({ "template.html.twig": "content.html.twig" })) }}
-
+	
 	{# CSS #}
-	{#<div style="display: none !important;" class="ms-auto"></div>#}
+	{# <div style="display: none !important;" class="ms-auto"></div> #}
 {% endblock %}
 
 

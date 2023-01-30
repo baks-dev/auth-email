@@ -26,7 +26,9 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 final class VerifyHandler
 {
 	private EntityManagerInterface $entityManager;
+	
 	private ValidatorInterface $validator;
+	
 	private LoggerInterface $logger;
 	
 	
@@ -42,6 +44,7 @@ final class VerifyHandler
 		
 	}
 	
+	
 	public function handle(
 		VerifyDTO $command,
 	) : string|EntityAccount\Account
@@ -54,6 +57,7 @@ final class VerifyHandler
 			$uniqid = uniqid('', false);
 			$errorsString = (string) $errors;
 			$this->logger->error($uniqid.': '.$errorsString);
+			
 			return $uniqid;
 		}
 		
@@ -66,6 +70,7 @@ final class VerifyHandler
 			$uniqid = uniqid('', false);
 			$errorsString = sprintf('Ошибка при активации сущности AccountEvent с id: %s', $command->getEvent());
 			$this->logger->error($uniqid.': '.$errorsString);
+			
 			return $uniqid;
 		}
 		
@@ -86,6 +91,7 @@ final class VerifyHandler
 			$uniqid = uniqid('', false);
 			$errorsString = sprintf('Ошибка при активации сущности Account с событием event: %s', $command->getEvent());
 			$this->logger->error($uniqid.': '.$errorsString);
+			
 			return $uniqid;
 		}
 		

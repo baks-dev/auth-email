@@ -46,7 +46,6 @@ final class ChangePasswordTest extends KernelTestCase
 		$status = $newDTO->getStatus();
 		self::assertEquals($status->getStatus()->getStatus(), AccountStatusEnum::ACTIVE);
 		
-		
 		$entity = new AccountEvent();
 		$entity->setEntity($newDTO);
 		
@@ -56,14 +55,12 @@ final class ChangePasswordTest extends KernelTestCase
 		self::assertEquals($editDTO->getEvent(), $newDTO->getEvent());
 		self::assertEquals($editDTO->getPassword(), $newDTO->getPassword());
 		
-		
 		$status = $editDTO->getStatus();
 		self::assertEquals($status->getStatus()->getStatus(), AccountStatusEnum::ACTIVE);
 		
 		/* readonly */
 		$this->expectError();
 		$editDTO->setPasswordHash('546545645');
-		
 		
 	}
 	

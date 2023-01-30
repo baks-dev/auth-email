@@ -2,7 +2,6 @@
 
 namespace BaksDev\Auth\Email\Security;
 
-
 use BaksDev\Auth\Email\Repository\AccountEventActiveByEmail\AccountEventActiveByEmailInterface;
 use BaksDev\Auth\Email\Type\Email\AccountEmail;
 use BaksDev\Auth\Email\UseCase\User\Login\LoginDTO;
@@ -33,9 +32,13 @@ final class UserEmailAuthenticator extends AbstractAuthenticator
 	private FormFactoryInterface $form;
 	
 	private TranslatorInterface $translator;
+	
 	private AccountEventActiveByEmailInterface $accountEventActiveByEmail;
+	
 	private UserPasswordHasherInterface $passwordHasher;
+	
 	private GetUserByIdInterface $userById;
+	
 	
 	public function __construct(
 		UrlGeneratorInterface $urlGenerator,
@@ -54,22 +57,26 @@ final class UserEmailAuthenticator extends AbstractAuthenticator
 		$this->userById = $userById;
 	}
 	
+	
 	private const LOGIN_ROUTE = 'AuthEmail:user.login';
 	private const SUCCESS_REDIRECT = 'Pages:user.homepage';
+	
 	
 	public function supports(Request $request) : ?bool
 	{
 		return $request->isMethod('POST') && $this->getLoginUrl() === $request->getPathInfo();
 	}
 	
+	
 	public function authenticate(Request $request) : Passport
 	{
 		$LoginDTO = new LoginDTO();
 		$form = $this->form->create(LoginForm::class, $LoginDTO);
 		$form->handleRequest($request);
+		
 		/** Получаем паспорт */
 		return new SelfValidatingPassport(
-			new UserBadge($LoginDTO->getEmail(), function() use ($LoginDTO, $form){
+			new UserBadge($LoginDTO->getEmail(), function() use ($LoginDTO, $form) {
 				if($form->isSubmitted() && $form->isValid())
 				{
 					/* Получаем активный аккаунт по Email */
@@ -101,6 +108,7 @@ final class UserEmailAuthenticator extends AbstractAuthenticator
 		);
 	}
 	
+	
 	public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName) : ?Response
 	{
 		/* если форма отправлна AJAX */
@@ -116,8 +124,10 @@ final class UserEmailAuthenticator extends AbstractAuthenticator
 		}
 		
 		/* Редирект на главную страницу после успешной авторизации */
+		
 		return new RedirectResponse($this->urlGenerator->generate(self::SUCCESS_REDIRECT));
 	}
+	
 	
 	public function onAuthenticationFailure(Request $request, AuthenticationException $exception) : ?Response
 	{
@@ -149,8 +159,10 @@ final class UserEmailAuthenticator extends AbstractAuthenticator
 		return new RedirectResponse($this->getLoginUrl());
 	}
 	
+	
 	protected function getLoginUrl() : string
 	{
 		return $this->urlGenerator->generate(self::LOGIN_ROUTE);
 	}
+	
 }

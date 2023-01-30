@@ -11,11 +11,11 @@ use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Session\Storage\MockArraySessionStorage;
 use Symfony\Component\HttpFoundation\Session\Storage\MockFileSessionStorage;
 
-
-final class ChangeControllerTest  extends WebTestCase
+final class ChangeControllerTest extends WebTestCase
 {
 	/** @link ChangeController */
 	private string $controller = '/change';
+	
 	
 	/** Запрет доступа по прямой ссылке */
 	public function testRoleGuestFail() : void
@@ -33,8 +33,9 @@ final class ChangeControllerTest  extends WebTestCase
 		
 		$user = TestUserAccount::getUser();
 		$client->loginUser($user, 'user');
-
+		
 		$crawler = $client->request('GET', $this->controller);
 		self::assertResponseRedirects();
 	}
+	
 }

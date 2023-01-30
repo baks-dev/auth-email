@@ -31,36 +31,37 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Security("is_granted('ROLE_ADMIN') or is_granted('ROLE_ACCOUNT_EMAIL_NEW')")]
 final class NewController extends AbstractController
 {
-    #[Route('/admin/account/email/new', name: 'admin.newedit.new', methods: ['GET', 'POST'])]
-    public function new(
-      Request $request,
-      //AccountAggregate $accountAggregate,
-      //TranslatorInterface $translator,
-      //Handler $handler
-    ) : Response
-    {
+	#[Route('/admin/account/email/new', name: 'admin.newedit.new', methods: ['GET', 'POST'])]
+	public function new(
+		Request $request,
+		//AccountAggregate $accountAggregate,
+		//TranslatorInterface $translator,
+		//Handler $handler
+	) : Response
+	{
 		
 		dd();
-        
-        $account = new AccountDTO();
-        
-        /* Форма добавления */
-        $form = $this->createForm(AccountForm::class, $account);
-        $form->handleRequest($request);
-
-        if($form->isSubmitted() && $form->isValid())
-        {
-            $handle = $accountAggregate->handle($account);
-    
-            if($handle)
-            {
-                $this->addFlash('success', 'admin.account.new.success', 'account.email');
-                return $this->redirectToRoute('AccountEmail:admin.account.index');
-            }
-        }
-        
-        return $this->render(['form' => $form->createView()]);
-        
-    }
-
+		
+		$account = new AccountDTO();
+		
+		/* Форма добавления */
+		$form = $this->createForm(AccountForm::class, $account);
+		$form->handleRequest($request);
+		
+		if($form->isSubmitted() && $form->isValid())
+		{
+			$handle = $accountAggregate->handle($account);
+			
+			if($handle)
+			{
+				$this->addFlash('success', 'admin.account.new.success', 'account.email');
+				
+				return $this->redirectToRoute('AccountEmail:admin.account.index');
+			}
+		}
+		
+		return $this->render(['form' => $form->createView()]);
+		
+	}
+	
 }

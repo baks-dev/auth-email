@@ -26,55 +26,48 @@ use Exception;
 use InvalidArgumentException;
 
 /* Статус Аккаунта */
+
+
 #[ORM\Entity]
 #[ORM\Table(name: 'users_account_status')]
 #[ORM\Index(columns: ['status'])]
 class AccountStatus extends EntityEvent
 {
-    public const TABLE = 'users_account_status';
-    
-    /** ID события */
-    #[ORM\Id]
-    #[ORM\OneToOne(inversedBy: 'status', targetEntity: AccountEvent::class)]
-    #[ORM\JoinColumn(name: 'event', referencedColumnName: 'id')]
-    protected AccountEvent $event;
-    
-    #[ORM\Column(type: AccountActivityStatus::TYPE)]
-    protected AccountActivityStatus $status;
-    
-    /**
-     * @param AccountEvent $event
-     */
-    public function __construct(AccountEvent $event) { $this->event = $event; }
-    
-    /**
-     * @param $dto
-     * @return mixed
-     * @throws Exception
-     */
-    public function getDto($dto) : mixed
-    {
-        if($dto instanceof AccountStatusInterface)
-        {
-            return parent::getDto($dto);
-        }
-        
-        throw new InvalidArgumentException(sprintf('Class %s interface error', $dto::class));
-    }
-    
-    /**
-     * @param $dto
-     * @return mixed
-     * @throws Exception
-     */
-    public function setEntity($dto) : mixed
-    {
-
-        if($dto instanceof AccountStatusInterface)
-        {
-            return parent::setEntity($dto);
-        }
-        
-        throw new InvalidArgumentException(sprintf('Class %s interface error', $dto::class));
-    }
+	public const TABLE = 'users_account_status';
+	
+	/** ID события */
+	#[ORM\Id]
+	#[ORM\OneToOne(inversedBy: 'status', targetEntity: AccountEvent::class)]
+	#[ORM\JoinColumn(name: 'event', referencedColumnName: 'id')]
+	protected AccountEvent $event;
+	
+	#[ORM\Column(type: AccountActivityStatus::TYPE)]
+	protected AccountActivityStatus $status;
+	
+	
+	public function __construct(AccountEvent $event) { $this->event = $event; }
+	
+	
+	public function getDto($dto) : mixed
+	{
+		if($dto instanceof AccountStatusInterface)
+		{
+			return parent::getDto($dto);
+		}
+		
+		throw new InvalidArgumentException(sprintf('Class %s interface error', $dto::class));
+	}
+	
+	
+	public function setEntity($dto) : mixed
+	{
+		
+		if($dto instanceof AccountStatusInterface)
+		{
+			return parent::setEntity($dto);
+		}
+		
+		throw new InvalidArgumentException(sprintf('Class %s interface error', $dto::class));
+	}
+	
 }

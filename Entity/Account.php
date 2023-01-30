@@ -27,49 +27,44 @@ use Doctrine\ORM\Mapping as ORM;
 
 /* Аккаунт пользователя */
 
+
 #[ORM\Entity]
 #[ORM\Table(name: 'users_account')]
 class Account
 {
-    public const TABLE = 'users_account';
-    
-    /** ID */
-    #[ORM\Id]
-    #[ORM\Column(type: UserUid::TYPE)]
-    private UserUid $id;
-
-    
-    /** ID События */
-    #[ORM\Column(type: AccountEventUid::TYPE, unique: true, nullable: false)]
-    private AccountEventUid $event;
-    
-    public function __construct(User|UserUid $user)
-    {
-        $this->id = $user instanceof User ? $user->getId() : $user;
-    }
-    
-    /**
-     * @param AccountEvent|AccountEventUid $event
-     */
-    public function setEvent(AccountEvent|AccountEventUid $event) : void
-    {
-        $this->event = $event instanceof AccountEvent ? $event->getId() : $event;
-    }
-    
-    /**
-     * @return AccountEventUid
-     */
-    public function getEvent() : AccountEventUid
-    {
-        return $this->event;
-    }
-    
-    /**
-     * @return UserUid
-     */
-    public function getId() : UserUid
-    {
-        return $this->id;
-    }
-    
+	public const TABLE = 'users_account';
+	
+	/** ID */
+	#[ORM\Id]
+	#[ORM\Column(type: UserUid::TYPE)]
+	private UserUid $id;
+	
+	/** ID События */
+	#[ORM\Column(type: AccountEventUid::TYPE, unique: true, nullable: false)]
+	private AccountEventUid $event;
+	
+	
+	public function __construct(User|UserUid $user)
+	{
+		$this->id = $user instanceof User ? $user->getId() : $user;
+	}
+	
+	
+	public function setEvent(AccountEvent|AccountEventUid $event) : void
+	{
+		$this->event = $event instanceof AccountEvent ? $event->getId() : $event;
+	}
+	
+	
+	public function getEvent() : AccountEventUid
+	{
+		return $this->event;
+	}
+	
+	
+	public function getId() : UserUid
+	{
+		return $this->id;
+	}
+	
 }

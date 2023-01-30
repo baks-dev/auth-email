@@ -35,69 +35,80 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 final class AccountFixtures extends Fixture
 {
-    //public const ADMIN_USER_REFERENCE = 'user_admin';
-    public const  USER_EMAIL = 'admin@local.ru';
-
-    private ExistAccountByEmailInterface $existAccountByEmail;
-
-    private UseCase\AccountHandler $handler;
-    private AccountEventActiveByEmailInterface $userAccountByEmail;
-    private SymfonyStyle $io;
-
-    public function __construct(
-        ExistAccountByEmailInterface      $existAccountByEmail,
-        UseCase\AccountHandler            $handler,
-        AccountEventActiveByEmailInterface $userAccountByEmail
-    )
-    {
-
-        $this->existAccountByEmail = $existAccountByEmail;
-        $this->handler = $handler;
-        //$this->output = $output;
-        $this->userAccountByEmail = $userAccountByEmail;
+	//public const ADMIN_USER_REFERENCE = 'user_admin';
+	public const  USER_EMAIL = 'admin@local.ru';
+	
+	private ExistAccountByEmailInterface $existAccountByEmail;
+	
+	private UseCase\AccountHandler $handler;
+	
+	private AccountEventActiveByEmailInterface $userAccountByEmail;
+	
+	private SymfonyStyle $io;
+	
+	
+	public function __construct(
+		ExistAccountByEmailInterface $existAccountByEmail,
+		UseCase\AccountHandler $handler,
+		AccountEventActiveByEmailInterface $userAccountByEmail,
+	)
+	{
 		
-        $this->io = new SymfonyStyle(new ArrayInput([]), new ConsoleOutput());
+		$this->existAccountByEmail = $existAccountByEmail;
+		$this->handler = $handler;
+		//$this->output = $output;
+		$this->userAccountByEmail = $userAccountByEmail;
 		
-    }
-
-    public function load(ObjectManager $manager): void
-    {
-        # php bin/console doctrine:fixtures:load --append
-
+		$this->io = new SymfonyStyle(new ArrayInput([]), new ConsoleOutput());
 		
-        $email = new AccountEmail(self::USER_EMAIL);
-
-        /* Проверяем, имеется ли такой пользователь */
-        $existUser = $this->existAccountByEmail->get($email);
-
-
-        if ($existUser) {
-            $this->io->note('Пользователь был ранее добавлен');
-        } else {
+	}
+	
+	
+	public function load(ObjectManager $manager) : void
+	{
+		# php bin/console doctrine:fixtures:load --append
+		
+		$email = new AccountEmail(self::USER_EMAIL);
+		
+		/* Проверяем, имеется ли такой пользователь */
+		$existUser = $this->existAccountByEmail->get($email);
+		
+		if($existUser)
+		{
+			$this->io->note('Пользователь был ранее добавлен');
+		}
+		else
+		{
 			
-            $AccountFixturesDTO = new UseCase\AccountDTO($email);
+			$AccountFixturesDTO = new UseCase\AccountDTO($email);
 			
-            $Account = $this->handler->handle($AccountFixturesDTO);
-
-            if (!$Account instanceof Account) {
-                throw new \Exception(  sprintf('Ошибка %s при создании аккаунта', $Account));
-            }
-
-            $this->io->success(sprintf('Добавили пользователя: %s / %s', $AccountFixturesDTO->getEmail(), $AccountFixturesDTO->getPasswordPlain()));
-
-        }
-
-
-        /* Проверяем, имеется ли такой пользователь */
-        //$countUser = $this->countUserAccountByEmail->get($email, null);
-
-        $event = $this->userAccountByEmail->get($email);
+			$Account = $this->handler->handle($AccountFixturesDTO);
+			
+			if(!$Account instanceof Account)
+			{
+				throw new \Exception(sprintf('Ошибка %s при создании аккаунта', $Account));
+			}
+			
+			$this->io->success(sprintf('Добавили пользователя: %s / %s',
+				$AccountFixturesDTO->getEmail(),
+				$AccountFixturesDTO->getPasswordPlain()
+			)
+			);
+			
+		}
+		
+		/* Проверяем, имеется ли такой пользователь */
+		//$countUser = $this->countUserAccountByEmail->get($email, null);
+		
+		$event = $this->userAccountByEmail->get($email);
 		$this->io->warning(sprintf('Для тестирования в класса %s необходимо указать идентификатор : %s',
 			TestUserAccount::class,
-			$event?->getAccount()));
+			$event?->getAccount()
+		)
+		);
 		
-        $this->addReference(self::class, $event);
-
-    }
-
+		$this->addReference(self::class, $event);
+		
+	}
+	
 }

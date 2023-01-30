@@ -34,14 +34,12 @@ final class RegistrationTest extends KernelTestCase
 		$passwordPlain = 'z0Vdtc17Wo';
 		$passwordHash = 'hI6mgIpW0X';
 		
-		
 		/* NEW */
 		$newDTO = new RegistrationDTO();
 		$newDTO->setId(new AccountEventUid());
 		$newDTO->setEmail($AccountEmail);
 		$newDTO->setPasswordPlain($passwordPlain);
 		$newDTO->setPasswordHash($passwordHash);
-		
 		
 		/* Проверка заполнения */
 		self::assertNull($newDTO->getEvent());
@@ -52,10 +50,8 @@ final class RegistrationTest extends KernelTestCase
 		$status = $newDTO->getStatus();
 		self::assertEquals($status->getStatus()->getStatus(), AccountStatusEnum::NEW);
 		
-		
 		$entity = new AccountEvent();
 		$entity->setEntity($newDTO);
-		
 		
 		/* EDIT */
 		$editDTO = new RegistrationDTO();

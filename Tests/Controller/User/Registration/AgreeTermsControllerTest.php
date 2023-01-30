@@ -11,6 +11,7 @@ final class AgreeTermsControllerTest extends WebTestCase
 	/** @link AgreeTermsController */
 	private string $controller = '/agree/terms';
 	
+	
 	/** Любой доступ к странице */
 	public function testRoleGuestSuccessful() : void
 	{
@@ -18,6 +19,7 @@ final class AgreeTermsControllerTest extends WebTestCase
 		$crawler = $client->request('GET', $this->controller);
 		self::assertResponseIsSuccessful();
 	}
+	
 	
 	/** Доступ авторизананных пользователей */
 	public function testRoleUserRedirect() : void
@@ -30,4 +32,5 @@ final class AgreeTermsControllerTest extends WebTestCase
 		$crawler = $client->request('GET', $this->controller);
 		self::assertResponseIsSuccessful();
 	}
+	
 }

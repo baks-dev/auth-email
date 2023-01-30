@@ -24,7 +24,6 @@ use BaksDev\Auth\Email\Type\Status\AccountStatusEnum;
 use BaksDev\Auth\Email\UseCase\User\Verify\VerifyDTO;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
-
 final class VerifyTest extends KernelTestCase
 {
 	public function testDTO() : void
@@ -41,17 +40,16 @@ final class VerifyTest extends KernelTestCase
 		$entity = new AccountEvent();
 		$entity->setEntity($newDTO);
 		
-		
 		/* EDIT */
 		$AccountEventUidEdit = new AccountEventUid();
 		$editDTO = new VerifyDTO($AccountEventUidEdit);
 		$entity->getDto($editDTO);
-
+		
 		self::assertEquals($editDTO->getEvent(), $AccountEventUidEdit);
-
+		
 		$status = $editDTO->getStatus();
 		self::assertEquals($status->getStatus()->getStatus(), AccountStatusEnum::ACTIVE);
-
+		
 	}
 	
 }

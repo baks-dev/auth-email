@@ -57,4 +57,5 @@ final class RestoreFormTest extends TypeTestCase
 			self::assertArrayHasKey($key, $children);
 		}
 	}
+	
 }

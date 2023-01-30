@@ -11,6 +11,7 @@ final class RegistrationControllerTest extends WebTestCase
 	/** @link RegistrationController */
 	private string $controller = '/reg';
 	
+	
 	/** Редирект авторизананных пользователей */
 	public function testRoleGuestSuccessful() : void
 	{
@@ -27,7 +28,7 @@ final class RegistrationControllerTest extends WebTestCase
 		
 		$user = TestUserAccount::getUser();
 		$client->loginUser($user, 'user');
-
+		
 		$crawler = $client->request('GET', $this->controller);
 		self::assertResponseRedirects();
 	}

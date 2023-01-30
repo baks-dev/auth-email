@@ -39,10 +39,12 @@ final class CurrentUserAccount implements CurrentUserAccountInterface
 {
 	private Connection $connection;
 	
+	
 	public function __construct(Connection $connection)
 	{
 		$this->connection = $connection;
 	}
+	
 	
 	/** Текущий аккаунт авторизованного пользователя
 	 * возвращает массив с полями:
@@ -81,12 +83,11 @@ final class CurrentUserAccount implements CurrentUserAccountInterface
 		);
 		$qb->setParameter('status', new AccountStatus(AccountStatusEnum::ACTIVE), AccountStatus::TYPE);
 		
-		
 		$qb->where('users.user_id = :user');
 		$qb->setParameter('user', $user, UserUid::TYPE);
 		
 		/* Кешируем результат запроса */
-		$cacheFilesystem = new FilesystemAdapter('AuthEmail');
+		$cacheFilesystem = new FilesystemAdapter('CacheAuthEmail');
 		
 		$config = $this->connection->getConfiguration();
 		$config?->setResultCache($cacheFilesystem);
@@ -98,4 +99,5 @@ final class CurrentUserAccount implements CurrentUserAccountInterface
 			new QueryCacheProfile((60 * 60 * 30), 'current_user_account'.$user)
 		)->fetchAssociative();
 	}
+	
 }

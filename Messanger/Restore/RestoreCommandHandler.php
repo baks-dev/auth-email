@@ -26,48 +26,56 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 final class RestoreCommandHandler implements MessageHandlerInterface
 {
-    public const RESET_ROUTE_NAME = 'AuthEmail:user.reset';
-
-    private TranslatorInterface $translator;
-    private UriSigner $uriSigner;
-    private UrlGeneratorInterface $router;
-    private MailerInterface $mailer;
-    private ParameterBagInterface $parameter;
-    private UrlTokenGenerator $urlTokenGenerator;
-    private AccountEventNotBlockByEmailInterface $accountEventNotBlockByEmail;
-
-    public function __construct(
-        TranslatorInterface            $translator,
-        UriSigner                      $uriSigner,
-        UrlGeneratorInterface          $router,
-        MailerInterface $mailer,
-        ParameterBagInterface $parameter,
-        UrlTokenGenerator $urlTokenGenerator,
-        AccountEventNotBlockByEmailInterface $accountEventNotBlockByEmail
-    )
-    {
-        $this->translator = $translator;
-        $this->uriSigner = $uriSigner;
-        $this->router = $router;
-        $this->mailer = $mailer;
-        $this->parameter = $parameter;
-        $this->urlTokenGenerator = $urlTokenGenerator;
-        $this->accountEventNotBlockByEmail = $accountEventNotBlockByEmail;
-    }
-
-    public function __invoke(RestoreCommand $command): bool
-    {
+	public const RESET_ROUTE_NAME = 'AuthEmail:user.reset';
+	
+	private TranslatorInterface $translator;
+	
+	private UriSigner $uriSigner;
+	
+	private UrlGeneratorInterface $router;
+	
+	private MailerInterface $mailer;
+	
+	private ParameterBagInterface $parameter;
+	
+	private UrlTokenGenerator $urlTokenGenerator;
+	
+	private AccountEventNotBlockByEmailInterface $accountEventNotBlockByEmail;
+	
+	
+	public function __construct(
+		TranslatorInterface $translator,
+		UriSigner $uriSigner,
+		UrlGeneratorInterface $router,
+		MailerInterface $mailer,
+		ParameterBagInterface $parameter,
+		UrlTokenGenerator $urlTokenGenerator,
+		AccountEventNotBlockByEmailInterface $accountEventNotBlockByEmail,
+	)
+	{
+		$this->translator = $translator;
+		$this->uriSigner = $uriSigner;
+		$this->router = $router;
+		$this->mailer = $mailer;
+		$this->parameter = $parameter;
+		$this->urlTokenGenerator = $urlTokenGenerator;
+		$this->accountEventNotBlockByEmail = $accountEventNotBlockByEmail;
+	}
+	
+	
+	public function __invoke(RestoreCommand $command) : bool
+	{
 		$cache = new ApcuAdapter();
 		
-		$data = $cache->get('restore.'.$command->getEmail(), function (ItemInterface $item) use ($command)
-		{
+		$data = $cache->get('restore.'.$command->getEmail(), function(ItemInterface $item) use ($command) {
 			/* Время кешировния 300 = 5 минут */
 			$item->expiresAfter(300);
 			
 			/* Получаем по Email пользователя, котоырй не заблокирован */
 			$Event = $this->accountEventNotBlockByEmail->get($command->getEmail());
 			
-			if (!$Event) {
+			if(!$Event)
+			{
 				return false;
 			}
 			
@@ -84,24 +92,25 @@ final class RestoreCommandHandler implements MessageHandlerInterface
 				(
 					$this->parameter->get('PROJECT_NO_REPLY'), /* email отправителя */
 					$this->parameter->get('PROJECT_NAME') /* подпись */
-				))
+				)
+				)
 				->to(new Address(new AccountEmail($Event->getEmail())))
 				->subject($this->translator->trans('user.subject', domain: 'user.restore'))
 				->htmlTemplate('@AuthEmail/default/user/email/restore.html.twig')
 				->context([
 					'signedUrl' => $this->uriSigner->sign($uri),
-					'senderName' => $this->parameter->get('PROJECT_NAME')
-				]);
+					'senderName' => $this->parameter->get('PROJECT_NAME'),
+				])
+			;
 			
 			/* Отправляем письмо пользователю */
 			$this->mailer->send($email);
+			
 			return true;
 		});
 		
-        return $data;
-    }
-
-
-
+		return $data;
+	}
+	
 }
 
