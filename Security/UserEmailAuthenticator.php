@@ -19,6 +19,7 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Http\Authenticator\AbstractAuthenticator;
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\CsrfTokenBadge;
+use Symfony\Component\Security\Http\Authenticator\Passport\Badge\RememberMeBadge;
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
 use Symfony\Component\Security\Http\Authenticator\Passport\Credentials\PasswordCredentials;
 use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
@@ -104,6 +105,7 @@ final class UserEmailAuthenticator extends AbstractAuthenticator
 			}),
 			[
 				new CsrfTokenBadge('authenticate', ($request->get('login_form'))['_token']),
+				new RememberMeBadge(),
 			]
 		);
 	}
@@ -124,7 +126,6 @@ final class UserEmailAuthenticator extends AbstractAuthenticator
 		}
 		
 		/* Редирект на главную страницу после успешной авторизации */
-		
 		return new RedirectResponse($this->urlGenerator->generate(self::SUCCESS_REDIRECT));
 	}
 	
