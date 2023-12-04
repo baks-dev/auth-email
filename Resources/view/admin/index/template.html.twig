@@ -1,0 +1,19 @@
+{% trans_default_domain("admin.account") %}
+
+{% set ROLE = 'ROLE_ACCOUNT' %}
+
+{# ---- ШАБЛОН ------------------------------------------------------------ #}
+{% extends Template('/admin/base.html.twig') %}
+
+{# ---- CSS ------------------------------------------------------------ #}
+{% block title %}
+    {{ 'admin.page.index'|trans }}
+{% endblock %}
+
+
+{# ---- КОНТЕНТ-БЛОК ------------------------------------------------------------ #}
+{% block content %}
+
+    {{ include(_self|replace({ "template.html.twig": baks_settings.device~"/content.html.twig" })) }}
+
+{% endblock %}

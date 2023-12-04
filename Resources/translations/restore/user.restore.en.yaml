@@ -1,0 +1,23 @@
+user:
+  page: 'Reset password'
+  subject: 'Password recovery request for personal account'
+  link:
+    breadcrumb:
+      page: 'Password recovery for personal account'
+  form:
+    label:
+      email: 'Email:'
+      question: 'Forgot your password?'
+  btn:
+    restore: 'Restore'
+  reset:
+    password:
+      email:
+        hello: 'Welcome!'
+        request: 'You received this email because we received a password reset request for your account. To proceed with resetting your password, click on the button below:'
+        btn: 'Reset password'
+        expire: 'This password reset link expires 5 minutes from the time the email was sent. You can request a new one after this time.'
+        browser: 'Button not working? Try pasting this URL into your browser:'
+        regards: 'Respectfully,'
+  success:
+    restore: 'An email has been sent to the specified e-mail address with instructions on how to reset your password'

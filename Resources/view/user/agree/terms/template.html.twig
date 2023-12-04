@@ -1,0 +1,65 @@
+{% trans_default_domain('agree.terms') %}
+
+{# ---- ШАБЛОН ------------------------------------------------------------ #}
+{% extends Template('user/base.html.twig') %}
+
+{% block title %}{{ 'user.page'|trans }}{% endblock %}
+
+
+{# ---- CSS ------------------------------------------------------------ #}
+{# {% block stylesheets %} #}
+{#    <link href="{{ path('user_posts_home_css') }}" rel="stylesheet"> #}
+{# {% endblock %} #}
+
+{# ---- HEADER-БЛОК ------------------------------------------------------------ #}
+{# {% block header %}
+    {{ include(_self|replace({ "template.html.twig": "header.html.twig" })) }}
+{% endblock %} #}
+
+
+{# ---- LEFT-БЛОК ------------------------------------------------------------ #}
+{# {% block left %} #}
+{#   {% include '@Template/flowers/left.html.twig' %} #}
+{# {% endblock %} #}
+
+
+{# ---- КОНТЕНТ-БЛОК ------------------------------------------------------------ #}
+{% block content %}
+	
+	{{ include(_self|replace({ "template.html.twig": "content.html.twig" })) }}
+	
+{% endblock %}
+
+
+{# ---- FOOTER-БЛОК ------------------------------------------------------------ #}
+{# {% block footer %}
+    {{ include(_self|replace({ "template.html.twig": "footer.html.twig" })) }}
+{% endblock %} #}
+
+ {% block javascript %}
+ {#<script defer src="{{ path('user_posts_home_js') }}"></script> #}
+
+
+{#<script class="lazy" type="module" data-src="https://cdn.jsdelivr.net/npm/friendly-challenge@0.9.9/widget.module.min.js"></script>#}
+
+{#<script>
+
+        function myCallback() {
+            //console.log("Captcha finished with solution " + solution);
+            let btnLogin = document.getElementById('login-submit');
+            btnLogin.disabled = false;
+            btnLogin.type = 'submit'
+            console.log(btnLogin);
+
+            let progress = document.getElementById('login-progress');
+            progress.classList.add('d-none')
+        }
+
+        function myCallbackError(error) {
+            console.log("Error " + error);
+        }
+
+    </script>#}
+
+ {% endblock %}
+

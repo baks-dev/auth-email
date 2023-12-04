@@ -1,0 +1,10 @@
+{# ---- ШАБЛОН ------------------------------------------------------------ #}
+{% extends Template('user/base.html.twig') %}
+
+{% block title %}Авторизация{% endblock %}
+
+{# ---- КОНТЕНТ-БЛОК ------------------------------------------------------------ #}
+{% block content %}
+	{{ include(_self|replace({ "template.html.twig":baks_settings.device~"/content.html.twig" })) }}
+{% endblock %}
+
