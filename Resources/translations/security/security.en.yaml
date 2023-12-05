@@ -1,0 +1,19 @@
+ROLE_ACCOUNT_EMAIL:
+  name: 'Email accounts'
+  desc: 'List of Registered Email Users'
+
+ROLE_ACCOUNT_EMAIL_INDEX:
+  name: 'View'
+  desc: ''
+
+ROLE_ACCOUNT_EMAIL_NEW:
+  name: 'Add'
+  desc: ''
+
+ROLE_ACCOUNT_EMAIL_EDIT:
+  name: 'Edit'
+  desc: ''
+
+ROLE_ACCOUNT_EMAIL_DELETE:
+  name: 'Delete'
+  desc: ''

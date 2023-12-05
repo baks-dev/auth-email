@@ -1,0 +1,7 @@
+user:
+  page: 'Personal data'
+  link:
+    breadcrumb:
+      page: "User's personal data"
+  profile:
+    type: 'User'
