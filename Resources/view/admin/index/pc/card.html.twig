@@ -24,7 +24,7 @@
 	{% if is_granted('ROLE_ADMIN') and app.user.id != item.id %}
 		<td class="ps-5">
 			{# Прейти в режим пользователя #}
-			<a href='{{ path('users-user:admin.switch', { id : item.id  }) }}' class="badge text-bg-light text-decoration-none">
+			<a href='{{ path('core:user.homepage', {'authority' : item.id }) }}' class="badge text-bg-light text-decoration-none">
 				Авторизоваться
 			</a>
 		</td>

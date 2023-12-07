@@ -1,0 +1,55 @@
+<tr>
+
+
+	<td>
+		{# Пользовательское меню #}
+		{{ include(_self|replace({ "_table.tbody.html.twig": "_usecase.html.twig" })) }}
+	</td>
+
+	{# Чекбокс #}
+	<td>
+		<div class="form-check form-check-sm form-check-custom">
+			<label>
+				<input class="form-check-input checked-item" type="checkbox" onchange=checkedItem(); value="{{ item.event }}">
+			</label>
+		</div>
+	</td>
+	<td class="ps-5">
+		{{ account_status(item.status) }}
+	</td>
+	<td class="ps-5">
+		<div class="d-flex">
+			{# Превью  #}
+			{# <a href="../../demo11/dist/apps/ecommerce/catalog/edit-category.html" class="symbol symbol-50px">
+                <span class="symbol-label" style="background-image:url(assets/media//stock/ecommerce/68.gif);"></span>
+            </a> #}
+
+			<div class="ms-0">
+
+				{# Название #}
+				<a href="{{ path('AccountEmail:admin.account.newedit.edit', { id: item.event }) }}"
+				   class="text-gray-800 text-hover-primary fs-5 fw-bolder mb-1"
+				>{{ item.email }}</a>
+
+
+				{# Описание #}
+				<div class="text-muted fs-7 fw-bolder">
+					{# {{ item.description }} #}
+				</div>
+
+			</div>
+		</div>
+	</td>
+
+	<td class="ps-5">
+		{{ item.update|date('d.m.Y H:i') }}
+	</td>
+
+	{% if is_granted('ROLE_ADMIN') %}
+		<th class="ps-5">
+			{# Прейти в режим пользователя #}
+			<a href='{{ path('core:user.homepage', {'authority' : item.id }) }}' class="badge badge-light">Авторизоваться</a>
+		</th>
+	{% endif %}
+
+</tr>

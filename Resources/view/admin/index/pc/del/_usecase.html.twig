@@ -1,0 +1,66 @@
+{# Пользовательское меню #}
+
+<div class="dropend">
+	<a href="#" class="btn btn-active-light-primary" data-bs-toggle="dropdown">
+		<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-list"
+			 viewBox="0 0 16 16">
+			<path fill-rule="evenodd"
+				  d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z" />
+		</svg>
+	</a>
+	<ul class="dropdown-menu dropleft" style="margin-left: -20px;">
+
+		{# Редактировать #}
+		{% if is_granted('ROLE_ACCOUNT_EMAIL_EDIT') %}
+			<li>
+				<a href="{{ path('AccountEmail:admin.account.newedit.edit', {id: item.event }) }}"
+				   class="dropdown-item">
+					{{ 'btn.edit'|trans({}, 'messages') }}
+				</a>
+			</li>
+
+			{% if item.status != 'ban' %}
+				<li>
+					<a href="{{ path('AccountEmail:admin.account.newedit.edit', {id: item.event }) }}"
+					   class="dropdown-item">
+						{{ 'btn.block'|trans({}, 'messages') }}
+					</a>
+				</li>
+			{% endif %}
+
+
+			{% if item.status != 'act' %}
+				<li>
+					<a href="{{ path('AccountEmail:admin.account.newedit.edit', {id: item.event }) }}"
+					   class="dropdown-item">
+						{{ 'btn.activate'|trans({}, 'messages') }}
+					</a>
+				</li>
+			{% endif %}
+
+		{% endif %}
+
+		{# Удалить #}
+		{% if is_granted('ROLE_ACCOUNT_EMAIL_DELETE') %}
+			<li>
+				<a data-href="{{ path('AccountEmail:admin.account.delete', {id: item.id }) }}"
+				   class="dropdown-item modal-link"
+				   data-bs-toggle="modal" data-bs-target="#modal"
+				>
+					{{ 'btn.delete'|trans }}
+				</a>
+			</li>
+		{% endif %}
+
+		{% if is_granted('ROLE_ADMIN') %}
+			<li>
+				<a href="{{ path('core:user.homepage', {'authority' : item.event }) }}" class="dropdown-item">
+					Авторизоваться
+				</a>
+			</li>
+		{% endif %}
+
+	</ul>
+
+</div>
+
