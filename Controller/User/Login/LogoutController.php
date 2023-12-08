@@ -28,6 +28,13 @@ final class LogoutController extends AbstractController
     {
         $authority = $this->getUsr()?->getUserIdentifier();
 
+        if($authority)
+        {
+            /** Удаляем авторизацию пользователя */
+            $AppCache = $cache->init('Authority');
+            $AppCache->delete($authority);
+        }
+
         if($SwitchUser = $request->getSession()->get('_switch_user'))
         {
             $CurrentUser = $getUserById->get(new UserUid($SwitchUser));
@@ -48,12 +55,6 @@ final class LogoutController extends AbstractController
             }
         }
 
-        if($authority)
-        {
-            /** Удаляем авторизацию пользователя */
-            $AppCache = $cache->init('Authority');
-            $AppCache->delete($authority);
-        }
 
         $security->logout(false);
 
