@@ -82,6 +82,7 @@ final class UserEmailAuthenticator extends AbstractAuthenticator
                 {
                     /* Получаем активный аккаунт по Email */
                     $account = $this->accountEventActiveByEmail->getAccountEvent($LoginDTO->getEmail());
+
                     if($account === null)
                     {
                         return null;
