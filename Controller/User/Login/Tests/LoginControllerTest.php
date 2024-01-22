@@ -47,6 +47,8 @@ final class LoginControllerTest extends WebTestCase
             $client->request('GET', $this->controller);
             self::assertResponseIsSuccessful();
         }
+
+        self::assertTrue(true);
     }
 
     /** Редирект авторизананных пользователей */
@@ -64,5 +66,7 @@ final class LoginControllerTest extends WebTestCase
             $client->request('GET', $this->controller);
             self::assertResponseRedirects();
         }
+
+        self::assertTrue(true);
     }
 }

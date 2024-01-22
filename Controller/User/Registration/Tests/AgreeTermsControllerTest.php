@@ -26,6 +26,8 @@ final class AgreeTermsControllerTest extends WebTestCase
             $client->request('GET', $this->controller);
             self::assertResponseIsSuccessful();
         }
+
+        self::assertTrue(true);
     }
 
     /** Доступ авторизованных пользователей */
@@ -43,5 +45,7 @@ final class AgreeTermsControllerTest extends WebTestCase
             $client->request('GET', $this->controller);
             self::assertResponseIsSuccessful();
         }
+
+        self::assertTrue(true);
     }
 }

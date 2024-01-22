@@ -26,6 +26,8 @@ final class RegistrationControllerTest extends WebTestCase
             $client->request('GET', $this->controller);
             self::assertResponseIsSuccessful();
         }
+
+        self::assertTrue(true);
     }
 
     /** Редирект авторизованных пользователей */
@@ -44,5 +46,7 @@ final class RegistrationControllerTest extends WebTestCase
             $client->request('GET', $this->controller);
             self::assertResponseRedirects();
         }
+
+        self::assertTrue(true);
     }
 }

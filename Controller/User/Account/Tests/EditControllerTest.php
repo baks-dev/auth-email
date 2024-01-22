@@ -57,8 +57,6 @@ final class EditControllerTest extends WebTestCase
         $client = static::createClient();
         $client->request('GET', self::URL);
 
-
-
         // Full authentication is required to access this resource
         self::assertResponseStatusCodeSame(401);
     }

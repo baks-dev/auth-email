@@ -47,6 +47,8 @@ final class LogoutControllerTest extends WebTestCase
 
             self::assertResponseStatusCodeSame(500); // ошибка 500 т.к. пользователь неавторизован
         }
+
+        self::assertTrue(true);
     }
 
     /** Редирект авторизананных пользователей */

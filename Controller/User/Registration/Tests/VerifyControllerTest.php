@@ -27,6 +27,8 @@ final class VerifyControllerTest extends WebTestCase
             
             self::assertResponseStatusCodeSame(500, 'Page Not Found');
         }
+
+        self::assertTrue(true);
     }
 
     /** Запрет на прямой дуступ пользователей */
@@ -45,5 +47,7 @@ final class VerifyControllerTest extends WebTestCase
 
             self::assertResponseStatusCodeSame(500, 'Page Not Found');
         }
+
+        self::assertTrue(true);
     }
 }

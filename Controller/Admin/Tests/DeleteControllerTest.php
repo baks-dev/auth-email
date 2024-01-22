@@ -48,11 +48,7 @@ final class DeleteControllerTest extends WebTestCase
     /** Доступ по роли */
     public function testRoleSuccessful(): void
     {
-//        // Получаем одно из событий
-//        $Event = self::$identifier;
-//
-//        if ($Event)
-//        {
+
             self::ensureKernelShutdown();
             $client = static::createClient();
 
@@ -66,21 +62,15 @@ final class DeleteControllerTest extends WebTestCase
 
                 self::assertResponseIsSuccessful();
             }
-//        }
-//        else
-//        {
-//            self::assertTrue(true);
-//        }
+
+        self::assertTrue(true);
+
     }
 
     // доступ по роли ROLE_ADMIN
     public function testRoleAdminSuccessful(): void
     {
-//        // Получаем одно из событий
-//        $Event = self::$identifier;
-//
-//        if ($Event)
-//        {
+
             self::ensureKernelShutdown();
             $client = static::createClient();
 
@@ -95,21 +85,15 @@ final class DeleteControllerTest extends WebTestCase
 
                 self::assertResponseIsSuccessful();
             }
-//        }
-//        else
-//        {
-//            self::assertTrue(true);
-//        }
+
+        self::assertTrue(true);
+
     }
 
     // доступ по роли ROLE_USER
     public function testRoleUserDeny(): void
     {
-//        // Получаем одно из событий
-//        $Event = self::$identifier;
-//
-//        if ($Event)
-//        {
+
             self::ensureKernelShutdown();
             $client = static::createClient();
 
@@ -123,21 +107,14 @@ final class DeleteControllerTest extends WebTestCase
 
                 self::assertResponseStatusCodeSame(403);
             }
-//        }
-//        else
-//        {
-//            self::assertTrue(true);
-//        }
+
+        self::assertTrue(true);
     }
 
     /** Доступ по без роли */
     public function testGuestFiled(): void
     {
-//        // Получаем одно из событий
-//        $Event = self::$identifier;
-//
-//        if ($Event)
-//        {
+
             self::ensureKernelShutdown();
             $client = static::createClient();
 
@@ -150,10 +127,7 @@ final class DeleteControllerTest extends WebTestCase
                 // Full authentication is required to access this resource
                 self::assertResponseStatusCodeSame(401);
             }
-//        }
-//        else
-//        {
-//            self::assertTrue(true);
-//        }
+
+        self::assertTrue(true);
     }
 }

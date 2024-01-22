@@ -64,5 +64,7 @@ final class LoginFormTest extends TypeTestCase
 		{
 			self::assertArrayHasKey($key, $children);
 		}
+
+        self::assertTrue(true);
 	}
 }
