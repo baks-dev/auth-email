@@ -95,5 +95,7 @@ final class AccountEditTest extends KernelTestCase
         $handle = $AccountHandler->handle($AccountDTO);
         self::assertTrue(($handle instanceof Account), $handle.': Ошибка Account');
 
+        $em->clear();
+        //$em->close();
     }
 }

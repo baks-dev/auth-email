@@ -117,6 +117,9 @@ final class AccountDeleteTest extends KernelTestCase
 
         self::assertNull($Account);
 
+        $em->clear();
+        //$em->close();
+
     }
 
     /**
@@ -156,5 +159,7 @@ final class AccountDeleteTest extends KernelTestCase
             ->executeQuery()
         ;
 
+        $em->clear();
+        //$em->close();
     }
 }

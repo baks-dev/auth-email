@@ -53,8 +53,6 @@ final class AccountNewTest extends KernelTestCase
         /** @var EntityManagerInterface $em */
         $em = self::getContainer()->get(EntityManagerInterface::class);
 
-
-
         $AccountEventCollection = $em->getRepository(AccountEvent::class)
             ->findBy(['account' => UserUid::TEST]);
 
@@ -83,6 +81,7 @@ final class AccountNewTest extends KernelTestCase
             ->setParameter('account', UserUid::TEST)
             ->executeQuery()
         ;
+
 
     }
 
@@ -128,5 +127,8 @@ final class AccountNewTest extends KernelTestCase
         $em = $container->get(EntityManagerInterface::class);
         $Account = $em->getRepository(Account::class)->find(UserUid::TEST);
         self::assertNotNull($Account);
+
+        $em->clear();
+        //$em->close();
     }
 }
