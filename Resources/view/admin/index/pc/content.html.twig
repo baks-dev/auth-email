@@ -20,7 +20,7 @@
 			{% if is_granted(ROLE~'_NEW') or is_granted('ROLE_ADMIN') %}
 				<a href="{{ path('auth-email:admin.newedit.new') }}"
 						class="btn btn-primary fw-bolder"
-						title='Добавить сопсоб оплаты'>
+						title='Добавить способ оплаты'>
 					{{ 'btn.new'|trans({}, 'core.btn') }}
 				</a>
 			{% endif %}
