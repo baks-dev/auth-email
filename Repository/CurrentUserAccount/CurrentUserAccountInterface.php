@@ -34,6 +34,6 @@ interface CurrentUserAccountInterface
 	 * account_event - ID события; <br>
 	 * account_email - Email пользователя; <br>
 	 */
-	public function fetchAccountAssociative(UserUid $usr) : ?array;
+	public function fetchAccountAssociative(UserUid $usr) : bool|array;
 	
 }

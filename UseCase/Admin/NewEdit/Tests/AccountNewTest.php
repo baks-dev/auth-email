@@ -68,19 +68,17 @@ final class AccountNewTest extends KernelTestCase
 
         $qb = $dbal->createQueryBuilder(self::class);
         $qb
-            ->delete(User::TABLE, 'usr')
-            ->where('usr.usr = :usr')
+            ->delete(User::TABLE)
+            ->where('usr = :usr')
             ->setParameter('usr', UserUid::TEST)
-            ->executeQuery()
-        ;
+            ->executeQuery();
 
         $qb = $dbal->createQueryBuilder(self::class);
         $qb
-            ->delete(Account::TABLE, 'account')
-            ->where('account.id = :account')
+            ->delete(Account::TABLE)
+            ->where('id = :account')
             ->setParameter('account', UserUid::TEST)
-            ->executeQuery()
-        ;
+            ->executeQuery();
 
 
     }
@@ -129,6 +127,5 @@ final class AccountNewTest extends KernelTestCase
         self::assertNotNull($Account);
 
         $em->clear();
-        //$em->close();
     }
 }

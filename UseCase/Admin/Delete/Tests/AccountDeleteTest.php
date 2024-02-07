@@ -56,7 +56,7 @@ use Symfony\Component\DependencyInjection\Attribute\When;
  *
  * @see     AdminEditController
  * @see     UserEditController
- * @see AccountEditTest
+ * @see     AccountEditTest
  */
 #[When(env: 'test')]
 final class AccountDeleteTest extends KernelTestCase
@@ -77,8 +77,6 @@ final class AccountDeleteTest extends KernelTestCase
         self::assertNotNull($AccountEvent);
 
 
-
-
         /** @var AccountDTO $AccountDTO */
         $AccountDTO = $AccountEvent->getDto(AccountDTO::class);
 
@@ -90,9 +88,6 @@ final class AccountDeleteTest extends KernelTestCase
         self::assertEquals(EmailStatusActive::STATUS, $StatusDTO->getStatus()->getEmailStatusValue());
 
 
-
-
-
         /** @var AccountDeleteDTO $AccountDeleteDTO */
         $AccountDeleteDTO = $AccountEvent->getDto(AccountDeleteDTO::class);
 
@@ -100,8 +95,6 @@ final class AccountDeleteTest extends KernelTestCase
         self::assertTrue($AccountEmail->isEqual($AccountEmail));
         $StatusDTO = $AccountDeleteDTO->getStatus();
         self::assertEquals(EmailStatusBlock::STATUS, $StatusDTO->getStatus()->getEmailStatusValue());
-
-
 
 
         /** DELETE */
@@ -145,19 +138,17 @@ final class AccountDeleteTest extends KernelTestCase
 
         $qb = $dbal->createQueryBuilder(self::class);
         $qb
-            ->delete(User::TABLE, 'usr')
-            ->where('usr.usr = :usr')
+            ->delete(User::TABLE)
+            ->where('usr = :usr')
             ->setParameter('usr', UserUid::TEST)
-            ->executeQuery()
-        ;
+            ->executeQuery();
 
         $qb = $dbal->createQueryBuilder(self::class);
         $qb
-            ->delete(Account::TABLE, 'account')
-            ->where('account.id = :account')
+            ->delete(Account::TABLE)
+            ->where('id = :account')
             ->setParameter('account', UserUid::TEST)
-            ->executeQuery()
-        ;
+            ->executeQuery();
 
         $em->clear();
         //$em->close();

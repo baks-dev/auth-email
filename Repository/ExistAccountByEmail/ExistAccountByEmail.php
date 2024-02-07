@@ -37,6 +37,8 @@ final class ExistAccountByEmail implements ExistAccountByEmailInterface
                 ->setParameter('account', $userUid, UserUid::TYPE);
         }
 
+
+
         return $qb->fetchExist();
     }
 }
