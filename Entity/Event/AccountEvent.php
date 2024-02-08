@@ -35,7 +35,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /* События изменений Аккаунта */
 
-
 #[ORM\Entity]
 #[ORM\Table(name: 'users_account_event')]
 #[ORM\Index(columns: ['account'])]
