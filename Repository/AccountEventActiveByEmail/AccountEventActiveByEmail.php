@@ -19,7 +19,6 @@ final class AccountEventActiveByEmail implements AccountEventActiveByEmailInterf
         $this->ORMQueryBuilder = $ORMQueryBuilder;
     }
 
-
     /**
      * Возвращает активное событие аккаунта по e-mail
      */
