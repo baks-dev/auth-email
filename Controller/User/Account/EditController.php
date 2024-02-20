@@ -50,15 +50,11 @@ final class EditController extends AbstractController
         Security $security,
     ) : Response
     {
+
         $Event = $userAccountEvent->getAccountEventByUser($this->getUsr()?->getId());
-
-        if (!$Event)
-        {
-            throw new RouteNotFoundException('Page Not Found');
-        }
-
         $account = new AccountDTO();
-        $Event->getDto($account);
+        $Event ? $Event->getDto($account) : $account->setUsr($this->getUsr()?->getId());
+
 
         /* Форма добавления */
         $form = $this->createForm(AccountForm::class, $account);

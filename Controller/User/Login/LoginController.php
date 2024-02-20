@@ -36,25 +36,23 @@ final class LoginController extends AbstractController
 		AuthenticationUtils $authenticationUtils,
 	) : Response
 	{
-		
+
 		if($this->getUsr())
 		{
 			/* Редирект на главную страницу */
 			return $this->redirectToRoute('core:user.homepage');
 		}
-		
+
 		$LoginDTO = new LoginDTO();
 		$form = $this->createForm(
 			LoginForm::class,
 			$LoginDTO,
 			['action' => $this->generateUrl('auth-email:user.login'),]
 		);
-		
-	
-		
+
 		return $this->render([
 			'form' => $form->createView(),
 		]);
 	}
-	
+
 }

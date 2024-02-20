@@ -60,7 +60,7 @@ final class AccountForm extends AbstractType
 
             $form->add('passwordPlain', RepeatedType::class, [
                 'type' => PasswordType::class,
-                'required' => !$data->getEvent(),
+                'required' => ($data->getEvent() === null),
             ]);
         });
 

@@ -21,12 +21,18 @@ namespace BaksDev\Auth\Email\UseCase\User\Edit\Status;
 
 use BaksDev\Auth\Email\Entity\Status\AccountStatusInterface;
 use BaksDev\Auth\Email\Type\EmailStatus\EmailStatus;
+use BaksDev\Auth\Email\Type\EmailStatus\Status\EmailStatusNew;
 use Symfony\Component\Validator\Constraints as Assert;
 
 final class StatusDTO implements AccountStatusInterface
 {
     #[Assert\NotBlank]
     private EmailStatus $status;
+
+
+    public function __construct() {
+        $this->status = new EmailStatus(EmailStatusNew::class);
+    }
 
     public function getStatus() : EmailStatus
     {

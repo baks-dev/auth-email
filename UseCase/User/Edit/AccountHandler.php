@@ -32,46 +32,164 @@ use BaksDev\Auth\Email\Repository\ExistAccountByEmail\ExistAccountByEmailInterfa
 use BaksDev\Auth\Email\Type\EmailStatus\EmailStatus;
 use BaksDev\Auth\Email\Type\EmailStatus\Status\EmailStatusActive;
 use BaksDev\Auth\Email\Type\EmailStatus\Status\EmailStatusNew;
+use BaksDev\Core\Entity\AbstractHandler;
 use BaksDev\Core\Messenger\MessageDispatchInterface;
+use BaksDev\Core\Validator\ValidatorCollectionInterface;
+use BaksDev\Files\Resources\Upload\File\FileUploadInterface;
+use BaksDev\Files\Resources\Upload\Image\ImageUploadInterface;
 use BaksDev\Users\User\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
+use DomainException;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-final class AccountHandler
+final class AccountHandler extends AbstractHandler
 {
-    private EntityManagerInterface $entityManager;
-
-    private ValidatorInterface $validator;
-
-    private LoggerInterface $logger;
-
-    private MessageDispatchInterface $messageDispatch;
-
-    private UserPasswordHasherInterface $userPasswordHasher;
+//    private EntityManagerInterface $entityManager;
+//
+//    private ValidatorInterface $validator;
+//
+//    private LoggerInterface $logger;
+//
+//    private MessageDispatchInterface $messageDispatch;
+//
+//    private UserPasswordHasherInterface $userPasswordHasher;
+//
+//    private ExistAccountByEmailInterface $existAccountByEmail;
+//
+//    public function __construct(
+//        UserPasswordHasherInterface $userPasswordHasher,
+//        ExistAccountByEmailInterface $existAccountByEmail,
+//        EntityManagerInterface $entityManager,
+//        ValidatorInterface $validator,
+//        LoggerInterface $logger,
+//        MessageDispatchInterface $messageDispatch,
+//    )
+//    {
+//
+//
+//        $this->entityManager = $entityManager;
+//        $this->validator = $validator;
+//        $this->logger = $logger;
+//        $this->messageDispatch = $messageDispatch;
+//        $this->userPasswordHasher = $userPasswordHasher;
+//        $this->existAccountByEmail = $existAccountByEmail;
+//    }
 
     private ExistAccountByEmailInterface $existAccountByEmail;
+    private UserPasswordHasherInterface $userPasswordHasher;
+    private LoggerInterface $logger;
 
     public function __construct(
-        UserPasswordHasherInterface $userPasswordHasher,
-        ExistAccountByEmailInterface $existAccountByEmail,
         EntityManagerInterface $entityManager,
-        ValidatorInterface $validator,
-        LoggerInterface $logger,
         MessageDispatchInterface $messageDispatch,
+        ValidatorCollectionInterface $validatorCollection,
+        ImageUploadInterface $imageUpload,
+        FileUploadInterface $fileUpload,
+
+
+        ExistAccountByEmailInterface $existAccountByEmail,
+        UserPasswordHasherInterface $userPasswordHasher,
+        LoggerInterface $authEmailLogger
+
     )
     {
-        $this->entityManager = $entityManager;
-        $this->validator = $validator;
-        $this->logger = $logger;
-        $this->messageDispatch = $messageDispatch;
-        $this->userPasswordHasher = $userPasswordHasher;
+        parent::__construct($entityManager, $messageDispatch, $validatorCollection, $imageUpload, $fileUpload);
+
         $this->existAccountByEmail = $existAccountByEmail;
+        $this->userPasswordHasher = $userPasswordHasher;
+        $this->logger = $authEmailLogger;
     }
+
 
     /** @see Account */
     public function handle(
+        AccountDTO $command
+    ): string|Account
+    {
+
+        /** Валидация DTO  */
+        $this->validatorCollection->add($command);
+
+        $this->main = new Account($command->getUsr());
+        $this->event = new AccountEvent();
+
+
+        /**
+         * Если было изменение пароля
+         */
+        if(!empty($command->getPasswordPlain()))
+        {
+            $passwordNash = $this->userPasswordHasher->hashPassword(
+                $this->event,
+                $command->getPasswordPlain()
+            );
+
+            /* Присваиваем новый пароль */
+            $command->setPasswordHash($passwordNash);
+        }
+
+
+        try
+        {
+            $command->getEvent() ? $this->preUpdate($command, true) : $this->prePersist($command);
+        }
+        catch(DomainException $errorUniqid)
+        {
+            return $errorUniqid->getMessage();
+        }
+
+
+        /**
+         * Проверяем, имеется ли другой пользователь c таким Email.
+         */
+        $existAccount = $this->existAccountByEmail->isExistsEmail($command->getEmail(), $this->event->getAccount());
+
+        if($existAccount)
+        {
+            $uniqid = uniqid('', false);
+            $this->logger->error(
+                $uniqid.': '.sprintf(
+                    'Пользователь с email %s уже имеется',
+                    $command->getEmail()
+                )
+            );
+
+            return $uniqid;
+        }
+
+
+        /**
+         * Если Email был изменен - присваиваем статус NEW для подтверждения
+         */
+        if(!$command->getEmail()->isEqual($this->event->getEmail()))
+        {
+            $Status = $command->getStatus();
+            $Status->setStatus(new EmailStatus(EmailStatusNew::class));
+        }
+
+
+        /** Валидация всех объектов */
+        if($this->validatorCollection->isInvalid())
+        {
+            return $this->validatorCollection->getErrorUniqid();
+        }
+
+        $this->entityManager->flush();
+
+        /* Отправляем сообщение в шину */
+        $this->messageDispatch->dispatch(
+            message: new AccountMessage($this->main->getId(), $this->main->getEvent(), $command->getEvent()),
+            transport: 'account'
+        );
+
+        return $this->main;
+
+    }
+
+    /** @see Account */
+    public function OLDhandle(
         AccountDTO $command,
         //?UploadedFile $cover = null
     ): string|Account
@@ -124,46 +242,46 @@ final class AccountHandler
 
 
 
-        /**
-         * Проверяем, имеется ли другой пользователь c таким Email.
-         */
-        $existAccount = $this->existAccountByEmail->isExistsEmail($command->getEmail(), $Event->getAccount());
+//        /**
+//         * Проверяем, имеется ли другой пользователь c таким Email.
+//         */
+//        $existAccount = $this->existAccountByEmail->isExistsEmail($command->getEmail(), $Event->getAccount());
+//
+//        if($existAccount)
+//        {
+//            $uniqid = uniqid('', false);
+//            $this->logger->error(
+//                $uniqid.': '.sprintf(
+//                    'Пользователь с email %s уже имеется',
+//                    $command->getEmail()
+//                )
+//            );
+//
+//            return $uniqid;
+//        }
 
-        if($existAccount)
-        {
-            $uniqid = uniqid('', false);
-            $this->logger->error(
-                $uniqid.': '.sprintf(
-                    'Пользователь с email %s уже имеется',
-                    $command->getEmail()
-                )
-            );
+//        /*
+//         * Если Email был изменен - присваиваем статус NEW для подтверждения
+//         */
+//        if(!$command->getEmail()->isEqual($Event->getEmail()))
+//        {
+//            $Status = $command->getStatus();
+//            $Status->setStatus(new EmailStatus(EmailStatusNew::class));
+//        }
 
-            return $uniqid;
-        }
-
-        /*
-         * Если Email был изменен - присваиваем статус NEW для подтверждения
-         */
-        if(!$command->getEmail()->isEqual($Event->getEmail()))
-        {
-            $Status = $command->getStatus();
-            $Status->setStatus(new EmailStatus(EmailStatusNew::class));
-        }
-
-        /**
-         * Если было изменение пароля
-         */
-        if(!empty($command->getPasswordPlain()))
-        {
-            $passwordNash = $this->userPasswordHasher->hashPassword(
-                $Event,
-                $command->getPasswordPlain()
-            );
-
-            /* Присваиваем новый пароль */
-            $command->setPasswordHash($passwordNash);
-        }
+//        /**
+//         * Если было изменение пароля
+//         */
+//        if(!empty($command->getPasswordPlain()))
+//        {
+//            $passwordNash = $this->userPasswordHasher->hashPassword(
+//                $Event,
+//                $command->getPasswordPlain()
+//            );
+//
+//            /* Присваиваем новый пароль */
+//            $command->setPasswordHash($passwordNash);
+//        }
 
         /* @var Account $Account */
         if($Event->getAccount())

@@ -36,6 +36,7 @@ final class UserEmailAuthenticator extends AbstractAuthenticator
     private UserPasswordHasherInterface $passwordHasher;
 
     private GetUserByIdInterface $userById;
+
     private AppCacheInterface $cache;
 
 

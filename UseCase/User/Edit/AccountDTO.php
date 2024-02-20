@@ -22,6 +22,7 @@ use BaksDev\Auth\Email\Entity\Event\AccountEvent;
 use BaksDev\Auth\Email\Entity\Event\AccountEventInterface;
 use BaksDev\Auth\Email\Type\Email\AccountEmail;
 use BaksDev\Auth\Email\Type\Event\AccountEventUid;
+use BaksDev\Users\User\Type\Id\UserUid;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
@@ -43,25 +44,30 @@ final class AccountDTO implements AccountEventInterface
     )]
     private ?string $passwordPlain = null;
 
-//    #[Assert\Valid]
-//    private Status\StatusDTO $status;
-
     /* Если пользователь не меняет пароль - сохраняем предыдущий */
 
     private ?string $password = null;
 
-//    public function __construct()
-//    {
-//        $this->status = new Status\StatusDTO();
-//    }
+
+    private ?UserUid $usr = null;
 
 
-    public function setId(?AccountEventUid $id) : void
+    #[Assert\Valid]
+    private Status\StatusDTO $status;
+
+
+    public function __construct()
+    {
+        $this->status = new Status\StatusDTO();
+    }
+
+
+    public function setId(?AccountEventUid $id): void
     {
         $this->id = $id;
     }
 
-    public function getEvent() : ?AccountEventUid
+    public function getEvent(): ?AccountEventUid
     {
         return $this->id;
     }
@@ -69,64 +75,79 @@ final class AccountDTO implements AccountEventInterface
     /* Email */
 
 
-    public function getEmail() : AccountEmail
+    public function getEmail(): AccountEmail
     {
         return $this->email;
     }
 
 
-    public function setEmail(AccountEmail $email) : void
+    public function setEmail(AccountEmail $email): void
     {
         $this->email = $email;
     }
 
     /* Статус */
 
-    public function getStatus() : Status\StatusDTO
+    public function getStatus(): Status\StatusDTO
     {
         return $this->status;
     }
 
-    public function setStatus(Status\StatusDTO $status) : void
+    public function setStatus(Status\StatusDTO $status): void
     {
         $this->status = $status;
     }
 
     /* Пароль */
 
-    public function getPasswordPlain() : ?string
+    public function getPasswordPlain(): ?string
     {
         return $this->passwordPlain;
     }
 
-    public function setPasswordPlain(?string $passwordPlain) : void
+    public function setPasswordPlain(?string $passwordPlain): void
     {
         $this->passwordPlain = $passwordPlain;
     }
 
-    public function getPassword() : ?string
+    public function getPassword(): ?string
     {
         return $this->password;
     }
 
-    public function setPassword(?string $password) : void
+    public function setPassword(?string $password): void
     {
         $this->password = $password;
     }
 
-    public function setPasswordHash(string $password) : void
+    public function setPasswordHash(string $password): void
     {
         $this->password = $password;
     }
 
     #[Assert\Callback]
-    public function validatePassword(ExecutionContextInterface $context, $payload) : void
+    public function validatePassword(ExecutionContextInterface $context, $payload): void
     {
-        if (empty($this->passwordPlain) && empty($this->password))
+        if(empty($this->passwordPlain) && empty($this->password))
         {
             $context->buildViolation('assert.password.empty')
-              ->atPath('passwordPlain')
-              ->addViolation();
+                ->atPath('passwordPlain')
+                ->addViolation();
         }
     }
+
+    /**
+     * Usr
+     */
+    public function getUsr(): ?UserUid
+    {
+        return $this->usr;
+    }
+
+    public function setUsr(UserUid $usr): self
+    {
+        $this->usr = $usr;
+        return $this;
+    }
+
 }

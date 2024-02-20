@@ -20,6 +20,8 @@
                 </div>
             </div>
 
+
+
             <div class="card-body text-start pb-0">
 
                 <div class="input-group mb-3">
@@ -59,7 +61,11 @@
 
                 {% for password in form.passwordPlain %}
 
-                    {% set label_pass = 'user.form.password.label.'~password.vars.name %}
+                    {% if form.vars.data.getEvent() %}
+                        {% set label_pass = 'user.form.password.label.'~password.vars.name %}
+                    {% else %}
+                        {% set label_pass = 'user.form.password.new.'~password.vars.name %}
+                    {% endif %}
 
                     <div class="mb-2" data-password-meter="true">
 
