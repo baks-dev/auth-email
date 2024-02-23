@@ -53,10 +53,8 @@
             {% if constant('BaksDev\\Auth\\Telegram\\Type\\Event\\AccountTelegramEventUid::TYPE') is defined %}
 
                 <div class="mt-3">
-                    <a href="{{ path('auth-telegram:user.auth') }}" class="btn btn-link btn-sm"
-                       {#data-bs-toggle="modal"
-                       data-bs-target="#modal"#}
-                      {# style="width: 5px;"#}
+                    <a href="{{ path('auth-telegram:user.auth') }}"
+                       class="btn btn-link btn-sm modal-link"
                        title="Авторизация Telegram"
                     >
                         <span class="icon rounded-2 mb-2 ">
