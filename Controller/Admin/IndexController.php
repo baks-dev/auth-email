@@ -56,22 +56,4 @@ final class IndexController extends AbstractController
 			]
 		);
 	}
-
-    public function __invoke()
-    {
-        // TODO: Implement __invoke() method.
-    }
-
-    //    #[Route('/default/style', name: 'admin.user.account.index.css', methods: ['GET'], format: "css")]
-	//    public function css() : Response
-	//    {
-	//        return $this->assets();
-	//    }
-	
-	//    #[Route('/default/app', name: 'admin.user.account.index.js', methods: ['GET'], format: "js")]
-	//    public function js() : Response
-	//    {
-	//        return $this->assets();
-	//    }
-	
 }
