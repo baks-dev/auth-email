@@ -30,12 +30,14 @@ use BaksDev\Auth\Email\UseCase\User\Edit\AccountForm;
 use BaksDev\Auth\Email\UseCase\User\Edit\AccountHandler;
 use BaksDev\Core\Controller\AbstractController;
 use BaksDev\Core\Listeners\Event\Security\RoleSecurity;
+use BaksDev\Users\User\Entity\User;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Exception\RouteNotFoundException;
+use Symfony\Component\Security\Core\Authentication\Token\SwitchUserToken;
 
 #[AsController]
 #[RoleSecurity('ROLE_USER')]
@@ -51,10 +53,16 @@ final class EditController extends AbstractController
     ) : Response
     {
 
-        $Event = $userAccountEvent->getAccountEventByUser($this->getUsr()?->getId());
-        $account = new AccountDTO();
-        $Event ? $Event->getDto($account) : $account->setUsr($this->getUsr()?->getId());
+        /* Показываем только собственные профили пользователя */
+        $token = $security->getToken();
 
+        /** @var User $usr */
+        $usr = $token instanceof SwitchUserToken ? $token->getOriginalToken()->getUser() : $security->getUser();
+
+
+        $Event = $userAccountEvent->getAccountEventByUser($usr->getId());
+        $account = new AccountDTO();
+        $Event ? $Event->getDto($account) : $account->setUsr($usr->getId());
 
         /* Форма добавления */
         $form = $this->createForm(AccountForm::class, $account);
