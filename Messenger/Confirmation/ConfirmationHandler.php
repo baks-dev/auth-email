@@ -2,6 +2,7 @@
 
 namespace BaksDev\Auth\Email\Messenger\Confirmation;
 
+use App\Kernel;
 use BaksDev\Auth\Email\Repository\UserNew\UserNewInterface;
 use BaksDev\Auth\Email\Services\EmailVerify\VerifyEmailInterface;
 use BaksDev\Auth\Email\Type\Email\AccountEmail;
@@ -46,7 +47,10 @@ final class ConfirmationHandler
     /** Если пользователь новый - отправляем на указанный Email ссылку для подтверждения */
     public function __invoke(ConfirmationAccountMessage $command): bool
     {
-        return true;
+        if(Kernel::isTestEnvironment())
+        {
+            return false;
+        }
 
         // Получаем UserUid пользователя для верификации по событию со статусом NEW
         $UserUid = $this->userVerify->getNewUserByAccountEvent($command->getEvent());

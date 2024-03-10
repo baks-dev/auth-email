@@ -1,10 +1,22 @@
+# bash
+
+# systemctl daemon-reload
+
+# systemctl enable baks-auth-email@1.service
+# systemctl disable baks-auth-email@1.service
+
+# systemctl start baks-auth-email@1.service
+# systemctl restart baks-auth-email@1.service
+# systemctl stop baks-auth-email@1.service
+
+
 [Unit]
 Description=Symfony messenger auth-email %i
 StartLimitBurst=5
 StartLimitIntervalSec=0
 
 [Service]
-ExecStart=php /.....path..../bin/console messenger:consume auth-email --memory-limit=128m --time-limit=3600 --limit=100
+ExecStart=php /.....PATH_TO_PROJECT..../bin/console messenger:consume auth-email --memory-limit=128m --time-limit=3600 --limit=100
 Restart=always
 
 User=unit

@@ -2,6 +2,7 @@
 
 namespace BaksDev\Auth\Email\Messenger\Restore;
 
+use App\Kernel;
 use BaksDev\Auth\Email\Repository\UserAccountEvent\UserAccountEventInterface;
 use BaksDev\Auth\Email\Security\UrlTokenGenerator;
 use BaksDev\Auth\Email\Type\Email\AccountEmail;
@@ -70,6 +71,10 @@ final class RestoreHandler
 
     public function __invoke(RestoreAccountMessage $command): void
     {
+        if(Kernel::isTestEnvironment())
+        {
+            return;
+        }
 
         $AppCache = $this->cache->init('auth-email', 300);
         $cacheItem = $AppCache->getItem('restore.'.$command->getEmail());
