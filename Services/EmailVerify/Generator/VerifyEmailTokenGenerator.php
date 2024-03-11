@@ -22,15 +22,16 @@ namespace BaksDev\Auth\Email\Services\EmailVerify\Generator;
 
 use BaksDev\Auth\Email\Type\Email\AccountEmail;
 use BaksDev\Users\User\Type\Id\UserUid;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
 class VerifyEmailTokenGenerator
 {
     /**
-     * Уникальная, случайная, криптографически безопасная строка
+     * Общий секретный ключ, используемый для создания варианта HMAC дайджеста сообщения.
      */
     private ?string $signingKey;
 
-    public function __construct(string $key = null)
+    public function __construct(#[Autowire(env: 'APP_SECRET')] string $key)
     {
         $this->signingKey = $key;
     }

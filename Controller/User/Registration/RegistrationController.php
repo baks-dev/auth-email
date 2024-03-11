@@ -47,7 +47,12 @@ final class RegistrationController extends AbstractController
 
             if (!$Account instanceof Account) {
                 // Ошибка при регистрации
-                $this->addFlash('danger', 'user.danger.reg', 'user.reg');
+                $this->addFlash(
+                    'danger',
+                    'user.danger.reg',
+                    'user.reg',
+                    $Account
+                );
 
                 return $this->redirectToReferer();
             }
