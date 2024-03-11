@@ -16,7 +16,7 @@
 
 {% block javascript %}
 
-<script async data-src='/assets/js/password.meter.js?v={{ version }}' class='lazy'></script>
-<script async data-src='/assets/auth_email/newedit.min.js?v={{ version }}' class='lazy'></script>
+<script nonce='{{ csp_nonce() }}' async  data-src='/assets/js/password.meter.js?v={{ version }}' class='lazy'></script>
+<script nonce='{{ csp_nonce() }}' async  data-src='/assets/auth_email/newedit.min.js?v={{ version }}' class='lazy'></script>
 
 {% endblock %}
