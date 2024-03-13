@@ -33,6 +33,7 @@ final class RegistrationController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid() && $form->has('registration')) {
+
             // Проверяем капчу
             //			$solution = $request->get('frc-captcha-solution');
             //			if($captcha->verify($solution) === false)
