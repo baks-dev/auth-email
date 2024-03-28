@@ -51,7 +51,8 @@ final class VerifyController extends AbstractController
         // Проверяем что пользователь не заблокирован
         if ($NewUser === null)
         {
-            throw new RouteNotFoundException('Page Not Found');
+            // Редирект на страницу авторизации
+            return $this->redirectToRoute('auth-email:user.login');
         }
 
         // Проверяем ссылку верификации
