@@ -10,7 +10,7 @@ use BaksDev\Auth\Email\Type\EmailStatus\EmailStatus;
 use BaksDev\Auth\Email\Type\EmailStatus\Status\EmailStatusActive;
 use BaksDev\Core\Doctrine\ORMQueryBuilder;
 
-final class AccountEventActiveByEmail implements AccountEventActiveByEmailInterface
+final class AccountEventActiveByEmailRepository implements AccountEventActiveByEmailInterface
 {
     private ORMQueryBuilder $ORMQueryBuilder;
 

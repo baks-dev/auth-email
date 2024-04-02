@@ -34,7 +34,7 @@ use BaksDev\Auth\Email\Type\EmailStatus\EmailStatus;
 use BaksDev\Users\User\Type\Id\UserUid;
 use Doctrine\ORM\EntityManagerInterface;
 
-final class UserAccountEvent implements UserAccountEventInterface
+final class UserAccountEventRepository implements UserAccountEventInterface
 {
     private EntityManagerInterface $entityManager;
 

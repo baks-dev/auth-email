@@ -30,7 +30,7 @@ use BaksDev\Auth\Email\Entity\Modify\AccountModify;
 use BaksDev\Core\Doctrine\DBALQueryBuilder;
 use BaksDev\Users\User\Type\Id\UserUid;
 
-final class ExistUserDevice implements ExistUserDeviceInterface
+final class ExistUserDeviceRepository implements ExistUserDeviceInterface
 {
 
     private DBALQueryBuilder $DBALQueryBuilder;

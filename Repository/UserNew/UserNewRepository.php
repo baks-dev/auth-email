@@ -10,7 +10,7 @@ use BaksDev\Auth\Email\Type\EmailStatus\EmailStatus;
 use BaksDev\Users\User\Type\Id\UserUid;
 use Doctrine\ORM\EntityManagerInterface;
 
-final class UserNew implements UserNewInterface
+final class UserNewRepository implements UserNewInterface
 {
 	private EntityManagerInterface $entityManager;
 	

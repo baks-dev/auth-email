@@ -33,7 +33,7 @@ use BaksDev\Core\Doctrine\DBALQueryBuilder;
 use BaksDev\Core\Form\Search\SearchDTO;
 use BaksDev\Core\Services\Paginator\PaginatorInterface;
 
-final class AllAccounts implements AllAccountsInterface
+final class AllAccountsRepository implements AllAccountsInterface
 {
 
     private PaginatorInterface $paginator;

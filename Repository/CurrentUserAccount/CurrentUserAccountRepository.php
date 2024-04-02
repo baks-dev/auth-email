@@ -32,7 +32,7 @@ use BaksDev\Core\Doctrine\DBALQueryBuilder;
 use BaksDev\Users\User\Entity\User;
 use BaksDev\Users\User\Type\Id\UserUid;
 
-final class CurrentUserAccount implements CurrentUserAccountInterface
+final class CurrentUserAccountRepository implements CurrentUserAccountInterface
 {
     private DBALQueryBuilder $DBALQueryBuilder;
 

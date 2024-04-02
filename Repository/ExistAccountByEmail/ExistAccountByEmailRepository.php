@@ -7,7 +7,7 @@ use BaksDev\Auth\Email\Type\Email\AccountEmail;
 use BaksDev\Core\Doctrine\DBALQueryBuilder;
 use BaksDev\Users\User\Type\Id\UserUid;
 
-final class ExistAccountByEmail implements ExistAccountByEmailInterface
+final class ExistAccountByEmailRepository implements ExistAccountByEmailInterface
 {
 
     private DBALQueryBuilder $DBALQueryBuilder;

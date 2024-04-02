@@ -12,7 +12,7 @@ use BaksDev\Auth\Email\Type\Event\AccountEventUid;
 use BaksDev\Auth\Email\Type\EmailStatus\EmailStatus;
 use Doctrine\ORM\EntityManagerInterface;
 
-final class AccountEventNotBlockByEventUid implements AccountEventNotBlockByEventUidInterface
+final class AccountEventNotBlockByEventUidRepository implements AccountEventNotBlockByEventUidInterface
 {
 	
 	private EntityManagerInterface $entityManager;

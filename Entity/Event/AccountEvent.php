@@ -78,14 +78,14 @@ class AccountEvent extends EntityEvent implements PasswordAuthenticatedUserInter
      * Статус
      */
     #[Assert\Valid]
-    #[ORM\OneToOne(mappedBy: 'event', targetEntity: AccountStatus::class, cascade: ['all'])]
+    #[ORM\OneToOne(targetEntity: AccountStatus::class, mappedBy: 'event', cascade: ['all'])]
     private AccountStatus $status;
 
     /**
      * Модификатор
      */
     #[Assert\Valid]
-    #[ORM\OneToOne(mappedBy: 'event', targetEntity: AccountModify::class, cascade: ['all'])]
+    #[ORM\OneToOne(targetEntity: AccountModify::class, mappedBy: 'event', cascade: ['all'])]
     private AccountModify $modify;
 
 

@@ -24,7 +24,7 @@
 namespace BaksDev\Auth\Email\Messenger\CheckDevice;
 
 use BaksDev\Auth\Email\Repository\CurrentUserAccount\CurrentUserAccountInterface;
-use BaksDev\Auth\Email\Repository\ExistUserDevice\ExistUserDevice;
+use BaksDev\Auth\Email\Repository\ExistUserDevice\ExistUserDeviceRepository;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler]
@@ -32,11 +32,11 @@ final class CheckDeviceHandler
 {
     private CurrentUserAccountInterface $currentUserAccount;
 
-    private ExistUserDevice $existUserDevice;
+    private ExistUserDeviceRepository $existUserDevice;
 
     public function __construct(
         CurrentUserAccountInterface $currentUserAccount,
-        ExistUserDevice $existUserDevice
+        ExistUserDeviceRepository $existUserDevice
     ) {
         $this->currentUserAccount = $currentUserAccount;
         $this->existUserDevice = $existUserDevice;
