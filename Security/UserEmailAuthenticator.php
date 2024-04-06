@@ -79,6 +79,7 @@ final class UserEmailAuthenticator extends AbstractAuthenticator
         /** Получаем паспорт */
         return new SelfValidatingPassport(
             new UserBadge($LoginDTO->getEmail(), function() use ($LoginDTO, $form) {
+
                 if($form->isSubmitted() && $form->isValid())
                 {
                     /* Получаем активный аккаунт по Email */
@@ -110,8 +111,9 @@ final class UserEmailAuthenticator extends AbstractAuthenticator
 
                 return null;
             }),
-            [
-                new CsrfTokenBadge('authenticate', ($request->get('login_form'))['_token']),
+
+            badges: [
+                new CsrfTokenBadge('authenticate', ($request->get('login_form')['_token'] ?? ''))
                 //new RememberMeBadge(),
             ]
         );
