@@ -32,7 +32,7 @@ use BaksDev\Auth\Email\Type\EmailStatus\Status\EmailStatusNew;
 use BaksDev\Auth\Email\UseCase\Admin\NewEdit\AccountDTO;
 use BaksDev\Auth\Email\UseCase\Admin\NewEdit\AccountHandler;
 use BaksDev\Core\Doctrine\DBALQueryBuilder;
-use BaksDev\Products\Category\Type\Id\ProductCategoryUid;
+use BaksDev\Products\Category\Type\Id\CategoryProductUid;
 use BaksDev\Users\User\Entity\User;
 use BaksDev\Users\User\Type\Id\UserUid;
 use Doctrine\ORM\EntityManagerInterface;
