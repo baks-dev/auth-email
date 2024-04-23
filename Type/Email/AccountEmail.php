@@ -15,11 +15,7 @@ final class AccountEmail
 	
 	public function __construct(?string $value = null)
 	{
-		//        if(empty($value) || $value === null)
-		//        {
-		//            throw new \InvalidArgumentException('You need to pass a value Email');
-		//        }
-		//
+
 		if(!empty($value) && !filter_var($value, FILTER_VALIDATE_EMAIL))
 		{
 			throw new InvalidArgumentException('Incorrect Email.');
