@@ -1,4 +1,5 @@
 ROLE_ACCOUNT_EMAIL:
+  header: 'Accounts'
   name: 'Email accounts'
   desc: 'List of Registered Email Users'
 
