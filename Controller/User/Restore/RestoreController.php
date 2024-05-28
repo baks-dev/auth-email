@@ -38,6 +38,8 @@ final class RestoreController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid() && $form->has('restore')) {
 
+            $this->refreshTokenForm($form);
+
             // Делаем отправку на Email письмо для подтверждения
             $messageDispatch->dispatch(
                 message: new RestoreAccountMessage($registrationDTO->getEmail(), new Locale($translator->getLocale())),

@@ -46,6 +46,7 @@ final class ChangeController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid() && $form->has('change'))
         {
+            $this->refreshTokenForm($form);
 
             // Сбрасываем сессию после смены пароля
             $AppCache->delete($event);

@@ -54,6 +54,8 @@ final class DeleteController extends AbstractController
 
         if($form->isSubmitted() && $form->isValid() && $form->has('account_delete'))
         {
+            $this->refreshTokenForm($form);
+
             $Account = $AccountDeleteHandler->handle($AccountDeleteDTO);
 
             if($Account instanceof Account)

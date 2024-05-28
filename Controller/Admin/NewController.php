@@ -48,6 +48,8 @@ final class NewController extends AbstractController
 
         if($form->isSubmitted() && $form->isValid() && $form->has('account'))
         {
+            $this->refreshTokenForm($form);
+
             $Account = $accountHandler->handle($account);
 
             if($Account instanceof Account)

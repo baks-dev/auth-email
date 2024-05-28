@@ -34,6 +34,8 @@ final class RegistrationController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid() && $form->has('registration')) {
 
+            $this->refreshTokenForm($form);
+
             // Проверяем капчу
             //			$solution = $request->get('frc-captcha-solution');
             //			if($captcha->verify($solution) === false)
