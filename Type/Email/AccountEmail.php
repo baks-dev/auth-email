@@ -12,7 +12,7 @@ final class AccountEmail
 
 	private $value;
 	
-	
+
 	public function __construct(?string $value = null)
 	{
 
