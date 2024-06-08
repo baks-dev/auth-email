@@ -21,20 +21,20 @@
  *  THE SOFTWARE.
  */
 
+use BaksDev\Auth\Email\BaksDevAuthEmailBundle;
 use Symfony\Component\Routing\Loader\Configurator\RoutingConfigurator;
 
-return function (RoutingConfigurator $routes) {
+return function(RoutingConfigurator $routes) {
 
-    $MODULE = substr(__DIR__, 0, strpos(__DIR__, "Resources"));
+    $PATH = BaksDevAuthEmailBundle::PATH;
 
     // Контроллер по умолчанию
     $routes->import(
-        $MODULE.'Controller',
+        $PATH.'Controller',
         'attribute',
         false,
-        $MODULE.'Controller/**/*Test.php'
+        $PATH.'Controller/**/*Test.php'
     )
         ->prefix(\BaksDev\Core\Type\Locale\Locale::routes())
-        ->namePrefix('auth-email:')
-    ;
+        ->namePrefix('auth-email:');
 };
