@@ -13,7 +13,7 @@ $ composer require baks-dev/auth-email
 
 ## Дополнительно
 
-Установка файловых ресурсов в публичную директорию (javascript, css, image ...):
+Установка конфигурации и файловых ресурсов:
 
 ``` bash
 $ php bin/console baks:assets:install
@@ -27,7 +27,7 @@ $ php bin/console doctrine:migrations:diff
 $ php bin/console doctrine:migrations:migrate
 ```
 
-Тесты
+## Тестирование
 
 ``` bash
 $ php bin/phpunit --group=auth-email
