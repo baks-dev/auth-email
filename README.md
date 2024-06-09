@@ -1,6 +1,6 @@
 # BaksDev Auth Email
 
-[![Version](https://img.shields.io/badge/version-7.1.3-blue)](https://github.com/baks-dev/auth-email/releases)
+[![Version](https://img.shields.io/badge/version-7.1.4-blue)](https://github.com/baks-dev/auth-email/releases)
 ![php 8.3+](https://img.shields.io/badge/php-min%208.3-red.svg)
 
 Модуль авторизации пользователя по E-mail
@@ -9,6 +9,9 @@
 
 ``` bash
 $ composer require baks-dev/auth-email
+$ composer require baks-dev/users-user
+$ composer require baks-dev/files-res
+$ composer require reference-gender
 ```
 
 ## Дополнительно

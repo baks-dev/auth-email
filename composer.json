@@ -21,10 +21,7 @@
     }
   ],
   "require": {
-    "php": ">=8.3",
-    "baks-dev/users-user": "^7.1",
-    "baks-dev/files-res": "^7.1",
-    "baks-dev/reference-gender": "^7.1",
+    "php": ">=8.3"
   },
   "require-dev": {
     "roave/security-advisories": "dev-latest"
