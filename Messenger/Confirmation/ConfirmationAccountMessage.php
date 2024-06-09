@@ -29,16 +29,16 @@ use BaksDev\Auth\Email\Type\Event\AccountEventUid;
 use BaksDev\Core\Type\Locale\Locale;
 use BaksDev\Users\User\Type\Id\UserUid;
 
-final class ConfirmationAccountMessage
+final readonly class ConfirmationAccountMessage
 {
     /** Идентификатор  */
-    private readonly UserUid $id;
+    private UserUid $id;
 
     /** Идентификатор события  */
-    private readonly AccountEventUid $event;
+    private AccountEventUid $event;
 
     /** Локаль  */
-    private readonly Locale $local;
+    private Locale $local;
 
 
     public function __construct(
