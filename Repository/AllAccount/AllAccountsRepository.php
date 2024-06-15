@@ -35,7 +35,6 @@ use BaksDev\Core\Services\Paginator\PaginatorInterface;
 
 final class AllAccountsRepository implements AllAccountsInterface
 {
-
     private PaginatorInterface $paginator;
 
     private DBALQueryBuilder $DBALQueryBuilder;
@@ -43,8 +42,7 @@ final class AllAccountsRepository implements AllAccountsInterface
     public function __construct(
         DBALQueryBuilder $DBALQueryBuilder,
         PaginatorInterface $paginator,
-    )
-    {
+    ) {
         $this->paginator = $paginator;
         $this->DBALQueryBuilder = $DBALQueryBuilder;
     }
@@ -54,7 +52,6 @@ final class AllAccountsRepository implements AllAccountsInterface
      */
     public function fetchAllAccountsAssociative(SearchDTO $search): PaginatorInterface
     {
-        
         $qb = $this->DBALQueryBuilder->createQueryBuilder(self::class);
 
         $qb->select('account.id');
@@ -99,10 +96,8 @@ final class AllAccountsRepository implements AllAccountsInterface
             ;
         }
 
-
         $qb->orderBy('account_status.status', 'ASC');
         $qb->addOrderBy('account_modify.mod_date', 'DESC');
-
 
         return $this->paginator->fetchAllAssociative($qb);
     }

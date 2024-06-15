@@ -18,7 +18,6 @@
 
 namespace BaksDev\Auth\Email\Controller\Admin;
 
-
 use BaksDev\Auth\Email\Entity\Account;
 use BaksDev\Auth\Email\Entity\Event\AccountEvent;
 use BaksDev\Auth\Email\UseCase\Admin\NewEdit\AccountDTO;
@@ -36,40 +35,38 @@ use Symfony\Component\Routing\Annotation\Route;
 #[RoleSecurity('ROLE_ACCOUNT_EMAIL_EDIT')]
 final class EditController extends AbstractController
 {
-	
-	#[Route('/admin/account/email/edit/{id}', name: 'admin.newedit.edit', methods: ['GET', 'POST'])]
-	public function edit(
+    #[Route('/admin/account/email/edit/{id}', name: 'admin.newedit.edit', methods: ['GET', 'POST'])]
+    public function edit(
         #[MapEntity] AccountEvent $Event,
-		Request $request,
+        Request $request,
         AccountHandler $accountHandler
-	) : Response
-	{
+    ): Response {
 
-		$account = new AccountDTO();
-		$Event->getDto($account);
-		
-		/* Форма добавления */
-		$form = $this->createForm(AccountForm::class, $account);
-		$form->handleRequest($request);
-		
-		if($form->isSubmitted() && $form->isValid() && $form->has('account'))
-		{
+        $account = new AccountDTO();
+        $Event->getDto($account);
+
+        /* Форма добавления */
+        $form = $this->createForm(AccountForm::class, $account);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid() && $form->has('account'))
+        {
             $this->refreshTokenForm($form);
 
-			$Account = $accountHandler->handle($account);
-			
-			if($Account instanceof Account)
-			{
-				$this->addFlash('success', 'admin.success.update', 'admin.account');
-				return $this->redirectToRoute('auth-email:admin.index');
-			}
+            $Account = $accountHandler->handle($account);
+
+            if($Account instanceof Account)
+            {
+                $this->addFlash('success', 'admin.success.update', 'admin.account');
+                return $this->redirectToRoute('auth-email:admin.index');
+            }
 
             $this->addFlash('danger', 'admin.danger.update', 'admin.account', $Account);
             return $this->redirectToRoute('auth-email:admin.index');
 
-		}
-		
-		return $this->render(['form' => $form->createView()]);
-	}
-	
+        }
+
+        return $this->render(['form' => $form->createView()]);
+    }
+
 }

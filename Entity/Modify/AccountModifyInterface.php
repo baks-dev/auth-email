@@ -20,5 +20,4 @@ namespace BaksDev\Auth\Email\Entity\Modify;
 
 interface AccountModifyInterface
 {
-	
 }

@@ -2,20 +2,17 @@
 
 namespace BaksDev\Auth\Email\Type\EmailStatus;
 
-
 use BaksDev\Auth\Email\Type\EmailStatus\Status\Collection\EmailStatusInterface;
 
 final class EmailStatus
 {
-	
-	public const TYPE = 'account_status';
+    public const TYPE = 'account_status';
 
-	private EmailStatusInterface $status;
-	
+    private EmailStatusInterface $status;
 
-	public function __construct(EmailStatusInterface|self|string $status)
-	{
 
+    public function __construct(EmailStatusInterface|self|string $status)
+    {
         if(is_string($status) && class_exists($status))
         {
             $instance = new $status();
@@ -46,30 +43,30 @@ final class EmailStatus
 
             if($instance->getEmailStatusValue() === $status)
             {
-                $this->status = new $declare;
+                $this->status = new $declare();
                 return;
             }
         }
 
 
-	}
+    }
 
 
-	public function __toString(): string
-	{
+    public function __toString(): string
+    {
         return $this->status->getValue();
-	}
+    }
 
 
-	public function getEmailStatus() : EmailStatusInterface
-	{
-		return $this->status;
-	}
+    public function getEmailStatus(): EmailStatusInterface
+    {
+        return $this->status;
+    }
 
-	public function getEmailStatusValue(): string
-	{
-		return $this->status->getValue();
-	}
+    public function getEmailStatusValue(): string
+    {
+        return $this->status->getValue();
+    }
 
 
     public static function cases(): array
@@ -79,7 +76,7 @@ final class EmailStatus
         foreach(self::getDeclared() as $status)
         {
             /** @var EmailStatusInterface $status */
-            $class = new $status;
+            $class = new $status();
             $case[$class::sort()] = new self($class);
         }
 
@@ -92,7 +89,7 @@ final class EmailStatus
     {
         return array_filter(
             get_declared_classes(),
-            static function($className) {
+            static function ($className) {
                 return in_array(EmailStatusInterface::class, class_implements($className), true);
             }
         );

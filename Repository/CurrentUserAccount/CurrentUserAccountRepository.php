@@ -88,7 +88,7 @@ final class CurrentUserAccountRepository implements CurrentUserAccountInterface
         );
 
         $qb->setParameter('status', new EmailStatus(EmailStatusActive::class), EmailStatus::TYPE);
-        
+
         /* Кешируем результат DBAL */
         return $qb
             ->enableCache('auth-email', 3600)

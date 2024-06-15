@@ -46,37 +46,6 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 final class AccountHandler extends AbstractHandler
 {
-//    private EntityManagerInterface $entityManager;
-//
-//    private ValidatorInterface $validator;
-//
-//    private LoggerInterface $logger;
-//
-//    private MessageDispatchInterface $messageDispatch;
-//
-//    private UserPasswordHasherInterface $userPasswordHasher;
-//
-//    private ExistAccountByEmailInterface $existAccountByEmail;
-//
-//    public function __construct(
-//        UserPasswordHasherInterface $userPasswordHasher,
-//        ExistAccountByEmailInterface $existAccountByEmail,
-//        EntityManagerInterface $entityManager,
-//        ValidatorInterface $validator,
-//        LoggerInterface $logger,
-//        MessageDispatchInterface $messageDispatch,
-//    )
-//    {
-//
-//
-//        $this->entityManager = $entityManager;
-//        $this->validator = $validator;
-//        $this->logger = $logger;
-//        $this->messageDispatch = $messageDispatch;
-//        $this->userPasswordHasher = $userPasswordHasher;
-//        $this->existAccountByEmail = $existAccountByEmail;
-//    }
-
     private ExistAccountByEmailInterface $existAccountByEmail;
     private UserPasswordHasherInterface $userPasswordHasher;
     private LoggerInterface $logger;
@@ -87,14 +56,10 @@ final class AccountHandler extends AbstractHandler
         ValidatorCollectionInterface $validatorCollection,
         ImageUploadInterface $imageUpload,
         FileUploadInterface $fileUpload,
-
-
         ExistAccountByEmailInterface $existAccountByEmail,
         UserPasswordHasherInterface $userPasswordHasher,
         LoggerInterface $authEmailLogger
-
-    )
-    {
+    ) {
         parent::__construct($entityManager, $messageDispatch, $validatorCollection, $imageUpload, $fileUpload);
 
         $this->existAccountByEmail = $existAccountByEmail;
@@ -106,8 +71,7 @@ final class AccountHandler extends AbstractHandler
     /** @see Account */
     public function handle(
         AccountDTO $command
-    ): string|Account
-    {
+    ): string|Account {
 
         /** Валидация DTO  */
         $this->validatorCollection->add($command);
@@ -134,8 +98,7 @@ final class AccountHandler extends AbstractHandler
         try
         {
             $command->getEvent() ? $this->preUpdate($command, true) : $this->prePersist($command);
-        }
-        catch(DomainException $errorUniqid)
+        } catch(DomainException $errorUniqid)
         {
             return $errorUniqid->getMessage();
         }
@@ -158,7 +121,6 @@ final class AccountHandler extends AbstractHandler
 
             return $uniqid;
         }
-
 
         /**
          * Если Email был изменен - присваиваем статус NEW для подтверждения
@@ -188,175 +150,4 @@ final class AccountHandler extends AbstractHandler
 
     }
 
-    /** @see Account */
-    public function OLDhandle(
-        AccountDTO $command,
-        //?UploadedFile $cover = null
-    ): string|Account
-    {
-        /**
-         *  Валидация AccountDTO.
-         */
-        $errors = $this->validator->validate($command);
-
-        if(count($errors) > 0)
-        {
-            /** Ошибка валидации */
-            $uniqid = uniqid('', false);
-            $this->logger->error(sprintf('%s: %s', $uniqid, $errors), [__FILE__.':'.__LINE__]);
-            return $uniqid;
-        }
-
-        if($command->getEvent())
-        {
-            $EventRepo = $this->entityManager->getRepository(AccountEvent::class)->find(
-                $command->getEvent()
-            );
-
-            if($EventRepo === null)
-            {
-                $uniqid = uniqid('', false);
-                $errorsString = sprintf(
-                    'Not found %s by id: %s',
-                    AccountEvent::class,
-                    $command->getEvent()
-                );
-                $this->logger->error($uniqid.': '.$errorsString);
-
-                return $uniqid;
-            }
-
-            $EventRepo->setEntity($command);
-            $EventRepo->setEntityManager($this->entityManager);
-            $Event = $EventRepo->cloneEntity();
-        }
-        else
-        {
-            $Event = new AccountEvent();
-            $Event->setEntity($command);
-            $this->entityManager->persist($Event);
-        }
-
-//        $this->entityManager->clear();
-//        $this->entityManager->persist($Event);
-
-
-
-//        /**
-//         * Проверяем, имеется ли другой пользователь c таким Email.
-//         */
-//        $existAccount = $this->existAccountByEmail->isExistsEmail($command->getEmail(), $Event->getAccount());
-//
-//        if($existAccount)
-//        {
-//            $uniqid = uniqid('', false);
-//            $this->logger->error(
-//                $uniqid.': '.sprintf(
-//                    'Пользователь с email %s уже имеется',
-//                    $command->getEmail()
-//                )
-//            );
-//
-//            return $uniqid;
-//        }
-
-//        /*
-//         * Если Email был изменен - присваиваем статус NEW для подтверждения
-//         */
-//        if(!$command->getEmail()->isEqual($Event->getEmail()))
-//        {
-//            $Status = $command->getStatus();
-//            $Status->setStatus(new EmailStatus(EmailStatusNew::class));
-//        }
-
-//        /**
-//         * Если было изменение пароля
-//         */
-//        if(!empty($command->getPasswordPlain()))
-//        {
-//            $passwordNash = $this->userPasswordHasher->hashPassword(
-//                $Event,
-//                $command->getPasswordPlain()
-//            );
-//
-//            /* Присваиваем новый пароль */
-//            $command->setPasswordHash($passwordNash);
-//        }
-
-        /* @var Account $Account */
-        if($Event->getAccount())
-        {
-            $Account = $this->entityManager
-                ->getRepository(Account::class)
-                ->findOneBy(['event' => $command->getEvent()]);
-
-            if(empty($Account))
-            {
-                $uniqid = uniqid('', false);
-                $errorsString = sprintf(
-                    'Not found %s by event: %s',
-                    Account::class,
-                    $command->getEvent()
-                );
-                $this->logger->error($uniqid.': '.$errorsString);
-
-                return $uniqid;
-            }
-        }
-        else
-        {
-            $usr = new User();
-            $this->entityManager->persist($usr);
-
-            $Account = new Account($usr);
-            $this->entityManager->persist($Account);
-
-            $Event->setMain($Account);
-        }
-
-        /* присваиваем событие корню */
-        $Account->setEvent($Event);
-
-
-        /**
-         * Валидация Event
-         */
-
-        $errors = $this->validator->validate($Event);
-
-        if(count($errors) > 0)
-        {
-            /** Ошибка валидации */
-            $uniqid = uniqid('', false);
-            $this->logger->error(sprintf('%s: %s', $uniqid, $errors), [__FILE__.':'.__LINE__]);
-
-            return $uniqid;
-        }
-
-
-        /**
-         * Валидация Account.
-         */
-
-        $errors = $this->validator->validate($Account);
-
-        if(count($errors) > 0)
-        {
-            /** Ошибка валидации */
-            $uniqid = uniqid('', false);
-            $this->logger->error(sprintf('%s: %s', $uniqid, $errors), [__FILE__.':'.__LINE__]);
-
-            return $uniqid;
-        }
-
-        //$this->entityManager->flush();
-
-        /* Отправляем сообщение в шину */
-        $this->messageDispatch->dispatch(
-            message: new AccountMessage($Account->getId(), $Account->getEvent(), $command->getEvent()),
-            transport: 'auth-email'
-        );
-
-        return $Account;
-    }
 }

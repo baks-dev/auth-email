@@ -56,8 +56,7 @@ class UpgradeAccountAdminCommand extends Command implements ProjectUpgradeInterf
         #[Autowire(env: 'HOST')] string $HOST,
         ExistAccountByEmailInterface $existAccountByEmail,
         AccountHandler $accountHandler,
-    )
-    {
+    ) {
         parent::__construct();
 
         $this->existAccountByEmail = $existAccountByEmail;
@@ -78,8 +77,7 @@ class UpgradeAccountAdminCommand extends Command implements ProjectUpgradeInterf
             do
             {
                 $bytes = openssl_random_pseudo_bytes(5, $innerStrong);
-            }
-            while(!$bytes || !$innerStrong);
+            } while(!$bytes || !$innerStrong);
 
             $passwordPlain = bin2hex($bytes);
 

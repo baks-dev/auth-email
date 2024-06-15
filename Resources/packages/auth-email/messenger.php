@@ -26,8 +26,8 @@ return static function (FrameworkConfig $framework) {
 
     $messenger
         ->transport('auth-email')
-        ->dsn('%env(MESSENGER_TRANSPORT_DSN)%')
-        ->options(['queue_name' => 'auth-email'])
+        ->dsn('redis://%env(REDIS_PASSWORD)%@%env(REDIS_HOST)%:%env(REDIS_PORT)%?auto_setup=true')
+        ->options(['stream' => 'auth-email'])
         ->failureTransport('failed-auth-email')
         ->retryStrategy()
         ->maxRetries(3)
@@ -38,7 +38,9 @@ return static function (FrameworkConfig $framework) {
 
     ;
 
-    $messenger->transport('failed-auth-email')
+    $failure = $framework->messenger();
+
+    $failure->transport('failed-auth-email')
         ->dsn('%env(MESSENGER_TRANSPORT_DSN)%')
         ->options(['queue_name' => 'failed-auth-email'])
     ;

@@ -37,27 +37,20 @@ final class EditControllerTest extends WebTestCase
 
     private const ROLE = 'ROLE_ACCOUNT_EMAIL_EDIT';
 
-//    private static ?AccountEventUid $identifier;
-//
-//    public static function setUpBeforeClass(): void
-//    {
-//        $em = self::getContainer()->get(EntityManagerInterface::class);
-//        self::$identifier = $em->getRepository(Account::class)->findOneBy([], ['id' => 'DESC'])?->getEvent();
-//    }
 
     /** Доступ по роли */
     public function testRoleSuccessful(): void
     {
 
-            self::ensureKernelShutdown();
-            $client = static::createClient();
+        self::ensureKernelShutdown();
+        $client = static::createClient();
 
-            $usr = TestUserAccount::getModer(self::ROLE);
+        $usr = TestUserAccount::getModer(self::ROLE);
 
-            $client->loginUser($usr, 'user');
-            $client->request('GET', sprintf(self::URL, AccountEventUid::TEST));
+        $client->loginUser($usr, 'user');
+        $client->request('GET', sprintf(self::URL, AccountEventUid::TEST));
 
-            self::assertResponseIsSuccessful();
+        self::assertResponseIsSuccessful();
 
         self::assertTrue(true);
     }
@@ -66,15 +59,15 @@ final class EditControllerTest extends WebTestCase
     public function testRoleAdminSuccessful(): void
     {
 
-            self::ensureKernelShutdown();
-            $client = static::createClient();
+        self::ensureKernelShutdown();
+        $client = static::createClient();
 
-            $usr = TestUserAccount::getAdmin();
+        $usr = TestUserAccount::getAdmin();
 
-            $client->loginUser($usr, 'user');
-            $client->request('GET', sprintf(self::URL, AccountEventUid::TEST));
+        $client->loginUser($usr, 'user');
+        $client->request('GET', sprintf(self::URL, AccountEventUid::TEST));
 
-            self::assertResponseIsSuccessful();
+        self::assertResponseIsSuccessful();
 
         self::assertTrue(true);
     }
@@ -82,15 +75,14 @@ final class EditControllerTest extends WebTestCase
     // доступ по роли ROLE_USER
     public function testRoleUserDeny(): void
     {
+        self::ensureKernelShutdown();
+        $client = static::createClient();
 
-            self::ensureKernelShutdown();
-            $client = static::createClient();
+        $usr = TestUserAccount::getUsr();
+        $client->loginUser($usr, 'user');
+        $client->request('GET', sprintf(self::URL, AccountEventUid::TEST));
 
-            $usr = TestUserAccount::getUsr();
-            $client->loginUser($usr, 'user');
-            $client->request('GET', sprintf(self::URL, AccountEventUid::TEST));
-
-            self::assertResponseStatusCodeSame(403);
+        self::assertResponseStatusCodeSame(403);
 
         self::assertTrue(true);
     }
@@ -98,21 +90,11 @@ final class EditControllerTest extends WebTestCase
     /** Доступ по без роли */
     public function testGuestFiled(): void
     {
-//        // Получаем одно из событий
-//        $Event = self::$identifier;
-//
-//        if ($Event)
-//        {
-            self::ensureKernelShutdown();
-            $client = static::createClient();
-            $client->request('GET', sprintf(self::URL, AccountEventUid::TEST));
+        self::ensureKernelShutdown();
+        $client = static::createClient();
+        $client->request('GET', sprintf(self::URL, AccountEventUid::TEST));
 
-            // Full authentication is required to access this resource
-            self::assertResponseStatusCodeSame(401);
-//        }
-//        else
-//        {
-//            self::assertTrue(true);
-//        }
+        // Full authentication is required to access this resource
+        self::assertResponseStatusCodeSame(401);
     }
 }

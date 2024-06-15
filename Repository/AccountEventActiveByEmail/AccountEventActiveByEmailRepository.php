@@ -34,7 +34,8 @@ final class AccountEventActiveByEmailRepository implements AccountEventActiveByE
             ->where('event.email = :email')
             ->setParameter('email', $email, AccountEmail::TYPE);
 
-        $qb->join(Account::class,
+        $qb->join(
+            Account::class,
             'account',
             'WITH',
             'account.event = event.id'
@@ -42,6 +43,7 @@ final class AccountEventActiveByEmailRepository implements AccountEventActiveByE
 
         /* Проверка статуса ACTIVE */
         $objQueryExistStatus = $this->ORMQueryBuilder->createQueryBuilder(self::class);
+
         $objQueryExistStatus
             ->select('1')
             ->from(AccountStatus::class, 'event_status')
@@ -49,7 +51,8 @@ final class AccountEventActiveByEmailRepository implements AccountEventActiveByE
 
 
         /* Только активный пользователь */
-        $qb->setParameter('status',
+        $qb->setParameter(
+            'status',
             new EmailStatus(EmailStatusActive::class),
             EmailStatus::TYPE
         );

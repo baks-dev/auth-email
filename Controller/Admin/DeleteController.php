@@ -35,22 +35,21 @@ use Symfony\Component\Routing\Annotation\Route;
 #[RoleSecurity('ROLE_ACCOUNT_EMAIL_DELETE')]
 final class DeleteController extends AbstractController
 {
-	#[Route('/admin/account/email/delete/{id}', name: 'admin.delete', methods: ['GET','POST'])]
-	public function delete(
+    #[Route('/admin/account/email/delete/{id}', name: 'admin.delete', methods: ['GET','POST'])]
+    public function delete(
         #[MapEntity] AccountEvent $Event,
-		Request $request,
+        Request $request,
         AccountDeleteHandler $AccountDeleteHandler
-	) : Response
-	{
+    ): Response {
 
-       $AccountDeleteDTO =  new AccountDeleteDTO();
-       $Event->getDto($AccountDeleteDTO);
+        $AccountDeleteDTO =  new AccountDeleteDTO();
+        $Event->getDto($AccountDeleteDTO);
 
-		$form = $this->createForm(AccountDeleteForm::class, $AccountDeleteDTO, [
-			'action' => $this->generateUrl('auth-email:admin.delete', ['id' => $AccountDeleteDTO->getEvent()]),
-		]);
+        $form = $this->createForm(AccountDeleteForm::class, $AccountDeleteDTO, [
+            'action' => $this->generateUrl('auth-email:admin.delete', ['id' => $AccountDeleteDTO->getEvent()]),
+        ]);
 
-		$form->handleRequest($request);
+        $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid() && $form->has('account_delete'))
         {
@@ -61,7 +60,6 @@ final class DeleteController extends AbstractController
             if($Account instanceof Account)
             {
                 $this->addFlash('success', 'admin.success.delete', 'admin.account');
-
                 return $this->redirectToRoute('auth-email:admin.index');
             }
 
@@ -70,11 +68,11 @@ final class DeleteController extends AbstractController
             return $this->redirectToReferer();
 
         }
-		
-		return $this->render([
+
+        return $this->render([
             'form' => $form->createView(),
             'name' => $Event->getEmail(),
         ]);
-	}
-	
+    }
+
 }

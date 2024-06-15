@@ -37,31 +37,31 @@ final class DeleteControllerTest extends WebTestCase
 
     private const ROLE = 'ROLE_ACCOUNT_EMAIL_DELETE';
 
-//    private static ?AccountEventUid $identifier;
-//
-//    public static function setUpBeforeClass(): void
-//    {
-//        $em = self::getContainer()->get(EntityManagerInterface::class);
-//        self::$identifier = $em->getRepository(Account::class)->findOneBy([], ['id' => 'DESC'])?->getEvent();
-//    }
+    //    private static ?AccountEventUid $identifier;
+    //
+    //    public static function setUpBeforeClass(): void
+    //    {
+    //        $em = self::getContainer()->get(EntityManagerInterface::class);
+    //        self::$identifier = $em->getRepository(Account::class)->findOneBy([], ['id' => 'DESC'])?->getEvent();
+    //    }
 
     /** Доступ по роли */
     public function testRoleSuccessful(): void
     {
 
-            self::ensureKernelShutdown();
-            $client = static::createClient();
+        self::ensureKernelShutdown();
+        $client = static::createClient();
 
-            foreach (TestUserAccount::getDevice() as $device)
-            {
-                $client->setServerParameter('HTTP_USER_AGENT', $device);
-                $usr = TestUserAccount::getModer(self::ROLE);
+        foreach (TestUserAccount::getDevice() as $device)
+        {
+            $client->setServerParameter('HTTP_USER_AGENT', $device);
+            $usr = TestUserAccount::getModer(self::ROLE);
 
-                $client->loginUser($usr, 'user');
-                $client->request('GET', sprintf(self::URL, AccountEventUid::TEST));
+            $client->loginUser($usr, 'user');
+            $client->request('GET', sprintf(self::URL, AccountEventUid::TEST));
 
-                self::assertResponseIsSuccessful();
-            }
+            self::assertResponseIsSuccessful();
+        }
 
         self::assertTrue(true);
 
@@ -70,43 +70,40 @@ final class DeleteControllerTest extends WebTestCase
     // доступ по роли ROLE_ADMIN
     public function testRoleAdminSuccessful(): void
     {
+        self::ensureKernelShutdown();
+        $client = static::createClient();
 
-            self::ensureKernelShutdown();
-            $client = static::createClient();
+        foreach (TestUserAccount::getDevice() as $device)
+        {
+            $client->setServerParameter('HTTP_USER_AGENT', $device);
 
-            foreach (TestUserAccount::getDevice() as $device)
-            {
-                $client->setServerParameter('HTTP_USER_AGENT', $device);
+            $usr = TestUserAccount::getAdmin();
 
-                $usr = TestUserAccount::getAdmin();
+            $client->loginUser($usr, 'user');
+            $client->request('GET', sprintf(self::URL, AccountEventUid::TEST));
 
-                $client->loginUser($usr, 'user');
-                $client->request('GET', sprintf(self::URL, AccountEventUid::TEST));
-
-                self::assertResponseIsSuccessful();
-            }
+            self::assertResponseIsSuccessful();
+        }
 
         self::assertTrue(true);
-
     }
 
     // доступ по роли ROLE_USER
     public function testRoleUserDeny(): void
     {
+        self::ensureKernelShutdown();
+        $client = static::createClient();
 
-            self::ensureKernelShutdown();
-            $client = static::createClient();
+        foreach (TestUserAccount::getDevice() as $device)
+        {
+            $client->setServerParameter('HTTP_USER_AGENT', $device);
 
-            foreach (TestUserAccount::getDevice() as $device)
-            {
-                $client->setServerParameter('HTTP_USER_AGENT', $device);
+            $usr = TestUserAccount::getUsr();
+            $client->loginUser($usr, 'user');
+            $client->request('GET', sprintf(self::URL, AccountEventUid::TEST));
 
-                $usr = TestUserAccount::getUsr();
-                $client->loginUser($usr, 'user');
-                $client->request('GET', sprintf(self::URL, AccountEventUid::TEST));
-
-                self::assertResponseStatusCodeSame(403);
-            }
+            self::assertResponseStatusCodeSame(403);
+        }
 
         self::assertTrue(true);
     }
@@ -114,19 +111,18 @@ final class DeleteControllerTest extends WebTestCase
     /** Доступ по без роли */
     public function testGuestFiled(): void
     {
+        self::ensureKernelShutdown();
+        $client = static::createClient();
 
-            self::ensureKernelShutdown();
-            $client = static::createClient();
+        foreach (TestUserAccount::getDevice() as $device)
+        {
+            $client->setServerParameter('HTTP_USER_AGENT', $device);
 
-            foreach (TestUserAccount::getDevice() as $device)
-            {
-                $client->setServerParameter('HTTP_USER_AGENT', $device);
+            $client->request('GET', sprintf(self::URL, AccountEventUid::TEST));
 
-                $client->request('GET', sprintf(self::URL, AccountEventUid::TEST));
-
-                // Full authentication is required to access this resource
-                self::assertResponseStatusCodeSame(401);
-            }
+            // Full authentication is required to access this resource
+            self::assertResponseStatusCodeSame(401);
+        }
 
         self::assertTrue(true);
     }

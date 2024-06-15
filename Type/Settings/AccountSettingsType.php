@@ -24,27 +24,26 @@ use Doctrine\DBAL\Types\Type;
 
 final class AccountSettingsType extends Type
 {
-	
-	public function convertToDatabaseValue($value, AbstractPlatform $platform): string
-	{
-		return (string) $value;
-	}
-	
-	public function convertToPHPValue($value, AbstractPlatform $platform): ?AccountSettingsIdentifier
-	{
-		return !empty($value) ? new AccountSettingsIdentifier() : null;
-	}
-	
-	
-	public function getName(): string
-	{
-		return AccountSettingsIdentifier::TYPE;
-	}
+    public function convertToDatabaseValue($value, AbstractPlatform $platform): string
+    {
+        return (string) $value;
+    }
+
+    public function convertToPHPValue($value, AbstractPlatform $platform): ?AccountSettingsIdentifier
+    {
+        return !empty($value) ? new AccountSettingsIdentifier() : null;
+    }
+
+
+    public function getName(): string
+    {
+        return AccountSettingsIdentifier::TYPE;
+    }
 
 
     public function getSQLDeclaration(array $column, AbstractPlatform $platform): string
     {
         return $platform->getStringTypeDeclarationSQL($column);
     }
-	
+
 }

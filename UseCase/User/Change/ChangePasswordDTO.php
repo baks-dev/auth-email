@@ -24,82 +24,81 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 final class ChangePasswordDTO implements AccountEventInterface
 {
-	/** Идентификатор  */
-	#[Assert\NotBlank]
-	#[Assert\Uuid]
-	private readonly AccountEventUid $id;
-	
-	/** Дайджест Пароля */
-	#[Assert\Length(max: 4096)]
-	private readonly string $password;
-	
-	/** Сброс пароля */
-	#[Assert\NotBlank]
-	#[Assert\Length(
-		min: 8,
-		max: 4096
-	)]
-	private readonly string $passwordPlain;
-	
-	#[Assert\Valid]
-	private readonly Status\StatusDTO $status;
-	
-	
-	public function __construct(AccountEventUid $id)
-	{
-		$this->status = new Status\StatusDTO();
-		$this->id = $id;
-	}
-	
-	
-	/** Идентификатор  */
-	public function setId(AccountEventUid $id) : void
-	{
-		//$this->id = $id;
-	}
-	
-	
-	public function getEvent() : ?AccountEventUid
-	{
-		return $this->id;
-	}
-	
-	
-	/** Статус */
-	public function getStatus() : Status\StatusDTO
-	{
-		return $this->status;
-	}
-	
-	
-	/** Сброс пароля */
-	public function getPasswordPlain(): string
-	{
-		return $this->passwordPlain;
-	}
-	
-	
-	/**
-	 * @param string $passwordPlain
-	 */
-	public function setPasswordPlain(string $passwordPlain) : void
-	{
-		$this->passwordPlain = $passwordPlain;
-	}
-	
-	
-	/** Дайджест Пароля */
-	
-	public function getPassword() : ?string
-	{
-		return $this->password;
-	}
-	
-	
-	public function setPasswordHash(string $password) : void
-	{
-		$this->password = $password;
-	}
-	
-}
+    /** Идентификатор  */
+    #[Assert\NotBlank]
+    #[Assert\Uuid]
+    private readonly AccountEventUid $id;
 
+    /** Дайджест Пароля */
+    #[Assert\Length(max: 4096)]
+    private readonly string $password;
+
+    /** Сброс пароля */
+    #[Assert\NotBlank]
+    #[Assert\Length(
+        min: 8,
+        max: 4096
+    )]
+    private readonly string $passwordPlain;
+
+    #[Assert\Valid]
+    private readonly Status\StatusDTO $status;
+
+
+    public function __construct(AccountEventUid $id)
+    {
+        $this->status = new Status\StatusDTO();
+        $this->id = $id;
+    }
+
+
+    /** Идентификатор  */
+    public function setId(AccountEventUid $id): void
+    {
+        //$this->id = $id;
+    }
+
+
+    public function getEvent(): ?AccountEventUid
+    {
+        return $this->id;
+    }
+
+
+    /** Статус */
+    public function getStatus(): Status\StatusDTO
+    {
+        return $this->status;
+    }
+
+
+    /** Сброс пароля */
+    public function getPasswordPlain(): string
+    {
+        return $this->passwordPlain;
+    }
+
+
+    /**
+     * @param string $passwordPlain
+     */
+    public function setPasswordPlain(string $passwordPlain): void
+    {
+        $this->passwordPlain = $passwordPlain;
+    }
+
+
+    /** Дайджест Пароля */
+
+    public function getPassword(): ?string
+    {
+        return $this->password;
+    }
+
+
+    public function setPasswordHash(string $password): void
+    {
+        $this->password = $password;
+    }
+
+}

@@ -37,27 +37,6 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 final class AccountDeleteHandler extends AbstractHandler
 {
-//    private EntityManagerInterface $entityManager;
-//
-//    private ValidatorInterface $validator;
-//
-//    private LoggerInterface $logger;
-//
-//    private MessageDispatchInterface $messageDispatch;
-//
-//    public function __construct(
-//        EntityManagerInterface   $entityManager,
-//        ValidatorInterface       $validator,
-//        LoggerInterface          $logger,
-//        MessageDispatchInterface $messageDispatch
-//    )
-//    {
-//        $this->entityManager = $entityManager;
-//        $this->validator = $validator;
-//        $this->logger = $logger;
-//        $this->messageDispatch = $messageDispatch;
-//    }
-
     public function handle(AccountDeleteDTO $command): string|Account
     {
         /** Валидация DTO  */
@@ -69,8 +48,7 @@ final class AccountDeleteHandler extends AbstractHandler
         try
         {
             $this->preRemove($command);
-        }
-        catch(DomainException $errorUniqid)
+        } catch(DomainException $errorUniqid)
         {
             return $errorUniqid->getMessage();
         }
@@ -93,86 +71,4 @@ final class AccountDeleteHandler extends AbstractHandler
         return $this->main;
     }
 
-
-
-    /** @see Account */
-    public function OLDhandle(
-        AccountDeleteDTO $command,
-    ): string|Account
-    {
-        /**
-         *  Валидация AccountDTO.
-         */
-        $errors = $this->validator->validate($command);
-
-        if (count($errors) > 0) {
-            $uniqid = uniqid('', false);
-            $errorsString = (string)$errors;
-            $this->logger->error($uniqid . ': ' . $errorsString);
-            return $uniqid;
-        }
-
-        $EventRepo = $this->entityManager->getRepository(AccountEvent::class)->find(
-            $command->getEvent()
-        );
-
-        if ($EventRepo === null) {
-            $uniqid = uniqid('', false);
-            $errorsString = sprintf(
-                'Not found %s by id: %s',
-                AccountEvent::class,
-                $command->getEvent()
-            );
-            $this->logger->error($uniqid . ': ' . $errorsString);
-
-            return $uniqid;
-        }
-
-        $EventRepo->setEntity($command);
-        $Event = $EventRepo->cloneEntity();
-//        $this->entityManager->clear();
-//        $this->entityManager->persist($Event);
-
-
-        /**
-         * Валидация Event
-         */
-
-        $errors = $this->validator->validate($Event);
-
-        if(count($errors) > 0)
-        {
-            /** Ошибка валидации */
-            $uniqid = uniqid('', false);
-            $this->logger->error(sprintf('%s: %s', $uniqid, $errors), [__FILE__.':'.__LINE__]);
-
-            return $uniqid;
-        }
-
-
-        /* @var Account $Main */
-
-        $Main = $this->entityManager->getRepository(Account::class)->findOneBy(
-            ['event' => $command->getEvent()]
-        );
-
-        if (empty($Main)) {
-            $uniqid = uniqid('', false);
-            $errorsString = sprintf(
-                'Not found %s by event: %s',
-                Account::class,
-                $command->getEvent()
-            );
-            $this->logger->error($uniqid . ': ' . $errorsString);
-
-            return $uniqid;
-        }
-
-
-        /** Удаляем корень и сохраняем событие */
-        $this->entityManager->remove($Main);
-        $this->entityManager->flush();
-
-        return $Main;
-    }
 }

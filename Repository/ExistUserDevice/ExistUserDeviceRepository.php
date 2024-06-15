@@ -32,7 +32,6 @@ use BaksDev\Users\User\Type\Id\UserUid;
 
 final class ExistUserDeviceRepository implements ExistUserDeviceInterface
 {
-
     private DBALQueryBuilder $DBALQueryBuilder;
 
     public function __construct(DBALQueryBuilder $DBALQueryBuilder)

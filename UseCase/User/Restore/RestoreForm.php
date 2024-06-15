@@ -16,43 +16,41 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 final class RestoreForm extends AbstractType
 {
-	public function buildForm(FormBuilderInterface $builder, array $options) : void
-	{
-		/** Email */
-		$builder->add('email', EmailType::class);
-		
-		$builder->get('email')->addModelTransformer(
-			new CallbackTransformer(
-				function($email) {
-					return $email instanceof AccountEmail ? $email->getValue() : $email;
-				},
-				function($email) {
-					
-					return new AccountEmail($email);
-				}
-			)
-		);
-		
-		/** Восстановить */
-		$builder->add
-		(
-			'restore',
-			SubmitType::class,
-			['label' => 'Restore', 'label_html' => true]
-		);
-		
-	}
-	
-	
-	public function configureOptions(OptionsResolver $resolver) : void
-	{
-		$resolver->setDefaults
-		(
-			[
-				'data_class' => RestoreDTO::class,
-				'attr' => ['autocomplete' => "off"],
-			]
-		);
-	}
-	
+    public function buildForm(FormBuilderInterface $builder, array $options): void
+    {
+        /** Email */
+        $builder->add('email', EmailType::class);
+
+        $builder->get('email')->addModelTransformer(
+            new CallbackTransformer(
+                function ($email) {
+                    return $email instanceof AccountEmail ? $email->getValue() : $email;
+                },
+                function ($email) {
+
+                    return new AccountEmail($email);
+                }
+            )
+        );
+
+        /** Восстановить */
+        $builder->add(
+            'restore',
+            SubmitType::class,
+            ['label' => 'Restore', 'label_html' => true]
+        );
+
+    }
+
+
+    public function configureOptions(OptionsResolver $resolver): void
+    {
+        $resolver->setDefaults(
+            [
+                'data_class' => RestoreDTO::class,
+                'attr' => ['autocomplete' => "off"],
+            ]
+        );
+    }
+
 }

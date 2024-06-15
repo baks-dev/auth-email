@@ -16,7 +16,6 @@
  *
  */
 
-
 namespace BaksDev\Auth\Email\Services\EmailVerify\Model;
 
 use DateInterval;
@@ -51,10 +50,6 @@ final class VerifyEmailSignatureComponents
         $this->expiresAt = $expiresAt;
         $this->uri = $uri;
         $this->generatedAt = $generatedAt;
-
-//        if (null === $generatedAt) {
-//            $this->triggerDeprecation();
-//        }
     }
 
     /**
@@ -89,7 +84,8 @@ final class VerifyEmailSignatureComponents
     {
         $interval = $this->getExpiresAtIntervalInstance();
 
-        switch ($interval) {
+        switch ($interval)
+        {
             case $interval->y > 0:
                 $this->transInterval = $interval->y;
 
@@ -132,7 +128,8 @@ final class VerifyEmailSignatureComponents
      */
     public function getExpiresAtIntervalInstance(): DateInterval
     {
-        if (null === $this->generatedAt) {
+        if (null === $this->generatedAt)
+        {
             throw new LogicException(sprintf('%s initialized without setting the $generatedAt timestamp.', self::class));
         }
 

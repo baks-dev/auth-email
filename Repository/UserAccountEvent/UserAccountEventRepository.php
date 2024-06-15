@@ -47,14 +47,21 @@ final class UserAccountEventRepository implements UserAccountEventInterface
     {
         $qb = $this->entityManager->createQueryBuilder();
 
-        $qb->select('account_event');
 
-        $qb->from(AccountEntity\Account::class, 'account');
+        $qb
+            ->from(AccountEntity\Account::class, 'account')
+            ->where('account.id = :usr')
+            ->setParameter('usr', $usr, UserUid::TYPE);
 
-        $qb->join(AccountEntity\Event\AccountEvent::class, 'account_event', 'WITH', 'account_event.id = account.event');
+        $qb
+            ->select('account_event')
+            ->join(
+                AccountEntity\Event\AccountEvent::class,
+                'account_event',
+                'WITH',
+                'account_event.id = account.event'
+            );
 
-        $qb->where('account.id = :usr');
-        $qb->setParameter('usr', $usr, UserUid::TYPE);
 
         return $qb->getQuery()->getOneOrNullResult();
     }
@@ -65,9 +72,10 @@ final class UserAccountEventRepository implements UserAccountEventInterface
 
         $qb->select('event');
 
-        $qb->from(AccountEntity\Event\AccountEvent::class, 'event');
-        $qb->where('event.email = :email');
-        $qb->setParameter('email', $email, AccountEmail::TYPE);
+        $qb
+            ->from(AccountEntity\Event\AccountEvent::class, 'event')
+            ->where('event.email = :email')
+            ->setParameter('email', $email, AccountEmail::TYPE);
 
         $qb->join(AccountEntity\Account::class, 'account', 'WITH', 'account.event = event.id');
 
@@ -79,7 +87,11 @@ final class UserAccountEventRepository implements UserAccountEventInterface
         );
 
         // Только не заблокированный пользователь
-        $qb->setParameter('status', new EmailStatus(EmailStatusBlock::class), EmailStatus::TYPE);
+        $qb->setParameter(
+            'status',
+            new EmailStatus(EmailStatusBlock::class),
+            EmailStatus::TYPE
+        );
 
         return $qb->getQuery()->getOneOrNullResult();
     }
@@ -90,11 +102,17 @@ final class UserAccountEventRepository implements UserAccountEventInterface
 
         $qb->select('event');
 
-        $qb->from(AccountEntity\Event\AccountEvent::class, 'event');
-        $qb->where('event.id = :event');
-        $qb->setParameter('event', $event, AccountEventUid::TYPE);
+        $qb
+            ->from(AccountEntity\Event\AccountEvent::class, 'event')
+            ->where('event.id = :event')
+            ->setParameter('event', $event, AccountEventUid::TYPE);
 
-        $qb->join(AccountEntity\Account::class, 'account', 'WITH', 'account.event = event.id');
+        $qb->join(
+            AccountEntity\Account::class,
+            'account',
+            'WITH',
+            'account.event = event.id'
+        );
 
         $qb->join(
             AccountEntity\Status\AccountStatus::class,
@@ -104,7 +122,11 @@ final class UserAccountEventRepository implements UserAccountEventInterface
         );
 
         // Только не заблокированный пользователь
-        $qb->setParameter('status', new EmailStatus(EmailStatusBlock::class), EmailStatus::TYPE);
+        $qb->setParameter(
+            'status',
+            new EmailStatus(EmailStatusBlock::class),
+            EmailStatus::TYPE
+        );
 
         return $qb->getQuery()->getOneOrNullResult();
     }

@@ -9,7 +9,6 @@ use BaksDev\Users\User\Type\Id\UserUid;
 
 final class ExistAccountByEmailRepository implements ExistAccountByEmailInterface
 {
-
     private DBALQueryBuilder $DBALQueryBuilder;
 
     public function __construct(DBALQueryBuilder $DBALQueryBuilder)
@@ -24,8 +23,8 @@ final class ExistAccountByEmailRepository implements ExistAccountByEmailInterfac
     {
         $qb = $this->DBALQueryBuilder->createQueryBuilder(self::class);
 
-        $qb->from(AccountEvent::TABLE, 'users');
         $qb
+            ->from(AccountEvent::TABLE, 'users')
             ->where('users.email = :account_email')
             ->setParameter('account_email', $email, AccountEmail::TYPE);
 
@@ -36,8 +35,6 @@ final class ExistAccountByEmailRepository implements ExistAccountByEmailInterfac
                 ->andWhere('users.account != :account')
                 ->setParameter('account', $userUid, UserUid::TYPE);
         }
-
-
 
         return $qb->fetchExist();
     }

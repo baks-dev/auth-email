@@ -16,9 +16,7 @@
  *
  */
 
-
 namespace BaksDev\Auth\Email\Services\EmailVerify\Generator;
-
 
 use BaksDev\Auth\Email\Type\Email\AccountEmail;
 use BaksDev\Users\User\Type\Id\UserUid;

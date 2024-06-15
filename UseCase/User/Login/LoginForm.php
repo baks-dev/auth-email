@@ -13,58 +13,51 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 final class LoginForm extends AbstractType
 {
-	public function buildForm(FormBuilderInterface $builder, array $options) : void
-	{
-		/*
-		 * Email
-		 */
-		$builder->add
-		(
-			'email',
-			EmailType::class,
-			[
-				'attr' => ['autocomplete' => 'email'],
-			]
-		);
-		
-		$builder->get('email')->addModelTransformer(
-			new CallbackTransformer(
-				function($email) {
-					return $email instanceof AccountEmail ? $email->getValue() : $email;
-				},
-				function($email) {
-					return new AccountEmail($email);
-				}
-			)
-		);
-		
-		/*
-		 * Пароль
-		 */
-		$builder->add('password', PasswordType::class, [
-			'attr' => ['autocomplete' => 'new-password'],
-		]);
-		
-		/* Применить ******************************************************/
-		$builder->add
-		(
-			'login',
-			SubmitType::class,
-			['label' => 'Login', 'label_html' => true]
-		);
-	}
-	
-	
-	public function configureOptions(OptionsResolver $resolver) : void
-	{
-		$resolver->setDefaults
-		(
-			[
-				'data_class' => LoginDTO::class,
-				'translation_domain' => 'user.login',
-				'csrf_token_id' => 'authenticate',
-			]
-		);
-	}
-	
+    public function buildForm(FormBuilderInterface $builder, array $options): void
+    {
+
+        $builder->add(
+            'email',
+            EmailType::class,
+            [
+                'attr' => ['autocomplete' => 'email'],
+            ]
+        );
+
+        $builder->get('email')->addModelTransformer(
+            new CallbackTransformer(
+                function ($email) {
+                    return $email instanceof AccountEmail ? $email->getValue() : $email;
+                },
+                function ($email) {
+                    return new AccountEmail($email);
+                }
+            )
+        );
+
+
+        $builder->add('password', PasswordType::class, [
+            'attr' => ['autocomplete' => 'new-password'],
+        ]);
+
+        /* Применить ******************************************************/
+        $builder->add(
+            'login',
+            SubmitType::class,
+            ['label' => 'Login', 'label_html' => true]
+        );
+    }
+
+
+    public function configureOptions(OptionsResolver $resolver): void
+    {
+        $resolver->setDefaults(
+            [
+                'data_class' => LoginDTO::class,
+                'translation_domain' => 'user.login',
+                'csrf_token_id' => 'authenticate',
+            ]
+        );
+    }
+
 }

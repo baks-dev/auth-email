@@ -34,7 +34,6 @@ use Symfony\Component\DependencyInjection\Attribute\AutoconfigureTag;
 #[AutoconfigureTag('baks.menu.admin')]
 final class Header implements MenuAdminInterface
 {
-
     public function getRole(): string
     {
         return Role::ROLE;

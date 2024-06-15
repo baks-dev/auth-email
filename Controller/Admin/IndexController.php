@@ -33,29 +33,30 @@ use Symfony\Component\Routing\Annotation\Route;
 final class IndexController extends AbstractController
 {
     /** Список всех зарегистрированных аккаунтов */
-	#[Route('/admin/account/emails/{page<\d+>}', name: 'admin.index', methods: [ 'GET', 'POST', ])]
-	public function index(
-		Request $request,
+    #[Route('/admin/account/emails/{page<\d+>}', name: 'admin.index', methods: [ 'GET', 'POST', ])]
+    public function index(
+        Request $request,
         AllAccountsInterface $Accounts,
-		int $page = 0,
-	) : Response
-	{
+        int $page = 0,
+    ): Response {
 
-		/* Поиск */
-		$search = new SearchDTO($request);
-		$searchForm = $this->createForm(SearchForm::class, $search,
+        /* Поиск */
+        $search = new SearchDTO($request);
+        $searchForm = $this->createForm(
+            SearchForm::class,
+            $search,
             ['action' => $this->generateUrl('auth-email:admin.index')]
         );
-		$searchForm->handleRequest($request);
-		
-		/* Получаем список */
+        $searchForm->handleRequest($request);
+
+        /* Получаем список */
         $query = $Accounts->fetchAllAccountsAssociative($search);
 
-		return $this->render(
-			[
-				'query' => $query,
-				'search' => $searchForm->createView(),
-			]
-		);
-	}
+        return $this->render(
+            [
+                'query' => $query,
+                'search' => $searchForm->createView(),
+            ]
+        );
+    }
 }

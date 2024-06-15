@@ -24,7 +24,6 @@ namespace BaksDev\Auth\Email\UseCase\User\Registration;
 
 use BaksDev\Auth\Email\Entity\Account;
 use BaksDev\Auth\Email\Entity\Event\AccountEvent;
-use BaksDev\Auth\Email\Entity\Event\AccountEventInterface;
 use BaksDev\Auth\Email\Messenger\Confirmation\ConfirmationAccountMessage;
 use BaksDev\Auth\Email\Repository\ExistAccountByEmail\ExistAccountByEmailInterface;
 use BaksDev\Core\Entity\AbstractHandler;
@@ -37,48 +36,11 @@ use BaksDev\Files\Resources\Upload\Image\ImageUploadInterface;
 use BaksDev\Users\User\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use DomainException;
-use Psr\Log\LoggerInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
-use Symfony\Component\Validator\Validator\ValidatorInterface;
-use Symfony\Contracts\Translation\TranslatorInterface;
 
 final class RegistrationHandler extends AbstractHandler
 {
-    //    private EntityManagerInterface $entityManager;
-    //
-
-    //
-    //    private ValidatorInterface $validator;
-    //
-    //    private LoggerInterface $logger;
-    //
-
-    //
-    //    private TranslatorInterface $translator;
-    //
-    //    private MessageDispatchInterface $messageDispatch;
-    //
-    //    public function __construct(
-    //        EntityManagerInterface $entityManager,
-    //        UserPasswordHasherInterface $userPasswordHasher,
-    //        ValidatorInterface $validator,
-    //        LoggerInterface $logger,
-    //        ExistAccountByEmailInterface $existAccountByEmail,
-    //        TranslatorInterface $translator,
-    //        MessageDispatchInterface $messageDispatch,
-    //    ) {
-    //        $this->entityManager = $entityManager;
-    //        $this->userPasswordHasher = $userPasswordHasher;
-    //        $this->validator = $validator;
-    //        $this->logger = $logger;
-    //        $this->existAccountByEmail = $existAccountByEmail;
-    //
-    //        $this->translator = $translator;
-    //        $this->messageDispatch = $messageDispatch;
-    //    }
-
     private UserPasswordHasherInterface $userPasswordHasher;
-
     private ExistAccountByEmailInterface $existAccountByEmail;
 
     public function __construct(
@@ -87,11 +49,9 @@ final class RegistrationHandler extends AbstractHandler
         ValidatorCollectionInterface $validatorCollection,
         ImageUploadInterface $imageUpload,
         FileUploadInterface $fileUpload,
-
         UserPasswordHasherInterface $userPasswordHasher,
         ExistAccountByEmailInterface $existAccountByEmail,
-    )
-    {
+    ) {
         parent::__construct($entityManager, $messageDispatch, $validatorCollection, $imageUpload, $fileUpload);
 
         $this->userPasswordHasher = $userPasswordHasher;
@@ -130,8 +90,7 @@ final class RegistrationHandler extends AbstractHandler
         {
             $this->prePersist($command);
             $this->entityManager->persist($User);
-        }
-        catch(DomainException $errorUniqid)
+        } catch(DomainException $errorUniqid)
         {
             return $errorUniqid->getMessage();
         }

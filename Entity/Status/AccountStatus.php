@@ -38,7 +38,7 @@ class AccountStatus extends EntityEvent
     #[Assert\NotBlank]
     #[Assert\Uuid]
     #[ORM\Id]
-    #[ORM\OneToOne(inversedBy: 'status', targetEntity: AccountEvent::class)]
+    #[ORM\OneToOne(targetEntity: AccountEvent::class, inversedBy: 'status')]
     #[ORM\JoinColumn(name: 'event', referencedColumnName: 'id')]
     private AccountEvent $event;
 
@@ -81,9 +81,6 @@ class AccountStatus extends EntityEvent
         throw new InvalidArgumentException(sprintf('Class %s interface error', $dto::class));
     }
 
-    /**
-     * Status
-     */
     public function getStatus(): EmailStatus
     {
         return $this->status;

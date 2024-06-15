@@ -23,24 +23,23 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 final class RestoreDTO
 {
-	/** Email */
-	#[Assert\NotBlank]
-	#[Assert\Email]
-	private AccountEmail $email;
-	
-	
-	/** Email */
-	
-	public function getEmail() : AccountEmail
-	{
-		return $this->email;
-	}
-	
-	
-	public function setEmail(AccountEmail $email) : void
-	{
-		$this->email = $email;
-	}
-	
-}
+    /** Email */
+    #[Assert\NotBlank]
+    #[Assert\Email]
+    private AccountEmail $email;
 
+
+    /** Email */
+
+    public function getEmail(): AccountEmail
+    {
+        return $this->email;
+    }
+
+
+    public function setEmail(AccountEmail $email): void
+    {
+        $this->email = $email;
+    }
+
+}

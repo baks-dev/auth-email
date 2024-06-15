@@ -24,40 +24,40 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 final class LoginDTO
 {
-	/** Email пользователя */
-	#[Assert\NotBlank]
-	#[Assert\Email]
-	private ?AccountEmail $email;
-	
-	/** Пароль */
-	#[Assert\NotBlank]
-	#[Assert\Length(min: 8, max: 4096)]
-	private ?string $password;
-	
-	
-	/** Email пользователя */
-	public function getEmail() : ?AccountEmail
-	{
-		return $this->email;
-	}
-	
-	
-	public function setEmail(?AccountEmail $email) : void
-	{
-		$this->email = $email;
-	}
-	
-	
-	/** Пароль */
-	public function getPassword() : ?string
-	{
-		return $this->password;
-	}
-	
-	
-	public function setPassword(?string $password) : void
-	{
-		$this->password = $password;
-	}
+    /** Email пользователя */
+    #[Assert\NotBlank]
+    #[Assert\Email]
+    private ?AccountEmail $email;
+
+    /** Пароль */
+    #[Assert\NotBlank]
+    #[Assert\Length(min: 8, max: 4096)]
+    private ?string $password;
+
+
+    /** Email пользователя */
+    public function getEmail(): ?AccountEmail
+    {
+        return $this->email;
+    }
+
+
+    public function setEmail(?AccountEmail $email): void
+    {
+        $this->email = $email;
+    }
+
+
+    /** Пароль */
+    public function getPassword(): ?string
+    {
+        return $this->password;
+    }
+
+
+    public function setPassword(?string $password): void
+    {
+        $this->password = $password;
+    }
 
 }

@@ -7,7 +7,7 @@ use BaksDev\Users\User\Type\Id\UserUid;
 
 interface UserNewInterface
 {
-    public function getNewUserByAccountEvent(AccountEventUid $event) : ?UserUid;
+    public function getNewUserByAccountEvent(AccountEventUid $event): ?UserUid;
 
-    public function getNewUserByUserUid(UserUid $usr) : ?UserUid;
+    public function getNewUserByUserUid(UserUid $usr): ?UserUid;
 }

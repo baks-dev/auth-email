@@ -27,85 +27,81 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 final class VerifyHandler
 {
-	private EntityManagerInterface $entityManager;
-	
-	private ValidatorInterface $validator;
-	
-	private LoggerInterface $logger;
+    private EntityManagerInterface $entityManager;
+    private ValidatorInterface $validator;
+    private LoggerInterface $logger;
     private MessageDispatchInterface $messageDispatch;
 
 
     public function __construct(
-		EntityManagerInterface $entityManager,
-		ValidatorInterface $validator,
-		LoggerInterface $logger,
+        EntityManagerInterface $entityManager,
+        ValidatorInterface $validator,
+        LoggerInterface $logger,
         MessageDispatchInterface $messageDispatch
-	)
-	{
-		$this->entityManager = $entityManager;
-		$this->validator = $validator;
-		$this->logger = $logger;
+    ) {
+        $this->entityManager = $entityManager;
+        $this->validator = $validator;
+        $this->logger = $logger;
         $this->messageDispatch = $messageDispatch;
     }
-	
-	
-	public function handle(
-		VerifyDTO $command,
-	): string|EntityAccount\Account
-	{
-		/* Валидация DTO */
-		$errors = $this->validator->validate($command);
-		
-		if(count($errors) > 0)
-		{
+
+
+    public function handle(
+        VerifyDTO $command,
+    ): string|EntityAccount\Account {
+
+        /* Валидация DTO */
+        $errors = $this->validator->validate($command);
+
+        if(count($errors) > 0)
+        {
             /** Ошибка валидации */
             $uniqid = uniqid('', false);
             $this->logger->error(sprintf('%s: %s', $uniqid, $errors), [__FILE__.':'.__LINE__]);
-			
-			return $uniqid;
-		}
-		
-		$EventRepo = $this->entityManager->getRepository(EntityAccount\Event\AccountEvent::class)->find(
-			$command->getEvent()
-		);
-		
-		if($EventRepo === null)
-		{
-			$uniqid = uniqid('', false);
-			$errorsString = sprintf('Ошибка при активации сущности AccountEvent с id: %s', $command->getEvent());
-			$this->logger->error($uniqid.': '.$errorsString);
-			
-			return $uniqid;
-		}
-		
 
-		
-		/* AccountEvent */
+            return $uniqid;
+        }
+
+        $EventRepo = $this->entityManager->getRepository(EntityAccount\Event\AccountEvent::class)->find(
+            $command->getEvent()
+        );
+
+        if($EventRepo === null)
+        {
+            $uniqid = uniqid('', false);
+            $errorsString = sprintf('Ошибка при активации сущности AccountEvent с id: %s', $command->getEvent());
+            $this->logger->error($uniqid.': '.$errorsString);
+
+            return $uniqid;
+        }
+
+
+
+        /* AccountEvent */
         $EventRepo->setEntity($command);
         $EventRepo->setEntityManager($this->entityManager);
         $Event = $EventRepo->cloneEntity();
-//        $this->entityManager->clear();
-//		$this->entityManager->persist($Event);
-		
-		/* Account */
-		$Account = $this->entityManager->getRepository(EntityAccount\Account::class)->findOneBy(
-			['event' => $command->getEvent()]
-		);
-		
-		if($Account === null)
-		{
-			$uniqid = uniqid('', false);
-			$errorsString = sprintf('Ошибка при активации сущности Account с событием event: %s', $command->getEvent());
-			$this->logger->error($uniqid.': '.$errorsString);
-			
-			return $uniqid;
-		}
-		
-		/* Присвиваем зависимости */
-		$Event->setMain($Account);
-		$Account->setEvent($Event);
-		
-		$this->entityManager->flush();
+
+
+        /* Account */
+        $Account = $this->entityManager->getRepository(EntityAccount\Account::class)->findOneBy(
+            ['event' => $command->getEvent()]
+        );
+
+        if($Account === null)
+        {
+            $uniqid = uniqid('', false);
+            $errorsString = sprintf('Ошибка при активации сущности Account с событием event: %s', $command->getEvent());
+            $this->logger->error($uniqid.': '.$errorsString);
+
+            return $uniqid;
+        }
+
+        /* Присвиваем зависимости */
+        $Event->setMain($Account);
+        $Account->setEvent($Event);
+
+        $this->entityManager->flush();
 
 
         /* Отправляем сообщение в шину */
@@ -115,7 +111,6 @@ final class VerifyHandler
         );
 
         return $Account;
-	}
-	
-}
+    }
 
+}

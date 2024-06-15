@@ -46,35 +46,6 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 final class AccountHandler extends AbstractHandler
 {
-    //private EntityManagerInterface $entityManager;
-
-    //private ValidatorInterface $validator;
-
-    //private LoggerInterface $logger;
-
-    //private MessageDispatchInterface $messageDispatch;
-    //
-    //    private UserPasswordHasherInterface $userPasswordHasher;
-    //
-    //    private ExistAccountByEmailInterface $existAccountByEmail;
-    //
-    //    public function __construct(
-    //        UserPasswordHasherInterface $userPasswordHasher,
-    //        ExistAccountByEmailInterface $existAccountByEmail,
-    //        EntityManagerInterface $entityManager,
-    //        ValidatorInterface $validator,
-    //        LoggerInterface $logger,
-    //        MessageDispatchInterface $messageDispatch,
-    //    ) {
-    //        $this->entityManager = $entityManager;
-    //        $this->validator = $validator;
-    //        $this->logger = $logger;
-    //        $this->messageDispatch = $messageDispatch;
-    //        $this->userPasswordHasher = $userPasswordHasher;
-    //        $this->existAccountByEmail = $existAccountByEmail;
-    //    }
-
-
     private ExistAccountByEmailInterface $existAccountByEmail;
     private UserPasswordHasherInterface $userPasswordHasher;
 
@@ -84,11 +55,9 @@ final class AccountHandler extends AbstractHandler
         ValidatorCollectionInterface $validatorCollection,
         ImageUploadInterface $imageUpload,
         FileUploadInterface $fileUpload,
-
         ExistAccountByEmailInterface $existAccountByEmail,
         UserPasswordHasherInterface $userPasswordHasher,
-    )
-    {
+    ) {
         parent::__construct($entityManager, $messageDispatch, $validatorCollection, $imageUpload, $fileUpload);
 
         $this->existAccountByEmail = $existAccountByEmail;
@@ -111,6 +80,7 @@ final class AccountHandler extends AbstractHandler
         {
             $User = new User();
             $this->main = new Account($User);
+            $this->entityManager->persist($User);
         }
 
         /**
@@ -130,8 +100,7 @@ final class AccountHandler extends AbstractHandler
         try
         {
             $command->getEvent() ? $this->preUpdate($command, true) : $this->prePersist($command);
-        }
-        catch(DomainException $errorUniqid)
+        } catch(DomainException $errorUniqid)
         {
             return $errorUniqid->getMessage();
         }
@@ -155,18 +124,12 @@ final class AccountHandler extends AbstractHandler
             $Status->setStatus(new EmailStatus(EmailStatusNew::class));
         }
 
-
-
         /** Валидация всех объектов */
         if($this->validatorCollection->isInvalid())
         {
             return $this->validatorCollection->getErrorUniqid();
         }
 
-        if(!$command->getEvent())
-        {
-            $this->entityManager->persist($User);
-        }
 
         $this->entityManager->flush();
 

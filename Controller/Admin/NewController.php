@@ -33,18 +33,17 @@ use Symfony\Component\Routing\Annotation\Route;
 #[RoleSecurity('ROLE_ACCOUNT_EMAIL_NEW')]
 final class NewController extends AbstractController
 {
-	#[Route('/admin/account/email/new', name: 'admin.newedit.new', methods: ['GET', 'POST'])]
-	public function new(
-		Request $request,
+    #[Route('/admin/account/email/new', name: 'admin.newedit.new', methods: ['GET', 'POST'])]
+    public function new(
+        Request $request,
         AccountHandler $accountHandler
-	) : Response
-	{
+    ): Response {
 
         $account = new AccountDTO();
-		
-		/* Форма добавления */
-		$form = $this->createForm(AccountForm::class, $account);
-		$form->handleRequest($request);
+
+        /* Форма добавления */
+        $form = $this->createForm(AccountForm::class, $account);
+        $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid() && $form->has('account'))
         {
@@ -62,9 +61,9 @@ final class NewController extends AbstractController
             return $this->redirectToRoute('auth-email:admin.index');
 
         }
-		
-		return $this->render(['form' => $form->createView()]);
-		
-	}
-	
+
+        return $this->render(['form' => $form->createView()]);
+
+    }
+
 }

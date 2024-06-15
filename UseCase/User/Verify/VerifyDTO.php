@@ -24,35 +24,36 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 final class VerifyDTO implements AccountEventInterface
 {
-	#[Assert\NotBlank]
-	#[Assert\Uuid]
-	private readonly AccountEventUid $id;
-	
-	#[Assert\Valid]
-	private readonly Status\StatusDTO $status;
-	
-	
-	public function __construct(AccountEventUid $id)
-	{
-		$this->status = new Status\StatusDTO();
-		$this->id = $id;
-	}
-	
-	
-	public function setId(AccountEventUid $id) : void {}
-	
-	
-	public function getEvent() : ?AccountEventUid
-	{
-		return $this->id;
-	}
-	
-	
-	/** Статус */
-	public function getStatus() : Status\StatusDTO
-	{
-		return $this->status;
-	}
-	
-}
+    #[Assert\NotBlank]
+    #[Assert\Uuid]
+    private readonly AccountEventUid $id;
 
+    #[Assert\Valid]
+    private readonly Status\StatusDTO $status;
+
+
+    public function __construct(AccountEventUid $id)
+    {
+        $this->status = new Status\StatusDTO();
+        $this->id = $id;
+    }
+
+
+    public function setId(AccountEventUid $id): void
+    {
+    }
+
+
+    public function getEvent(): ?AccountEventUid
+    {
+        return $this->id;
+    }
+
+
+    /** Статус */
+    public function getStatus(): Status\StatusDTO
+    {
+        return $this->status;
+    }
+
+}
