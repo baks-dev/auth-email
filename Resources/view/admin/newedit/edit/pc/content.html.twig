@@ -32,6 +32,7 @@
 			{% if is_granted('ROLE_ACCOUNT_NEW') or is_granted('ROLE_ADMIN') %}
 				<a href="{{ path('auth-email:admin.newedit.new') }}"
 				   class="btn btn-primary fw-bolder"
+				   role="tooltip"
 				   data-bs-toggle="tooltip"
 				   data-bs-placement="bottom"
 				   data-bs-delay='{"show":600,"hide":100}'
