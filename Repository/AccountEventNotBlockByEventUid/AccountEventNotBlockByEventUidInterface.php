@@ -10,5 +10,5 @@ interface AccountEventNotBlockByEventUidInterface
     /**
      * Возвращает событие активированного пользователя по идентификатору
      */
-    public function findAccountEventById(AccountEventUid $event) : ?AccountEvent;
+    public function findAccountEventById(AccountEventUid $event): ?AccountEvent;
 }

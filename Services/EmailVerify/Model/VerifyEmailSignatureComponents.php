@@ -84,7 +84,7 @@ final class VerifyEmailSignatureComponents
     {
         $interval = $this->getExpiresAtIntervalInstance();
 
-        switch ($interval)
+        switch($interval)
         {
             case $interval->y > 0:
                 $this->transInterval = $interval->y;
@@ -128,7 +128,7 @@ final class VerifyEmailSignatureComponents
      */
     public function getExpiresAtIntervalInstance(): DateInterval
     {
-        if (null === $this->generatedAt)
+        if(null === $this->generatedAt)
         {
             throw new LogicException(sprintf('%s initialized without setting the $generatedAt timestamp.', self::class));
         }

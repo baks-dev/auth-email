@@ -48,7 +48,8 @@ final class AccountDeleteHandler extends AbstractHandler
         try
         {
             $this->preRemove($command);
-        } catch(DomainException $errorUniqid)
+        }
+        catch(DomainException $errorUniqid)
         {
             return $errorUniqid->getMessage();
         }

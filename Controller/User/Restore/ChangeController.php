@@ -28,7 +28,8 @@ final class ChangeController extends AbstractController
     ): Response
     {
         // Если пользователь авторизован - редирект
-        if ($this->getUsr()) {
+        if($this->getUsr())
+        {
             throw new RouteNotFoundException('Page Not Found');
         }
 
@@ -36,7 +37,8 @@ final class ChangeController extends AbstractController
         $AppCache = $cache->init($event);
         $AccountEvent = ($AppCache->getItem($event))->get();
 
-        if (null === $AccountEvent) {
+        if(null === $AccountEvent)
+        {
             throw new RouteNotFoundException('Page Not Found');
         }
 
@@ -44,7 +46,7 @@ final class ChangeController extends AbstractController
         $form = $this->createForm(ChangePasswordForm::class, $ChangePasswordDTO);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid() && $form->has('change'))
+        if($form->isSubmitted() && $form->isValid() && $form->has('change'))
         {
             $this->refreshTokenForm($form);
 
@@ -53,7 +55,8 @@ final class ChangeController extends AbstractController
 
             $Account = $handler->handle($ChangePasswordDTO);
 
-            if ($Account instanceof Account) {
+            if($Account instanceof Account)
+            {
 
                 // Редирект на страницу после активации аккаунта
                 $this->addFlash('success', 'user.success.change', 'user.reset');

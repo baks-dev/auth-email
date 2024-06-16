@@ -20,5 +20,5 @@ namespace BaksDev\Auth\Email\Entity\Status;
 
 interface AccountStatusInterface
 {
-	
+
 }

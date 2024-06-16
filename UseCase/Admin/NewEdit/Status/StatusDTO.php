@@ -35,12 +35,12 @@ final class StatusDTO implements AccountStatusInterface
         $this->status = new EmailStatus(EmailStatusNew::class);
     }
 
-    public function getStatus() : EmailStatus
+    public function getStatus(): EmailStatus
     {
         return $this->status;
     }
 
-    public function setStatus(EmailStatus $status) : void
+    public function setStatus(EmailStatus $status): void
     {
         $this->status = $status;
     }

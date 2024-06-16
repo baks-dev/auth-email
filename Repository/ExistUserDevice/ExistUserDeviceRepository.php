@@ -61,8 +61,7 @@ final class ExistUserDeviceRepository implements ExistUserDeviceInterface
 
         $qb
             ->andWhere('modify.user_agent = :agent')
-            ->setParameter('agent', $agent)
-        ;
+            ->setParameter('agent', $agent);
 
         return $qb->fetchExist();
     }

@@ -20,7 +20,7 @@ final class RegistrationControllerTest extends WebTestCase
         self::ensureKernelShutdown();
         $client = static::createClient();
 
-        foreach (TestUserAccount::getDevice() as $device)
+        foreach(TestUserAccount::getDevice() as $device)
         {
             $client->setServerParameter('HTTP_USER_AGENT', $device);
             $client->request('GET', $this->controller);
@@ -36,7 +36,7 @@ final class RegistrationControllerTest extends WebTestCase
         self::ensureKernelShutdown();
         $client = static::createClient();
 
-        foreach (TestUserAccount::getDevice() as $device)
+        foreach(TestUserAccount::getDevice() as $device)
         {
             $usr = TestUserAccount::getUsr();
 

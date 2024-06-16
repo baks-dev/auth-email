@@ -36,7 +36,7 @@ class VerifyEmailQueryUtility
     {
         $params = $this->getQueryParams($uri);
 
-        if (empty($params['expires']))
+        if(empty($params['expires']))
         {
             return 0;
         }
@@ -49,7 +49,7 @@ class VerifyEmailQueryUtility
         $params = [];
         $urlComponents = parse_url($uri);
 
-        if (array_key_exists('query', $urlComponents))
+        if(array_key_exists('query', $urlComponents))
         {
             parse_str(($urlComponents['query'] ?? ''), $params);
         }

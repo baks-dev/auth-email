@@ -24,7 +24,8 @@ final class RegistrationController extends AbstractController
     ): Response
     {
         // Если пользователь авторизован - редирект
-        if ($this->getUsr()) {
+        if($this->getUsr())
+        {
             return $this->redirectToRoute('core:user.homepage');
         }
 
@@ -32,7 +33,8 @@ final class RegistrationController extends AbstractController
         $form = $this->createForm(RegistrationForm::class, $registrationDTO);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid() && $form->has('registration')) {
+        if($form->isSubmitted() && $form->isValid() && $form->has('registration'))
+        {
 
             $this->refreshTokenForm($form);
 
@@ -42,13 +44,14 @@ final class RegistrationController extends AbstractController
             //			{
             //				/* Ошибка при регистрации */
             //				$this->addFlash('danger', 'user.danger.captcha', 'user.reg');
-//
+            //
             //				return $this->redirectToReferer();
             //			}
 
             $Account = $handler->handle($registrationDTO);
 
-            if (!$Account instanceof Account) {
+            if(!$Account instanceof Account)
+            {
                 // Ошибка при регистрации
                 $this->addFlash(
                     'danger',

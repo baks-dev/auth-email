@@ -31,12 +31,17 @@ interface VerifyEmailInterface
     /**
      * URL-адрес, который можно отправить пользователю по электронной почте.
      *
-     * @param string $routeName   Имя маршрута, который будет использоваться для проверки пользователей
-     * @param UserUid $userId      Uid пользователя
-     * @param AccountEmail $userEmail   Электронная почта
-     * @param array  $extraParams Дополнительные параметры (например Uid пользователя)
+     * @param string $routeName Имя маршрута, который будет использоваться для проверки пользователей
+     * @param UserUid $userId Uid пользователя
+     * @param AccountEmail $userEmail Электронная почта
+     * @param array $extraParams Дополнительные параметры (например Uid пользователя)
      */
-    public function generateSignature(string $routeName, UserUid $userId, AccountEmail $userEmail, array $extraParams = []): VerifyEmailSignatureComponents;
+    public function generateSignature(
+        string $routeName,
+        UserUid $userId,
+        AccountEmail $userEmail,
+        array $extraParams = []
+    ): VerifyEmailSignatureComponents;
 
     /**
      * Подтвердите подписанный запрос подтверждения по электронной почте.
@@ -44,7 +49,7 @@ interface VerifyEmailInterface
      * Если что-то не так с подтверждением по электронной почте, будет выдано VerifyEmailExceptionInterface.
      *
      * @param string $signedUrl URL-адрес, который пользователь щелкнул в своем электронном письме
-     * @param UserUid $userId    Uid пользователя
+     * @param UserUid $userId Uid пользователя
      * @param AccountEmail $userEmail Электронная почта, которую текущий пользователь пытается проверить
      *
      * @throws VerifyEmailExceptionInterface

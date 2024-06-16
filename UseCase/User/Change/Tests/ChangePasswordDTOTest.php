@@ -72,18 +72,18 @@ final class ChangePasswordDTOTest extends TestCase
         self::assertEquals(0, $violations->count());
     }
 
-//    public function testValidationFiled(): void
-//    {
-//        $validator = Validation::createValidatorBuilder()->getValidator();
-//        $violations = $validator->validate($this->dto);
-//
-//        //self::assertEquals(1, $violations->count());
-//        //self::assertEquals('This value should not be blank.', $violations[0]->getMessage());
-//
-//        $this->dto->setPasswordPlain('jZUAi');
-//        $violations = $validator->validate($this->dto);
-//
-//        self::assertEquals(1, $violations->count());
-//        self::assertEquals('This value is too short. It should have 8 characters or more.', $violations[0]->getMessage());
-//    }
+    //    public function testValidationFiled(): void
+    //    {
+    //        $validator = Validation::createValidatorBuilder()->getValidator();
+    //        $violations = $validator->validate($this->dto);
+    //
+    //        //self::assertEquals(1, $violations->count());
+    //        //self::assertEquals('This value should not be blank.', $violations[0]->getMessage());
+    //
+    //        $this->dto->setPasswordPlain('jZUAi');
+    //        $violations = $validator->validate($this->dto);
+    //
+    //        self::assertEquals(1, $violations->count());
+    //        self::assertEquals('This value is too short. It should have 8 characters or more.', $violations[0]->getMessage());
+    //    }
 }

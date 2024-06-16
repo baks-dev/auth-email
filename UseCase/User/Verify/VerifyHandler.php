@@ -38,7 +38,8 @@ final class VerifyHandler
         ValidatorInterface $validator,
         LoggerInterface $logger,
         MessageDispatchInterface $messageDispatch
-    ) {
+    )
+    {
         $this->entityManager = $entityManager;
         $this->validator = $validator;
         $this->logger = $logger;
@@ -48,7 +49,8 @@ final class VerifyHandler
 
     public function handle(
         VerifyDTO $command,
-    ): string|EntityAccount\Account {
+    ): string|EntityAccount\Account
+    {
 
         /* Валидация DTO */
         $errors = $this->validator->validate($command);
@@ -74,7 +76,6 @@ final class VerifyHandler
 
             return $uniqid;
         }
-
 
 
         /* AccountEvent */

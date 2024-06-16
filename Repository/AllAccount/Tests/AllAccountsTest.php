@@ -41,7 +41,7 @@ final class AllAccountsTest extends TestCase
         $SearchDTO = $this->createStub(SearchDTO::class);
 
         $data = $AllAccount->fetchAllAccountsAssociative($SearchDTO);
-        
+
         self::assertInstanceOf(PaginatorInterface::class, $data);
 
     }

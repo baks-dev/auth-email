@@ -35,7 +35,8 @@ final class ConfirmationHandler
         TranslatorInterface $translator,
         MailerInterface $mailer,
         LocaleSwitcher $localeSwitcher
-    ) {
+    )
+    {
         $this->userVerify = $userVerify;
         $this->emailVerify = $emailVerify;
         $this->parameters = $parameters;
@@ -55,7 +56,8 @@ final class ConfirmationHandler
         // Получаем UserUid пользователя для верификации по событию со статусом NEW
         $UserUid = $this->userVerify->getNewUserByAccountEvent($command->getEvent());
 
-        if (!$UserUid) {
+        if(!$UserUid)
+        {
             return false;
         }
 
@@ -71,8 +73,7 @@ final class ConfirmationHandler
             ))
             ->to($UserUid->getOption())
             ->subject($this->translator->trans('user.confirm.subject', domain: 'user.confirmation'))
-            ->htmlTemplate(self::TEMPLATE)
-        ;
+            ->htmlTemplate(self::TEMPLATE);
 
         $context = $templatedEmail->getContext();
 

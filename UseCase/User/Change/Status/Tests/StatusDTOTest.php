@@ -45,22 +45,22 @@ final class StatusDTOTest extends TestCase
     public function testStatus(): void
     {
         $status = $this->dto->getStatus();
-        
+
         self::assertEquals(EmailStatusActive::STATUS, $status->getEmailStatus()->getValue());
     }
 
-//    public function testValidation(): void
-//    {
-//        $validator = Validation::createValidatorBuilder()
-//            //->enableAnnotationMapping()
-//            ->getValidator();
-//        $violations = $validator->validate($this->dto);
-//
-//        self::assertEquals(0, $violations->count());
-//
-////        $violations = $validator->validate($this->dto);
-////
-////        self::assertEquals(1, $violations->count());
-////        self::assertEquals('This value should not be blank.', $violations[0]->getMessage());
-//    }
+    //    public function testValidation(): void
+    //    {
+    //        $validator = Validation::createValidatorBuilder()
+    //            //->enableAnnotationMapping()
+    //            ->getValidator();
+    //        $violations = $validator->validate($this->dto);
+    //
+    //        self::assertEquals(0, $violations->count());
+    //
+    ////        $violations = $validator->validate($this->dto);
+    ////
+    ////        self::assertEquals(1, $violations->count());
+    ////        self::assertEquals('This value should not be blank.', $violations[0]->getMessage());
+    //    }
 }

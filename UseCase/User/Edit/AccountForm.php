@@ -41,10 +41,10 @@ final class AccountForm extends AbstractType
 
         $builder->get('email')->addModelTransformer(
             new CallbackTransformer(
-                function ($email) {
+                function($email) {
                     return $email instanceof AccountEmail ? $email->getValue() : $email;
                 },
-                function ($email) {
+                function($email) {
                     return new AccountEmail($email);
                 }
             )
@@ -53,7 +53,7 @@ final class AccountForm extends AbstractType
         /*
          *  Пароль
          */
-        $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event): void {
+        $builder->addEventListener(FormEvents::PRE_SET_DATA, function(FormEvent $event): void {
             /** @var AccountDTO $data */
             $data = $event->getData();
             $form = $event->getForm();

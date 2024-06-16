@@ -89,7 +89,7 @@ final class EmailStatus
     {
         return array_filter(
             get_declared_classes(),
-            static function ($className) {
+            static function($className) {
                 return in_array(EmailStatusInterface::class, class_implements($className), true);
             }
         );
@@ -101,13 +101,6 @@ final class EmailStatus
 
         return $this->getEmailStatusValue() === $status->getEmailStatusValue();
     }
-
-
-
-
-
-
-
 
 
 }

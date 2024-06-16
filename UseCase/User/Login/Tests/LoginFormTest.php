@@ -29,42 +29,42 @@ use Symfony\Component\Form\Test\TypeTestCase;
 #[When(env: 'test')]
 final class LoginFormTest extends TypeTestCase
 {
-	public function testSubmitValidData(): void
+    public function testSubmitValidData(): void
     {
-		/* DATA */
-		$AccountEmail = new AccountEmail('test@example.com');
-		$password = 'gUdMo9ylP6';
-		
-		/* FORM */
-		$model = new LoginDTO();
-		$form = $this->factory->create(LoginForm::class, $model);
-		
-		$formData = [
-			'email' => $AccountEmail->getValue(),
-			'password' => $password,
-			'login' => true
-		];
-		
-		$form->submit($formData);
-		
-		self::assertTrue($form->isSynchronized());
-		
-		/* OBJECT */
-		$expected = new LoginDTO();
-		$expected->setEmail($AccountEmail);
-		$expected->setPassword($password);
-		
-		self::assertEquals($expected, $model);
-		
-		/* VIEW */
-		$view = $form->createView();
-		$children = $view->children;
-		
-		foreach(array_keys($formData) as $key)
-		{
-			self::assertArrayHasKey($key, $children);
-		}
+        /* DATA */
+        $AccountEmail = new AccountEmail('test@example.com');
+        $password = 'gUdMo9ylP6';
+
+        /* FORM */
+        $model = new LoginDTO();
+        $form = $this->factory->create(LoginForm::class, $model);
+
+        $formData = [
+            'email' => $AccountEmail->getValue(),
+            'password' => $password,
+            'login' => true
+        ];
+
+        $form->submit($formData);
+
+        self::assertTrue($form->isSynchronized());
+
+        /* OBJECT */
+        $expected = new LoginDTO();
+        $expected->setEmail($AccountEmail);
+        $expected->setPassword($password);
+
+        self::assertEquals($expected, $model);
+
+        /* VIEW */
+        $view = $form->createView();
+        $children = $view->children;
+
+        foreach(array_keys($formData) as $key)
+        {
+            self::assertArrayHasKey($key, $children);
+        }
 
         self::assertTrue(true);
-	}
+    }
 }

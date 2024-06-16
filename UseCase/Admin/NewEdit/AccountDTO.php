@@ -56,12 +56,12 @@ final class AccountDTO implements AccountEventInterface
     }
 
 
-    public function setId(?AccountEventUid $id) : void
+    public function setId(?AccountEventUid $id): void
     {
         $this->id = $id;
     }
 
-    public function getEvent() : ?AccountEventUid
+    public function getEvent(): ?AccountEventUid
     {
         return $this->id;
     }
@@ -69,64 +69,64 @@ final class AccountDTO implements AccountEventInterface
     /* Email */
 
 
-    public function getEmail() : AccountEmail
+    public function getEmail(): AccountEmail
     {
         return $this->email;
     }
 
 
-    public function setEmail(AccountEmail $email) : void
+    public function setEmail(AccountEmail $email): void
     {
         $this->email = $email;
     }
 
     /* Статус */
 
-    public function getStatus() : Status\StatusDTO
+    public function getStatus(): Status\StatusDTO
     {
         return $this->status;
     }
 
-    public function setStatus(Status\StatusDTO $status) : void
+    public function setStatus(Status\StatusDTO $status): void
     {
         $this->status = $status;
     }
 
     /* Пароль */
 
-    public function getPasswordPlain() : ?string
+    public function getPasswordPlain(): ?string
     {
         return $this->passwordPlain;
     }
 
-    public function setPasswordPlain(?string $passwordPlain) : void
+    public function setPasswordPlain(?string $passwordPlain): void
     {
         $this->passwordPlain = $passwordPlain;
     }
 
-    public function getPassword() : ?string
+    public function getPassword(): ?string
     {
         return $this->password;
     }
 
-    public function setPassword(?string $password) : void
+    public function setPassword(?string $password): void
     {
         $this->password = $password;
     }
 
-    public function setPasswordHash(string $password) : void
+    public function setPasswordHash(string $password): void
     {
         $this->password = $password;
     }
 
     #[Assert\Callback]
-    public function validatePassword(ExecutionContextInterface $context, $payload) : void
+    public function validatePassword(ExecutionContextInterface $context, $payload): void
     {
-        if (empty($this->passwordPlain) && empty($this->password))
+        if(empty($this->passwordPlain) && empty($this->password))
         {
             $context->buildViolation('assert.password.empty')
-              ->atPath('passwordPlain')
-              ->addViolation();
+                ->atPath('passwordPlain')
+                ->addViolation();
         }
     }
 }

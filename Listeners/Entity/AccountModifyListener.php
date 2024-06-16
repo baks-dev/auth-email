@@ -38,7 +38,8 @@ final class AccountModifyListener
     public function __construct(
         RequestStack $request,
         TokenStorageInterface $token,
-    ) {
+    )
+    {
         $this->request = $request;
         $this->token = $token;
     }
@@ -47,7 +48,8 @@ final class AccountModifyListener
     {
         $token = $this->token->getToken();
 
-        if ($token) {
+        if($token)
+        {
 
             $data->setUsr($token->getUser());
 
@@ -60,7 +62,7 @@ final class AccountModifyListener
         }
 
         /* Если пользователь не из консоли */
-        if ($this->request->getCurrentRequest())
+        if($this->request->getCurrentRequest())
         {
             $data->upModifyAgent(
                 new IpAddress($this->request->getCurrentRequest()->getClientIp()), /* Ip */

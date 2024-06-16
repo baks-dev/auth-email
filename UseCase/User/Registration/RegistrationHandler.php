@@ -51,7 +51,8 @@ final class RegistrationHandler extends AbstractHandler
         FileUploadInterface $fileUpload,
         UserPasswordHasherInterface $userPasswordHasher,
         ExistAccountByEmailInterface $existAccountByEmail,
-    ) {
+    )
+    {
         parent::__construct($entityManager, $messageDispatch, $validatorCollection, $imageUpload, $fileUpload);
 
         $this->userPasswordHasher = $userPasswordHasher;
@@ -90,7 +91,8 @@ final class RegistrationHandler extends AbstractHandler
         {
             $this->prePersist($command);
             $this->entityManager->persist($User);
-        } catch(DomainException $errorUniqid)
+        }
+        catch(DomainException $errorUniqid)
         {
             return $errorUniqid->getMessage();
         }

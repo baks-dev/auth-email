@@ -40,7 +40,8 @@ final class ChangePasswordHandler
         ValidatorInterface $validator,
         LoggerInterface $logger,
         ExistAccountByEmailInterface $existAccountByEmail,
-    ) {
+    )
+    {
         $this->entityManager = $entityManager;
         $this->userPasswordHasher = $userPasswordHasher;
         $this->validator = $validator;
@@ -52,7 +53,8 @@ final class ChangePasswordHandler
     public function handle(
         ChangePasswordDTO $command,
         //?UploadedFile $cover = null
-    ): string|EntityAccount\Account {
+    ): string|EntityAccount\Account
+    {
         /* Валидация DTO */
         $errors = $this->validator->validate($command);
 
@@ -66,8 +68,7 @@ final class ChangePasswordHandler
         }
 
         $EventRepo = $this->entityManager->getRepository(EntityAccount\Event\AccountEvent::class)
-            ->find($command->getEvent())
-        ;
+            ->find($command->getEvent());
 
         if($EventRepo === null)
         {

@@ -35,13 +35,13 @@ final class VerifyController extends AbstractController
     {
 
         // Проверяем что пользователь не авторизован
-        if ($this->getUsr())
+        if($this->getUsr())
         {
             throw new RouteNotFoundException('Page Not Found');
         }
 
         // Проверяем что передан идентификатор пользователя
-        if ($UserUid === null)
+        if($UserUid === null)
         {
             throw new RouteNotFoundException('Page Not Found');
         }
@@ -49,7 +49,7 @@ final class VerifyController extends AbstractController
         $NewUser = $userNew->getNewUserByUserUid($UserUid);
 
         // Проверяем что пользователь не заблокирован
-        if ($NewUser === null)
+        if($NewUser === null)
         {
             // Редирект на страницу авторизации
             return $this->redirectToRoute('auth-email:user.login');
@@ -65,7 +65,7 @@ final class VerifyController extends AbstractController
                 new AccountEmail($NewUser->getOption())
             );
         }
-        catch (VerifyEmailExceptionInterface $exception)
+        catch(VerifyEmailExceptionInterface $exception)
         {
             // Ошибка верификации ссылки подтверждения Email
             $this->addFlash('danger', $exception->getReason(), 'user.reg');
@@ -75,12 +75,12 @@ final class VerifyController extends AbstractController
         // Активируем пользователя
         $Event = $userAccountEvent->getAccountEventByUser($NewUser);
 
-        if ($Event)
+        if($Event)
         {
             $VerifyDTO = new VerifyDTO($Event->getId());
             $Account = $handler->handle($VerifyDTO);
 
-            if (!$Account instanceof Account)
+            if(!$Account instanceof Account)
             {
                 $this->addFlash('danger', 'user.danger.verified', 'user.reg', $Account);
 

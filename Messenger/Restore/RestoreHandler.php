@@ -10,6 +10,7 @@ use BaksDev\Core\Cache\AppCacheInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+
 //use Symfony\Component\HttpKernel\UriSigner;
 use Symfony\Component\HttpFoundation\UriSigner;
 use Symfony\Component\Mailer\MailerInterface;
@@ -56,7 +57,8 @@ final class RestoreHandler
         UserAccountEventInterface $accountEvent,
         LocaleSwitcher $localeSwitcher,
         AppCacheInterface $cache
-    ) {
+    )
+    {
         $this->translator = $translator;
         $this->uriSigner = $uriSigner;
         $this->router = $router;
@@ -79,12 +81,16 @@ final class RestoreHandler
         $AppCache = $this->cache->init('auth-email', 300);
         $cacheItem = $AppCache->getItem('restore.'.$command->getEmail());
 
-        if($cacheItem->get()) { return;  }
+        if($cacheItem->get())
+        {
+            return;
+        }
 
         // Получаем по Email пользователя, котоырй не заблокирован
         $Event = $this->accountEvent->getAccountEventNotBlockByEmail($command->getEmail());
 
-        if (!$Event) {
+        if(!$Event)
+        {
             return;
         }
 
@@ -114,8 +120,7 @@ final class RestoreHandler
             ->context([
                 'signedUrl' => $this->uriSigner->sign($uri),
                 'senderName' => $this->parameters->get('PROJECT_NAME'),
-            ])
-        ;
+            ]);
 
         // Отправляем письмо пользователю
         $this->mailer->send($email);

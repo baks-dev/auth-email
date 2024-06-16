@@ -41,7 +41,8 @@ final class ConfirmationHandler
         MailerInterface $mailer,
         //EntityManagerInterface $entityManager
 
-    ) {
+    )
+    {
         $this->userVerify = $userVerify;
         $this->emailVerify = $emailVerify;
         $this->parameters = $parameters;
@@ -61,7 +62,7 @@ final class ConfirmationHandler
         // Получаем UserUid пользователя для верификации по событию со статусом NEW
         $UserUid = $this->userVerify->getNewUserByAccountEvent($command->getEvent());
 
-        if (!$UserUid)
+        if(!$UserUid)
         {
             return false;
         }

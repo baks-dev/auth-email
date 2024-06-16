@@ -39,9 +39,7 @@ final class VerifyDTO implements AccountEventInterface
     }
 
 
-    public function setId(AccountEventUid $id): void
-    {
-    }
+    public function setId(AccountEventUid $id): void {}
 
 
     public function getEvent(): ?AccountEventUid

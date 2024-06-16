@@ -57,7 +57,8 @@ final class AccountHandler extends AbstractHandler
         FileUploadInterface $fileUpload,
         ExistAccountByEmailInterface $existAccountByEmail,
         UserPasswordHasherInterface $userPasswordHasher,
-    ) {
+    )
+    {
         parent::__construct($entityManager, $messageDispatch, $validatorCollection, $imageUpload, $fileUpload);
 
         $this->existAccountByEmail = $existAccountByEmail;
@@ -100,7 +101,8 @@ final class AccountHandler extends AbstractHandler
         try
         {
             $command->getEvent() ? $this->preUpdate($command, true) : $this->prePersist($command);
-        } catch(DomainException $errorUniqid)
+        }
+        catch(DomainException $errorUniqid)
         {
             return $errorUniqid->getMessage();
         }

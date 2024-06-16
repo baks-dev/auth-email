@@ -59,7 +59,8 @@ final class AccountHandler extends AbstractHandler
         ExistAccountByEmailInterface $existAccountByEmail,
         UserPasswordHasherInterface $userPasswordHasher,
         LoggerInterface $authEmailLogger
-    ) {
+    )
+    {
         parent::__construct($entityManager, $messageDispatch, $validatorCollection, $imageUpload, $fileUpload);
 
         $this->existAccountByEmail = $existAccountByEmail;
@@ -71,7 +72,8 @@ final class AccountHandler extends AbstractHandler
     /** @see Account */
     public function handle(
         AccountDTO $command
-    ): string|Account {
+    ): string|Account
+    {
 
         /** Валидация DTO  */
         $this->validatorCollection->add($command);
@@ -98,7 +100,8 @@ final class AccountHandler extends AbstractHandler
         try
         {
             $command->getEvent() ? $this->preUpdate($command, true) : $this->prePersist($command);
-        } catch(DomainException $errorUniqid)
+        }
+        catch(DomainException $errorUniqid)
         {
             return $errorUniqid->getMessage();
         }

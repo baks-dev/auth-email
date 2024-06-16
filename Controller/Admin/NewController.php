@@ -37,7 +37,8 @@ final class NewController extends AbstractController
     public function new(
         Request $request,
         AccountHandler $accountHandler
-    ): Response {
+    ): Response
+    {
 
         $account = new AccountDTO();
 

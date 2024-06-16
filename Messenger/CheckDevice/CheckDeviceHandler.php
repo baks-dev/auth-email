@@ -37,7 +37,8 @@ final class CheckDeviceHandler
     public function __construct(
         CurrentUserAccountInterface $currentUserAccount,
         ExistUserDeviceRepository $existUserDevice
-    ) {
+    )
+    {
         $this->currentUserAccount = $currentUserAccount;
         $this->existUserDevice = $existUserDevice;
     }
@@ -49,21 +50,21 @@ final class CheckDeviceHandler
     {
         $isBrowscap = (bool) ini_get('browscap');
 
-        if ($isBrowscap === false)
+        if($isBrowscap === false)
         {
             return;
         }
-        
+
         /* Проверяем что пользователь активный */
         $Account = $this->currentUserAccount->fetchAccountAssociative($command->getId());
 
-        if ($Account)
+        if($Account)
         {
             /* Проверяем что пользователь ранее авторизовывался с таким User-agent */
             $isDevice = $this->existUserDevice->existDeviceByUser($command->getId(), $command->getAgent());
 
             /* Если User-agent новый - отправляем уведомление на Email */
-            if ($isDevice === false)
+            if($isDevice === false)
             {
                 $browscap = get_browser($command->getAgent());
 

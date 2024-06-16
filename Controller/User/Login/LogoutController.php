@@ -51,7 +51,7 @@ final class LogoutController extends AbstractController
                 $tokenStorage->setToken($impersonationToken);
                 $request->getSession()->remove('_switch_user');
 
-               return $this->redirectToReferer();
+                return $this->redirectToReferer();
             }
         }
 

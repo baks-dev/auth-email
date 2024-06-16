@@ -53,8 +53,7 @@ final class CurrentAccountEventRepository implements CurrentAccountEventInterfac
             ->select('event')
             ->from(Account::class, 'main')
             ->where('main.id = :user')
-            ->setParameter('user', $user, UserUid::TYPE)
-        ;
+            ->setParameter('user', $user, UserUid::TYPE);
 
         $orm->join(
             AccountEvent::class,

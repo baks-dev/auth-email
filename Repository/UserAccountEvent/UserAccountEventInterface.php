@@ -32,9 +32,9 @@ interface UserAccountEventInterface
 {
     public function getAccountEventByUser(UserUid $usr): ?AccountEntity\Event\AccountEvent;
 
-    public function getAccountEventNotBlockByEvent(AccountEventUid $event) : ?AccountEntity\Event\AccountEvent;
+    public function getAccountEventNotBlockByEvent(AccountEventUid $event): ?AccountEntity\Event\AccountEvent;
 
-    public function getAccountEventNotBlockByEmail(AccountEmail $email) : ?AccountEntity\Event\AccountEvent;
+    public function getAccountEventNotBlockByEmail(AccountEmail $email): ?AccountEntity\Event\AccountEvent;
 
 
 }

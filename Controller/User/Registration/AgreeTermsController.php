@@ -22,7 +22,8 @@ final class AgreeTermsController extends AbstractController
         RegistrationHandler $handler,
         MessageBusInterface $bus,
         //FriendlyCaptcha $captcha,
-    ): Response {
+    ): Response
+    {
         return $this->render();
     }
 }

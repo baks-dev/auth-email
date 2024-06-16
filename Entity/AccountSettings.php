@@ -29,98 +29,101 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Table(name: 'users_account_settings')]
 class AccountSettings
 {
-	public const TABLE = 'users_account_settings';
-	
-	/**
+    public const TABLE = 'users_account_settings';
+
+    /**
      * ID
      */
     #[Assert\NotBlank]
-	#[ORM\Id]
-	#[ORM\Column(type: AccountSettingsIdentifier::TYPE)]
-	private AccountSettingsIdentifier $id;
-	
-	/**
+    #[ORM\Id]
+    #[ORM\Column(type: AccountSettingsIdentifier::TYPE)]
+    private AccountSettingsIdentifier $id;
+
+    /**
      * Очищать корзину старше n дней
      */
     #[Assert\NotBlank]
     #[Assert\Length(max: 3)]
     #[Assert\Range(max: 365)]
-	#[ORM\Column(name: 'settings_truncate', type: Types::SMALLINT)]
-	private int $settingsTruncate = 30;
-	
-	/**
+    #[ORM\Column(name: 'settings_truncate', type: Types::SMALLINT)]
+    private int $settingsTruncate = 30;
+
+    /**
      * Очищать события старше n дней
      */
-	#[ORM\Column(name: 'settings_history', type: Types::SMALLINT)]
-	private int $settingsHistory = 30;
-	
-	/**
+    #[ORM\Column(name: 'settings_history', type: Types::SMALLINT)]
+    private int $settingsHistory = 30;
+
+    /**
      * Регистрация пользователей
      */
-	#[ORM\Column(name: 'settings_registration', type: Types::BOOLEAN)]
-	private bool $isRegistration = true;
-	
-	/**
+    #[ORM\Column(name: 'settings_registration', type: Types::BOOLEAN)]
+    private bool $isRegistration = true;
+
+    /**
      * Регистрация пользователей
      */
-	#[ORM\Column(name: 'settings_restore', type: Types::BOOLEAN)]
-	private bool $isRestore = true;
-	
-	
-	public function __construct() { $this->id = new AccountSettingsIdentifier(); }
-	
-	
-	public function getId() : AccountSettingsIdentifier
-	{
-		return $this->id;
-	}
-	
-	
-	public function getSettingsTruncate() : int
-	{
-		return $this->settingsTruncate;
-	}
-	
-	
-	public function setSettingsTruncate(int $settingsTruncate) : void
-	{
-		$this->settingsTruncate = $settingsTruncate;
-	}
-	
-	
-	public function getSettingsHistory() : int
-	{
-		return $this->settingsHistory;
-	}
-	
-	
-	public function setSettingsHistory(int $settingsHistory) : void
-	{
-		$this->settingsHistory = $settingsHistory;
-	}
-	
-	
-	public function isRegistration() : bool
-	{
-		return $this->isRegistration;
-	}
-	
-	
-	public function setIsRegistration(bool $isRegistration) : void
-	{
-		$this->isRegistration = $isRegistration;
-	}
-	
-	
-	public function isRestore() : bool
-	{
-		return $this->isRestore;
-	}
-	
-	
-	public function setIsRestore(bool $isRestore) : void
-	{
-		$this->isRestore = $isRestore;
-	}
-	
+    #[ORM\Column(name: 'settings_restore', type: Types::BOOLEAN)]
+    private bool $isRestore = true;
+
+
+    public function __construct()
+    {
+        $this->id = new AccountSettingsIdentifier();
+    }
+
+
+    public function getId(): AccountSettingsIdentifier
+    {
+        return $this->id;
+    }
+
+
+    public function getSettingsTruncate(): int
+    {
+        return $this->settingsTruncate;
+    }
+
+
+    public function setSettingsTruncate(int $settingsTruncate): void
+    {
+        $this->settingsTruncate = $settingsTruncate;
+    }
+
+
+    public function getSettingsHistory(): int
+    {
+        return $this->settingsHistory;
+    }
+
+
+    public function setSettingsHistory(int $settingsHistory): void
+    {
+        $this->settingsHistory = $settingsHistory;
+    }
+
+
+    public function isRegistration(): bool
+    {
+        return $this->isRegistration;
+    }
+
+
+    public function setIsRegistration(bool $isRegistration): void
+    {
+        $this->isRegistration = $isRegistration;
+    }
+
+
+    public function isRestore(): bool
+    {
+        return $this->isRestore;
+    }
+
+
+    public function setIsRestore(bool $isRestore): void
+    {
+        $this->isRestore = $isRestore;
+    }
+
 }

@@ -63,28 +63,28 @@ final class LoginDTOTest extends TestCase
         self::assertSame($password, $this->dto->getPassword());
     }
 
-//    public function testValidation(): void
-//    {
-//        $validator = Validation::createValidatorBuilder()
-//            //->enableAnnotationMapping()
-//            ->getValidator();
-//        $violations = $validator->validate($this->dto);
-//
-//        self::assertEquals(2, $violations->count());
-//        self::assertEquals('This value should not be blank.', $violations[0]->getMessage());
-//        self::assertEquals('This value should not be blank.', $violations[1]->getMessage());
-//
-//        $email = new AccountEmail('test@example.com');
-//        $this->dto->setEmail($email);
-//        $this->dto->setPassword('jZUAi');
-//        $violations = $validator->validate($this->dto);
-//
-//        self::assertEquals(1, $violations->count());
-//        self::assertEquals('This value is too short. It should have 8 characters or more.', $violations[0]->getMessage());
-//
-//
-//        $this->dto->setPassword('RShJUTTrDs');
-//        $violations = $validator->validate($this->dto);
-//        self::assertEquals(0, $violations->count());
-//    }
+    //    public function testValidation(): void
+    //    {
+    //        $validator = Validation::createValidatorBuilder()
+    //            //->enableAnnotationMapping()
+    //            ->getValidator();
+    //        $violations = $validator->validate($this->dto);
+    //
+    //        self::assertEquals(2, $violations->count());
+    //        self::assertEquals('This value should not be blank.', $violations[0]->getMessage());
+    //        self::assertEquals('This value should not be blank.', $violations[1]->getMessage());
+    //
+    //        $email = new AccountEmail('test@example.com');
+    //        $this->dto->setEmail($email);
+    //        $this->dto->setPassword('jZUAi');
+    //        $violations = $validator->validate($this->dto);
+    //
+    //        self::assertEquals(1, $violations->count());
+    //        self::assertEquals('This value is too short. It should have 8 characters or more.', $violations[0]->getMessage());
+    //
+    //
+    //        $this->dto->setPassword('RShJUTTrDs');
+    //        $violations = $validator->validate($this->dto);
+    //        self::assertEquals(0, $violations->count());
+    //    }
 }

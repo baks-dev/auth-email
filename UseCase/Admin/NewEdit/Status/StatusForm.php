@@ -27,38 +27,36 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 final class StatusForm extends AbstractType
 {
-//    private $locale;
-//
-//    public function __construct(TranslatorInterface $translator)
-//    {
-//        $this->locale = $translator->getLocale();
-//    }
-    
-    public function buildForm(FormBuilderInterface $builder, array $options) : void
+    //    private $locale;
+    //
+    //    public function __construct(TranslatorInterface $translator)
+    //    {
+    //        $this->locale = $translator->getLocale();
+    //    }
+
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->add('status', ChoiceType::class, [
-          'choices'  => EmailStatus::cases(),
-          'choice_value' => function (EmailStatus $status)
-          {
-              return $status->getEmailStatusValue();
-          },
-          'choice_label' => function (EmailStatus $status)
-          {
-              return $status->getEmailStatusValue();
-          },
-          'label' => false,
-          'translation_domain' => 'account.status'
+            'choices' => EmailStatus::cases(),
+            'choice_value' => function(EmailStatus $status) {
+                return $status->getEmailStatusValue();
+            },
+            'choice_label' => function(EmailStatus $status) {
+                return $status->getEmailStatusValue();
+            },
+            'label' => false,
+            'translation_domain' => 'account.status'
         ]);
 
     }
-    
-    public function configureOptions(OptionsResolver $resolver) : void
+
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults
         (
-          [
-            'data_class' => StatusDTO::class,
-          ]);
+            [
+                'data_class' => StatusDTO::class,
+            ]);
     }
-    
+
 }

@@ -35,14 +35,15 @@ use Symfony\Component\Routing\Annotation\Route;
 #[RoleSecurity('ROLE_ACCOUNT_EMAIL_DELETE')]
 final class DeleteController extends AbstractController
 {
-    #[Route('/admin/account/email/delete/{id}', name: 'admin.delete', methods: ['GET','POST'])]
+    #[Route('/admin/account/email/delete/{id}', name: 'admin.delete', methods: ['GET', 'POST'])]
     public function delete(
         #[MapEntity] AccountEvent $Event,
         Request $request,
         AccountDeleteHandler $AccountDeleteHandler
-    ): Response {
+    ): Response
+    {
 
-        $AccountDeleteDTO =  new AccountDeleteDTO();
+        $AccountDeleteDTO = new AccountDeleteDTO();
         $Event->getDto($AccountDeleteDTO);
 
         $form = $this->createForm(AccountDeleteForm::class, $AccountDeleteDTO, [

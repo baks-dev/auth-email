@@ -27,13 +27,13 @@ use BaksDev\Users\User\Type\Id\UserUid;
 
 interface CurrentUserAccountInterface
 {
-	/** Текущий аккаунт авторизованного пользователя
-	 * возвращает массив с полями:
-	 *
-	 * account_id - ID аккаунта; <br>
-	 * account_event - ID события; <br>
-	 * account_email - Email пользователя; <br>
-	 */
-	public function fetchAccountAssociative(UserUid $usr) : bool|array;
-	
+    /** Текущий аккаунт авторизованного пользователя
+     * возвращает массив с полями:
+     *
+     * account_id - ID аккаунта; <br>
+     * account_event - ID события; <br>
+     * account_email - Email пользователя; <br>
+     */
+    public function fetchAccountAssociative(UserUid $usr): bool|array;
+
 }

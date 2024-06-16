@@ -50,7 +50,7 @@ final class EditController extends AbstractController
         Request $request,
         AccountHandler $accountHandler,
         Security $security,
-    ) : Response
+    ): Response
     {
 
         /* Показываем только собственные профили пользователя */
@@ -68,13 +68,13 @@ final class EditController extends AbstractController
         $form = $this->createForm(AccountForm::class, $account);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid() && $form->has('account'))
+        if($form->isSubmitted() && $form->isValid() && $form->has('account'))
         {
             $this->refreshTokenForm($form);
 
             $Account = $accountHandler->handle($account);
 
-            if ($Account instanceof Account)
+            if($Account instanceof Account)
             {
                 /* Закрываем сессию авторизации */
                 $security->logout(false);

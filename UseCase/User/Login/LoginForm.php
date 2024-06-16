@@ -26,10 +26,10 @@ final class LoginForm extends AbstractType
 
         $builder->get('email')->addModelTransformer(
             new CallbackTransformer(
-                function ($email) {
+                function($email) {
                     return $email instanceof AccountEmail ? $email->getValue() : $email;
                 },
-                function ($email) {
+                function($email) {
                     return new AccountEmail($email);
                 }
             )

@@ -48,9 +48,9 @@ use Symfony\Component\DependencyInjection\Attribute\When;
  * @depends BaksDev\Auth\Email\Controller\Admin\Tests\EditControllerTest::class
  * @depends BaksDev\Auth\Email\Controller\User\Account\Tests\EditControllerTest::class
  *
- * @see AccountNewTest
- * @see AdminEditController
- * @see UserEditController
+ * @see     AccountNewTest
+ * @see     AdminEditController
+ * @see     UserEditController
  */
 #[When(env: 'test')]
 final class AccountEditTest extends KernelTestCase

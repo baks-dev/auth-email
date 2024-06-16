@@ -22,10 +22,10 @@ final class RegistrationForm extends AbstractType
 
         $builder->get('email')->addModelTransformer(
             new CallbackTransformer(
-                function ($email) {
+                function($email) {
                     return $email instanceof AccountEmail ? $email->getValue() : $email;
                 },
-                function ($email) {
+                function($email) {
                     return new AccountEmail($email);
                 }
             )
@@ -39,8 +39,7 @@ final class RegistrationForm extends AbstractType
 
         /** Пользовательское соглашение */
         $builder
-            ->add('agreeTerms', CheckboxType::class, ['required' => true])
-        ;
+            ->add('agreeTerms', CheckboxType::class, ['required' => true]);
 
         /** Регистрация */
         $builder->add(

@@ -42,7 +42,8 @@ final class AllAccountsRepository implements AllAccountsInterface
     public function __construct(
         DBALQueryBuilder $DBALQueryBuilder,
         PaginatorInterface $paginator,
-    ) {
+    )
+    {
         $this->paginator = $paginator;
         $this->DBALQueryBuilder = $DBALQueryBuilder;
     }
@@ -92,8 +93,7 @@ final class AllAccountsRepository implements AllAccountsInterface
                 ->createSearchQueryBuilder($search)
                 ->addSearchEqualUid('account.id')
                 ->addSearchEqualUid('account.event')
-                ->addSearchLike('account_event.email')
-            ;
+                ->addSearchLike('account_event.email');
         }
 
         $qb->orderBy('account_status.status', 'ASC');

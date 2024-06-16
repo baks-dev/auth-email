@@ -28,7 +28,8 @@ final class RestoreController extends AbstractController
     ): Response
     {
         // Если пользователь авторизован - редирект
-        if ($this->getUsr()) {
+        if($this->getUsr())
+        {
             return $this->redirectToRoute('core:user.homepage', status: 302);
         }
 
@@ -36,7 +37,8 @@ final class RestoreController extends AbstractController
         $form = $this->createForm(RestoreForm::class, $registrationDTO);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid() && $form->has('restore')) {
+        if($form->isSubmitted() && $form->isValid() && $form->has('restore'))
+        {
 
             $this->refreshTokenForm($form);
 

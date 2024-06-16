@@ -33,12 +33,13 @@ use Symfony\Component\Routing\Annotation\Route;
 final class IndexController extends AbstractController
 {
     /** Список всех зарегистрированных аккаунтов */
-    #[Route('/admin/account/emails/{page<\d+>}', name: 'admin.index', methods: [ 'GET', 'POST', ])]
+    #[Route('/admin/account/emails/{page<\d+>}', name: 'admin.index', methods: ['GET', 'POST',])]
     public function index(
         Request $request,
         AllAccountsInterface $Accounts,
         int $page = 0,
-    ): Response {
+    ): Response
+    {
 
         /* Поиск */
         $search = new SearchDTO($request);

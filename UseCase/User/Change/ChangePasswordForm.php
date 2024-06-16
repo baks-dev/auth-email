@@ -25,8 +25,7 @@ final class ChangePasswordForm extends AbstractType
                 ],
                 'invalid_message' => 'user.danger.match',
 
-            ])
-        ;
+            ]);
 
         /** Регистрация */
         $builder->add(

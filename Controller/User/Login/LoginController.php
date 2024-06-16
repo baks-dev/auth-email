@@ -30,29 +30,29 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 #[AsController]
 final class LoginController extends AbstractController
 {
-	#[Route('/login', name: 'user.login')]
-	public function login(
-		Request $request,
-		AuthenticationUtils $authenticationUtils,
-	) : Response
-	{
+    #[Route('/login', name: 'user.login')]
+    public function login(
+        Request $request,
+        AuthenticationUtils $authenticationUtils,
+    ): Response
+    {
 
-		if($this->getUsr())
-		{
-			/* Редирект на главную страницу */
-			return $this->redirectToRoute('core:user.homepage');
-		}
+        if($this->getUsr())
+        {
+            /* Редирект на главную страницу */
+            return $this->redirectToRoute('core:user.homepage');
+        }
 
-		$LoginDTO = new LoginDTO();
-		$form = $this->createForm(
-			LoginForm::class,
-			$LoginDTO,
-			['action' => $this->generateUrl('auth-email:user.login'),]
-		);
+        $LoginDTO = new LoginDTO();
+        $form = $this->createForm(
+            LoginForm::class,
+            $LoginDTO,
+            ['action' => $this->generateUrl('auth-email:user.login'),]
+        );
 
-		return $this->render([
-			'form' => $form->createView(),
-		]);
-	}
+        return $this->render([
+            'form' => $form->createView(),
+        ]);
+    }
 
 }

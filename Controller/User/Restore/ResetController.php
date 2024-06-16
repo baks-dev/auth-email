@@ -11,6 +11,7 @@ use BaksDev\Core\Type\UidType\ParamConverter;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\AsController;
+
 //use Symfony\Component\HttpKernel\UriSigner;
 use Symfony\Component\HttpFoundation\UriSigner;
 use Symfony\Component\Routing\Annotation\Route;
@@ -31,36 +32,42 @@ final class ResetController extends AbstractController
     ): Response
     {
         // Проверяем что пользователь не авторизован
-        if ($this->getUsr()) {
+        if($this->getUsr())
+        {
             throw new RouteNotFoundException('Page Not Found');
         }
 
         // Проверяем, что ссылка не была ранее изменена
-        if (false === $uriSigner->checkRequest($request)) {
+        if(false === $uriSigner->checkRequest($request))
+        {
             throw new RouteNotFoundException('Page Not Found');
         }
 
         // Проверяем, что передан идентификатор события
-        if (null === $AccountEventUid) {
+        if(null === $AccountEventUid)
+        {
             throw new RouteNotFoundException('Page Not Found');
         }
 
         $Event = $accountEvent->getAccountEventNotBlockByEvent($AccountEventUid);
 
         // Проверяем что пользователь с событием не заблокирован
-        if (null === $Event) {
+        if(null === $Event)
+        {
             throw new RouteNotFoundException('Page Not Found');
         }
 
         // Проверяем переданный токен с существующим
         $knownToken = $urlTokenGenerator->createToken($Event->getAccount(), $Event->getId());
 
-        if (!hash_equals($knownToken, $request->get('_token'))) {
+        if(!hash_equals($knownToken, $request->get('_token')))
+        {
             throw new RouteNotFoundException('Page Not Found');
         }
 
         // Проверяем срок действия ссылки (5 минут)
-        if ((time() - (int) $request->get('expires')) > 300) {
+        if((time() - (int) $request->get('expires')) > 300)
+        {
             $this->addFlash('danger', 'user.danger.expired', 'user.reset');
 
             return $this->redirectToRoute('auth-email:user.restore');

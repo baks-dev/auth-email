@@ -40,7 +40,8 @@ final class EditController extends AbstractController
         #[MapEntity] AccountEvent $Event,
         Request $request,
         AccountHandler $accountHandler
-    ): Response {
+    ): Response
+    {
 
         $account = new AccountDTO();
         $Event->getDto($account);

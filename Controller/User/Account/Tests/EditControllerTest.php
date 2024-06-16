@@ -43,7 +43,7 @@ final class EditControllerTest extends WebTestCase
 
         $client->loginUser($usr, 'user');
         $client->request('GET', self::URL);
-        
+
         // Page Not Found (500 Internal Server Error)
         //self::assertResponseStatusCodeSame(500);
 
