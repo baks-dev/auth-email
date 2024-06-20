@@ -57,8 +57,7 @@ final class AccountHandler extends AbstractHandler
         FileUploadInterface $fileUpload,
         ExistAccountByEmailInterface $existAccountByEmail,
         UserPasswordHasherInterface $userPasswordHasher,
-    )
-    {
+    ) {
         parent::__construct($entityManager, $messageDispatch, $validatorCollection, $imageUpload, $fileUpload);
 
         $this->existAccountByEmail = $existAccountByEmail;
@@ -73,7 +72,7 @@ final class AccountHandler extends AbstractHandler
         /** Валидация DTO  */
         $this->validatorCollection->add($command);
 
-
+        $User = false;
         $this->main = new Account();
         $this->event = new AccountEvent();
 
@@ -81,7 +80,6 @@ final class AccountHandler extends AbstractHandler
         {
             $User = new User();
             $this->main = new Account($User);
-            $this->entityManager->persist($User);
         }
 
         /**
@@ -130,6 +128,11 @@ final class AccountHandler extends AbstractHandler
         if($this->validatorCollection->isInvalid())
         {
             return $this->validatorCollection->getErrorUniqid();
+        }
+
+        if($User)
+        {
+            $this->entityManager->persist($User);
         }
 
 
