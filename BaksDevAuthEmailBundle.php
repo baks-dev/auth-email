@@ -25,14 +25,12 @@ declare(strict_types=1);
 
 namespace BaksDev\Auth\Email;
 
-use DirectoryIterator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symfony\Component\HttpKernel\Bundle\AbstractBundle;
 
 class BaksDevAuthEmailBundle extends AbstractBundle
 {
-
     public const NAMESPACE = __NAMESPACE__.'\\';
 
     public const PATH = __DIR__.DIRECTORY_SEPARATOR;
@@ -53,7 +51,8 @@ class BaksDevAuthEmailBundle extends AbstractBundle
 
         $services->load(
             self::NAMESPACE.'Type\EmailStatus\Status\\',
-            self::PATH.'Type/EmailStatus/Status');
+            self::PATH.'Type/EmailStatus/Status'
+        );
     }
-	
+
 }
