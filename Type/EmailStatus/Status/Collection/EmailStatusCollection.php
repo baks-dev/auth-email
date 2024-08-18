@@ -25,7 +25,7 @@ declare(strict_types=1);
 
 namespace BaksDev\Auth\Email\Type\EmailStatus\Status\Collection;
 
-use Symfony\Component\DependencyInjection\Attribute\TaggedIterator;
+use Symfony\Component\DependencyInjection\Attribute\AutowireIterator;
 
 final class EmailStatusCollection
 {
@@ -33,7 +33,7 @@ final class EmailStatusCollection
 
 
     public function __construct(
-        #[TaggedIterator('baks.email.status', defaultPriorityMethod: 'sort')] iterable $status,
+        #[AutowireIterator('baks.email.status', defaultPriorityMethod: 'sort')] iterable $status,
     )
     {
         $this->status = $status;
