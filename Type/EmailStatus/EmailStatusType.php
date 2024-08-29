@@ -26,7 +26,7 @@ final class EmailStatusType extends Type
 {
     public function convertToDatabaseValue($value, AbstractPlatform $platform): string
     {
-        return (string) $value;
+        return (string) new EmailStatus($value);
     }
 
     public function convertToPHPValue($value, AbstractPlatform $platform): ?EmailStatus

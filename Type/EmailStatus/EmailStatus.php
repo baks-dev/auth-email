@@ -47,8 +47,6 @@ final class EmailStatus
                 return;
             }
         }
-
-
     }
 
 
