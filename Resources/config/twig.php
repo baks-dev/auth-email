@@ -24,17 +24,11 @@
 namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 
 use BaksDev\Auth\Email\BaksDevAuthEmailBundle;
-use Symfony\Config\FrameworkConfig;
+use Symfony\Config\TwigConfig;
 
-return static function(FrameworkConfig $config) {
-
-    $config
-        ->translator()
-        ->paths([BaksDevAuthEmailBundle::PATH.'Resources/translations/']);
+return static function (TwigConfig $twig) {
+    $twig->path(
+        BaksDevAuthEmailBundle::PATH.implode(DIRECTORY_SEPARATOR, ['Resources', 'view', '']),
+        'auth-email'
+    );
 };
-
-
-
-
-
-

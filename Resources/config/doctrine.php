@@ -34,7 +34,7 @@ use BaksDev\Auth\Email\Type\EmailStatus\EmailStatus;
 use BaksDev\Auth\Email\Type\EmailStatus\EmailStatusType;
 use Symfony\Config\DoctrineConfig;
 
-return static function(ContainerConfigurator $container, DoctrineConfig $doctrine) {
+return static function (ContainerConfigurator $container, DoctrineConfig $doctrine) {
 
 
     $doctrine->dbal()->type(AccountEventUid::TYPE)->class(AccountEventType::class);
@@ -57,6 +57,6 @@ return static function(ContainerConfigurator $container, DoctrineConfig $doctrin
         ->type('attribute')
         ->dir(BaksDevAuthEmailBundle::PATH.'Entity')
         ->isBundle(false)
-        ->prefix('BaksDev\Auth\Email\Entity')
+        ->prefix(BaksDevAuthEmailBundle::NAMESPACE.'\\Entity')
         ->alias('auth-email');
 };
