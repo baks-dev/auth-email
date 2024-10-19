@@ -32,26 +32,20 @@ final class VerifyHandler
     private LoggerInterface $logger;
     private MessageDispatchInterface $messageDispatch;
 
-
     public function __construct(
         EntityManagerInterface $entityManager,
         ValidatorInterface $validator,
         LoggerInterface $logger,
-        MessageDispatchInterface $messageDispatch
-    )
-    {
+        MessageDispatchInterface $messageDispatch,
+    ) {
         $this->entityManager = $entityManager;
         $this->validator = $validator;
         $this->logger = $logger;
         $this->messageDispatch = $messageDispatch;
     }
 
-
-    public function handle(
-        VerifyDTO $command,
-    ): string|EntityAccount\Account
+    public function handle(VerifyDTO $command): string|EntityAccount\Account
     {
-
         /* Валидация DTO */
         $errors = $this->validator->validate($command);
 
@@ -65,10 +59,10 @@ final class VerifyHandler
         }
 
         $EventRepo = $this->entityManager->getRepository(EntityAccount\Event\AccountEvent::class)->find(
-            $command->getEvent()
+            $command->getEvent(),
         );
 
-        if($EventRepo === null)
+        if(null === $EventRepo)
         {
             $uniqid = uniqid('', false);
             $errorsString = sprintf('Ошибка при активации сущности AccountEvent с id: %s', $command->getEvent());
@@ -77,19 +71,17 @@ final class VerifyHandler
             return $uniqid;
         }
 
-
         /* AccountEvent */
         $EventRepo->setEntity($command);
         $EventRepo->setEntityManager($this->entityManager);
         $Event = $EventRepo->cloneEntity();
 
-
         /* Account */
         $Account = $this->entityManager->getRepository(EntityAccount\Account::class)->findOneBy(
-            ['event' => $command->getEvent()]
+            ['event' => $command->getEvent()],
         );
 
-        if($Account === null)
+        if(null === $Account)
         {
             $uniqid = uniqid('', false);
             $errorsString = sprintf('Ошибка при активации сущности Account с событием event: %s', $command->getEvent());
@@ -104,14 +96,12 @@ final class VerifyHandler
 
         $this->entityManager->flush();
 
-
         /* Отправляем сообщение в шину */
         $this->messageDispatch->dispatch(
             message: new AccountMessage($Account->getId(), $Account->getEvent(), $command->getEvent()),
-            transport: 'auth-email'
+            transport: 'auth-email',
         );
 
         return $Account;
     }
-
 }
