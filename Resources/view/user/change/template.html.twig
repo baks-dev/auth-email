@@ -7,10 +7,10 @@
 
 {# ---- КОНТЕНТ-БЛОК ------------------------------------------------------------ #}
 {% block content %}
-	{{ include(_self|replace({ "template.html.twig": "content.html.twig" })) }}
+    {{ include(_self|replace({ "template.html.twig": "content.html.twig" })) }}
 {% endblock %}
 
 {% block javascript %}
-<script nonce='{{ csp_nonce() }}' async  data-src="/assets/js/password.meter.min.js" class="lazy"></script>
+    <script nonce='{{ csp_nonce() }}' async data-src="/assets/js/password.meter.min.js" class="lazy"></script>
 {% endblock %}
 

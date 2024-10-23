@@ -1,19 +1,19 @@
 {% trans_default_domain 'account.status' %}
 
 {% if status == 'act' %}
-	<div class="badge text-bg-success">
-		{{ 'ACTIVE'|trans }}
-	</div>
+    <div class="badge text-bg-success">
+        {{ 'ACTIVE'|trans }}
+    </div>
 {% elseif status == 'new' %}
-	<div class="badge  text-bg-info">
-		{{ 'NEW'|trans }}
-	</div>
+    <div class="badge  text-bg-info">
+        {{ 'NEW'|trans }}
+    </div>
 {% elseif status == 'unc' %}
-	<div class="badge  text-bg-info">
-		{{ 'UNCONFIRMED'|trans }}
-	</div>
+    <div class="badge  text-bg-info">
+        {{ 'UNCONFIRMED'|trans }}
+    </div>
 {% elseif status == 'ban' %}
-	<div class="badge  text-bg-danger">
-		{{ 'BLOCK'|trans }}
-	</div>
+    <div class="badge  text-bg-danger">
+        {{ 'BLOCK'|trans }}
+    </div>
 {% endif %}

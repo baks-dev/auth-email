@@ -32,7 +32,6 @@
       "BaksDev\\Auth\\Email\\": ""
     }
   },
-
   "config": {
     "sort-packages": true,
     "allow-plugins": {

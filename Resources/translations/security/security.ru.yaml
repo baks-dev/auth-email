@@ -1,4 +1,3 @@
-
 ROLE_ACCOUNT_EMAIL:
   header: 'Аккаунты'
   name: 'Email аккаунты'

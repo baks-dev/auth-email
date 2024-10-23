@@ -7,16 +7,18 @@
 
 {# ---- КОНТЕНТ-БЛОК ------------------------------------------------------------ #}
 {% block content %}
-	{{ include(_self|replace({ "template.html.twig" : baks_settings.device~"/content.html.twig" })) }}
+    {{ include(_self|replace({ "template.html.twig" : baks_settings.device~"/content.html.twig" })) }}
 {% endblock %}
 
 
 
  {% block javascript %}
- <script nonce='{{ csp_nonce() }}' async  data-src='/assets/js/password.meter.js?v={{ version }}' class='lazy'></script>
- {% if CAPTCHA is defined %}
- <script nonce="{{ csp_nonce() }}" class="lazy" type="module" data-src="https://cdn.jsdelivr.net/npm/friendly-challenge@0.9.9/widget.module.min.js"></script>
-{% endif %}
+     <script nonce='{{ csp_nonce() }}' async data-src='/assets/js/password.meter.js?v={{ version }}'
+             class='lazy'></script>
+     {% if CAPTCHA is defined %}
+         <script nonce="{{ csp_nonce() }}" class="lazy" type="module"
+                 data-src="https://cdn.jsdelivr.net/npm/friendly-challenge@0.9.9/widget.module.min.js"></script>
+     {% endif %}
 
  {% endblock %}
 

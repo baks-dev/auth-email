@@ -1,24 +1,24 @@
 <main class="main d-print-none container">
-	
-	<div class="container mt-3">
-		{{ include(_self|replace({ "content.html.twig": "breadcrumb.html.twig" })) }}
-	</div>
-	
-	<div class="container d-flex justify-content-center w-75 my-5 pb-5">
-		
-		<div class="w-75 d-flex position-relative align-items-center pt-3">
-			<img data-src="/assets/restore/img/restore.webp" src="/assets/img/empty.webp"
-					class="lazy w-100 me-5"
-					alt="..." width="300"
-			>
-		</div>
-		
-		<div class="w-100">
-			{# ФОРМА ВОССТАНОВЛЕНИЯ #}
-			{{ include(_self|replace({ "content.html.twig": "_form.html.twig" })) }}
-		</div>
-	
-	</div>
+
+    <div class="container mt-3">
+        {{ include(_self|replace({ "content.html.twig": "breadcrumb.html.twig" })) }}
+    </div>
+
+    <div class="container d-flex justify-content-center w-75 my-5 pb-5">
+
+        <div class="w-75 d-flex position-relative align-items-center pt-3">
+            <img data-src="/assets/restore/img/restore.webp" src="/assets/img/empty.webp"
+                 class="lazy w-100 me-5"
+                 alt="..." width="300"
+            >
+        </div>
+
+        <div class="w-100">
+            {# ФОРМА ВОССТАНОВЛЕНИЯ #}
+            {{ include(_self|replace({ "content.html.twig": "_form.html.twig" })) }}
+        </div>
+
+    </div>
 </main>
 
 

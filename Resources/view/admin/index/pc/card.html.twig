@@ -2,32 +2,33 @@
 
 <tr class="vertical-middle">
 
-	<td class="text-nowrap">
-		{# Пользовательское меню #}
-		{{ include(_self|replace({ "card.html.twig": "_usecase.html.twig" })) }}
-	</td>
+    <td class="text-nowrap">
+        {# Пользовательское меню #}
+        {{ include(_self|replace({ "card.html.twig": "_usecase.html.twig" })) }}
+    </td>
 
-	<td class="text-center">
-		{{ account_status(item.status) }}
-	</td>
+    <td class="text-center">
+        {{ account_status(item.status) }}
+    </td>
 
-	<td class="w-100">
-		<a href="{{ path('auth-email:admin.newedit.edit', { id: item.event }) }}"
-		   class="text-decoration-none fw-bolder"
-		>{{ item.email }}</a>
-	</td>
-	
-	<td class="text-center">
-		{{ item.update|date('d.m.Y H:i') }}
-	</td>
+    <td class="w-100">
+        <a href="{{ path('auth-email:admin.newedit.edit', { id: item.event }) }}"
+           class="text-decoration-none fw-bolder"
+        >{{ item.email }}</a>
+    </td>
 
-	{% if is_granted('ROLE_ADMIN') and app.user.id != item.id %}
-		<td class="ps-5">
-			{# Прейти в режим пользователя #}
+    <td class="text-center">
+        {{ item.update|date('d.m.Y H:i') }}
+    </td>
 
-			<a href='{{ path('users-user:admin.switch', { id : item.id  }) }}' class="badge text-bg-light text-decoration-none">
-				Авторизоваться
-			</a>
-		</td>
-	{% endif %}
+    {% if is_granted('ROLE_ADMIN') and app.user.id != item.id %}
+        <td class="ps-5">
+            {# Прейти в режим пользователя #}
+
+            <a href='{{ path('users-user:admin.switch', { id : item.id  }) }}'
+               class="badge text-bg-light text-decoration-none">
+                Авторизоваться
+            </a>
+        </td>
+    {% endif %}
 </tr>
