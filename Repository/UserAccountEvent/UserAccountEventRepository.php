@@ -25,7 +25,11 @@ declare(strict_types=1);
 
 namespace BaksDev\Auth\Email\Repository\UserAccountEvent;
 
-use BaksDev\Auth\Email\Entity as AccountEntity;
+
+use BaksDev\Auth\Email\Entity\Account;
+use BaksDev\Auth\Email\Entity\Event\AccountEvent;
+use BaksDev\Auth\Email\Entity\Status\AccountStatus;
+use BaksDev\Auth\Email\Repository\AccountEventNotBlock\AccountEventNotBlockByEvent\AccountEventNotBlockByEventInterface;
 use BaksDev\Auth\Email\Type\Email\AccountEmail;
 use BaksDev\Auth\Email\Type\EmailStatus\EmailStatus;
 use BaksDev\Auth\Email\Type\EmailStatus\Status\EmailStatusBlock;
@@ -42,20 +46,25 @@ final class UserAccountEventRepository implements UserAccountEventInterface
         $this->entityManager = $entityManager;
     }
 
-    public function getAccountEventByUser(UserUid $usr): ?AccountEntity\Event\AccountEvent
+    /**
+     * @deprecated
+     * @see AccountEventByUserInterface
+     *
+     * Метод возвращает активное событие указанного пользователя
+     */
+    public function getAccountEventByUser(UserUid $usr): ?AccountEvent
     {
         $qb = $this->entityManager->createQueryBuilder();
 
-
         $qb
-            ->from(AccountEntity\Account::class, 'account')
+            ->from(Account::class, 'account')
             ->where('account.id = :usr')
             ->setParameter('usr', $usr, UserUid::TYPE);
 
         $qb
             ->select('account_event')
             ->join(
-                AccountEntity\Event\AccountEvent::class,
+                AccountEvent::class,
                 'account_event',
                 'WITH',
                 'account_event.id = account.event'
@@ -65,21 +74,25 @@ final class UserAccountEventRepository implements UserAccountEventInterface
         return $qb->getQuery()->getOneOrNullResult();
     }
 
-    public function getAccountEventNotBlockByEmail(AccountEmail $email): ?AccountEntity\Event\AccountEvent
+    /**
+     * @deprecated
+     * @see AccountEventNotBlockByEmailInterface
+     */
+    public function getAccountEventNotBlockByEmail(AccountEmail $email): ?AccountEvent
     {
         $qb = $this->entityManager->createQueryBuilder();
 
         $qb->select('event');
 
         $qb
-            ->from(AccountEntity\Event\AccountEvent::class, 'event')
+            ->from(AccountEvent::class, 'event')
             ->where('event.email = :email')
             ->setParameter('email', $email, AccountEmail::TYPE);
 
-        $qb->join(AccountEntity\Account::class, 'account', 'WITH', 'account.event = event.id');
+        $qb->join(Account::class, 'account', 'WITH', 'account.event = event.id');
 
         $qb->join(
-            AccountEntity\Status\AccountStatus::class,
+            AccountStatus::class,
             'status',
             'WITH',
             'status.event = event.id AND  status.status != :status'
@@ -95,26 +108,31 @@ final class UserAccountEventRepository implements UserAccountEventInterface
         return $qb->getQuery()->getOneOrNullResult();
     }
 
-    public function getAccountEventNotBlockByEvent(AccountEventUid $event): ?AccountEntity\Event\AccountEvent
+
+    /**
+     * @deprecated
+     * @see AccountEventNotBlockByEventInterface
+     */
+    public function getAccountEventNotBlockByEvent(AccountEventUid $event): ?AccountEvent
     {
         $qb = $this->entityManager->createQueryBuilder();
 
         $qb->select('event');
 
         $qb
-            ->from(AccountEntity\Event\AccountEvent::class, 'event')
+            ->from(AccountEvent::class, 'event')
             ->where('event.id = :event')
             ->setParameter('event', $event, AccountEventUid::TYPE);
 
         $qb->join(
-            AccountEntity\Account::class,
+            Account::class,
             'account',
             'WITH',
             'account.event = event.id'
         );
 
         $qb->join(
-            AccountEntity\Status\AccountStatus::class,
+            AccountStatus::class,
             'status',
             'WITH',
             'status.event = event.id AND  status.status != :status'

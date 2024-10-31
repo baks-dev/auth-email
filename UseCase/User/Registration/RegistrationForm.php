@@ -24,17 +24,23 @@
 namespace BaksDev\Auth\Email\UseCase\User\Registration;
 
 use BaksDev\Auth\Email\Type\Email\AccountEmail;
+use BaksDev\Captcha\Security\CaptchaVerify;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\CallbackTransformer;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 final class RegistrationForm extends AbstractType
 {
+    public function __construct(private readonly CaptchaVerify $captchaVerify) {}
+
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         /** Email */
@@ -58,8 +64,27 @@ final class RegistrationForm extends AbstractType
         ]);
 
         /** Пользовательское соглашение */
-        $builder
-            ->add('agreeTerms', CheckboxType::class, ['required' => true]);
+        $builder->add('agreeTerms', CheckboxType::class, ['required' => true]);
+
+
+        $builder->add('code', TextType::class);
+
+        $builder->get('code')->addEventListener(
+            FormEvents::POST_SUBMIT,
+            function(FormEvent $event): void {
+
+                $code = $event->getForm()->getData();
+                $verify = $this->captchaVerify->verify($code);
+
+                /** @var RegistrationDTO $RegistrationDTO */
+                $RegistrationDTO = $event->getForm()->getParent()?->getData();
+
+                if($verify)
+                {
+                    $RegistrationDTO->captchaValid();
+                }
+            }
+        );
 
         /** Регистрация */
         $builder->add(

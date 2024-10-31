@@ -39,6 +39,7 @@
 					help: 'user.form.help.password'|trans
 				}) }} #}
 
+
             <div class="position-relative">
 
 									<span class="btn btn-link text-dark position-absolute end-0 bottom-0"
@@ -122,17 +123,15 @@
         </label>
     </div>
 
+    <div class="d-flex gap-3 align-items-center">
+        <div class="w-50 lazy bg-contain" data-bg="/captcha/image" style="height: 75px;">
+        </div>
+        <div class="w-50">{{ form_widget(form.code, { label: false, attr: { autocomplete : 'off', placeholder: 'Проверочный код' }  }) }}
+        </div>
+    </div>
+
     <div class="w-100">
 
-        {% if CAPTCHA is defined %}
-            <div id="registration-captcha"
-                 class="frc-captcha position-fixed end-0 bottom-0 m-5 d-none bg-body z-index-5"
-                 data-sitekey="{# {{ CAPTCHA }} #}"
-                 data-start="auto"
-                 data-callback="myCallback"
-                 data-lang="ru"
-            ></div>
-        {% endif %}
 
         {{ form_row(form.registration, {
             label: '<span>'~ 'user.btn.register'|trans() ~'</span>

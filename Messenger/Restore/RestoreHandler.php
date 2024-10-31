@@ -107,7 +107,7 @@ final class RestoreHandler
             return;
         }
 
-        // Получаем по Email пользователя, котоырй не заблокирован
+        // Получаем по Email пользователя, который не заблокирован
         $Event = $this->accountEvent->getAccountEventNotBlockByEmail($command->getEmail());
 
         if(!$Event)
