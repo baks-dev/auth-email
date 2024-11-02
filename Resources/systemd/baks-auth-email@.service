@@ -11,7 +11,7 @@
 
 
 [Unit]
-Description=Symfony messenger auth-email %i
+Description=auth-email
 StartLimitBurst=5
 StartLimitIntervalSec=0
 

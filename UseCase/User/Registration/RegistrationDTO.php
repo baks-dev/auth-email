@@ -54,11 +54,11 @@ final class RegistrationDTO implements AccountEventInterface
     private Status\StatusDTO $status;
 
     /** Пользовательское соглашение */
-    #[Assert\IsTrue()]
-    public ?bool $agreeTerms = true;
+    #[Assert\NotBlank]
+    public bool $agreeTerms = false;
 
     /** Пользовательское соглашение */
-    #[Assert\IsTrue]
+    #[Assert\NotBlank]
     private bool $captcha = false;
 
     /** Пользовательское соглашение */
