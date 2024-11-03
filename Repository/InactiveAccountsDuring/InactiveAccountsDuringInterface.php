@@ -21,40 +21,12 @@
  *  THE SOFTWARE.
  */
 
-declare(strict_types=1);
+namespace BaksDev\Auth\Email\Repository\InactiveAccountsDuring;
 
-namespace BaksDev\Auth\Email\Command;
-
-
-use Symfony\Component\Console\Attribute\AsCommand;
-use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Style\SymfonyStyle;
-
-#[AsCommand(
-    name: 'baks:auth-email:clear',
-    description: 'Очистить неактивные аккаунты'
-)]
-class ClearAccountCommand extends Command
+interface InactiveAccountsDuringInterface
 {
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    protected function configure(): void
-    {
-        $this->addArgument('argument', InputArgument::OPTIONAL, 'Описание аргумента');
-    }
-
-    protected function execute(InputInterface $input, OutputInterface $output): int
-    {
-        $io = new SymfonyStyle($input, $output);
-
-        $io->success('baks:clear:account');
-
-        return Command::SUCCESS;
-    }
+    /**
+     * Метод возвращает Email аккаунты, которые не были активированы в течении суток
+     */
+    public function find(): array|null;
 }
