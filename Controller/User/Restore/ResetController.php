@@ -34,7 +34,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\UriSigner;
 use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\Routing\Exception\RouteNotFoundException;
 
 //use Symfony\Component\HttpKernel\UriSigner;
 
@@ -55,19 +54,23 @@ final class ResetController extends AbstractController
         // Проверяем что пользователь не авторизован
         if($this->getUsr())
         {
-            throw new RouteNotFoundException('Page Not Found');
+            return $this->redirectToRoute('core:user.homepage');
         }
 
         // Проверяем, что ссылка не была ранее изменена
         if(false === $uriSigner->checkRequest($request))
         {
-            throw new RouteNotFoundException('Page Not Found');
+            $this->addFlash('danger', 'Произошла ошибка! Обратитесь в службу техподдержки, либо попробуйте еще раз.', 'user.reset');
+
+            return $this->redirectToRoute('auth-email:user.restore');
         }
 
         // Проверяем, что передан идентификатор события
         if(null === $AccountEventUid)
         {
-            throw new RouteNotFoundException('Page Not Found');
+            $this->addFlash('danger', 'Произошла ошибка! Обратитесь в службу техподдержки, либо попробуйте еще раз.', 'user.reset');
+
+            return $this->redirectToRoute('auth-email:user.restore');
         }
 
         $Event = $accountEvent->getAccountEventNotBlockByEvent($AccountEventUid);
@@ -75,7 +78,9 @@ final class ResetController extends AbstractController
         // Проверяем что пользователь с событием не заблокирован
         if(null === $Event)
         {
-            throw new RouteNotFoundException('Page Not Found');
+            $this->addFlash('danger', 'Произошла ошибка! Обратитесь в службу техподдержки, либо попробуйте еще раз.', 'user.reset');
+
+            return $this->redirectToRoute('auth-email:user.restore');
         }
 
         // Проверяем переданный токен с существующим
@@ -83,7 +88,9 @@ final class ResetController extends AbstractController
 
         if(!hash_equals($knownToken, $request->get('_token')))
         {
-            throw new RouteNotFoundException('Page Not Found');
+            $this->addFlash('danger', 'Произошла ошибка! Обратитесь в службу техподдержки, либо попробуйте еще раз.', 'user.reset');
+
+            return $this->redirectToRoute('auth-email:user.restore');
         }
 
         // Проверяем срок действия ссылки (5 минут)
