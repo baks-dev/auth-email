@@ -81,7 +81,6 @@ final class ChangeController extends AbstractController
 
             if($Account instanceof Account)
             {
-
                 // Редирект на страницу после активации аккаунта
                 $this->addFlash('success', 'user.success.change', 'user.reset');
 

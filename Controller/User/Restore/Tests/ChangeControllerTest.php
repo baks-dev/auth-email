@@ -46,7 +46,7 @@ final class ChangeControllerTest extends WebTestCase
             $client->setServerParameter('HTTP_USER_AGENT', $device);
             $client->request('GET', $this->controller);
 
-            self::assertResponseStatusCodeSame(302);
+            self::assertResponseStatusCodeSame(404);
         }
     }
 
@@ -64,7 +64,7 @@ final class ChangeControllerTest extends WebTestCase
             $client->loginUser($usr, 'user');
             $client->request('GET', $this->controller);
 
-            self::assertResponseStatusCodeSame(302);
+            self::assertResponseStatusCodeSame(404);
         }
     }
 }
