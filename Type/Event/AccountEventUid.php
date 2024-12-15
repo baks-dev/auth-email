@@ -28,8 +28,8 @@ use BaksDev\Core\Type\UidType\Uid;
 
 final class AccountEventUid extends Uid  //implements ValueResolverInterface
 {
-    public const TEST = '0188a991-96f3-742d-b4ff-680422baeef6';
+    public const string TEST = '0188a991-96f3-742d-b4ff-680422baeef6';
 
-    public const TYPE = 'account_event';
+    public const string TYPE = 'account_event';
 
 }

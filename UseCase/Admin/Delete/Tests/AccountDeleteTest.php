@@ -133,14 +133,14 @@ final class AccountDeleteTest extends KernelTestCase
 
         $qb = $dbal->createQueryBuilder(self::class);
         $qb
-            ->delete(User::TABLE)
+            ->delete(User::class)
             ->where('usr = :usr')
             ->setParameter('usr', UserUid::TEST)
             ->executeQuery();
 
         $qb = $dbal->createQueryBuilder(self::class);
         $qb
-            ->delete(Account::TABLE)
+            ->delete(Account::class)
             ->where('id = :account')
             ->setParameter('account', UserUid::TEST)
             ->executeQuery();

@@ -27,9 +27,9 @@ use InvalidArgumentException;
 
 final class AccountEmail
 {
-    public const TEST = 'test@test.local';
+    public const string TEST = 'test@test.local';
 
-    public const TYPE = 'account_email';
+    public const string TYPE = 'account_email';
 
     private string $value;
 

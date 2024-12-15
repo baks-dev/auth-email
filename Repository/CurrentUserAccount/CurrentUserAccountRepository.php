@@ -1,17 +1,17 @@
 <?php
 /*
- *  Copyright 2023.  Baks.dev <admin@baks.dev>
- *
+ *  Copyright 2024.  Baks.dev <admin@baks.dev>
+ *  
  *  Permission is hereby granted, free of charge, to any person obtaining a copy
  *  of this software and associated documentation files (the "Software"), to deal
  *  in the Software without restriction, including without limitation the rights
  *  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  *  copies of the Software, and to permit persons to whom the Software is furnished
  *  to do so, subject to the following conditions:
- *
+ *  
  *  The above copyright notice and this permission notice shall be included in all
  *  copies or substantial portions of the Software.
- *
+ *  
  *  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  *  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  *  FITNESS FOR A PARTICULAR PURPOSE AND NON INFRINGEMENT. IN NO EVENT SHALL THE
@@ -25,7 +25,9 @@ declare(strict_types=1);
 
 namespace BaksDev\Auth\Email\Repository\CurrentUserAccount;
 
-use BaksDev\Auth\Email\Entity as AccountEntity;
+use BaksDev\Auth\Email\Entity\Account;
+use BaksDev\Auth\Email\Entity\Event\AccountEvent;
+use BaksDev\Auth\Email\Entity\Status\AccountStatus;
 use BaksDev\Auth\Email\Type\EmailStatus\EmailStatus;
 use BaksDev\Auth\Email\Type\EmailStatus\Status\EmailStatusActive;
 use BaksDev\Core\Doctrine\DBALQueryBuilder;
@@ -51,35 +53,36 @@ final class CurrentUserAccountRepository implements CurrentUserAccountInterface
      */
     public function fetchAccountAssociative(UserUid $usr): bool|array
     {
-        $qb = $this->DBALQueryBuilder->createQueryBuilder(self::class);
+        $dbal = $this->DBALQueryBuilder->createQueryBuilder(self::class);
 
-        $qb->from(User::TABLE, 'users');
-        $qb->where('users.usr = :usr');
-        $qb->setParameter('usr', $usr, UserUid::TYPE);
+        $dbal
+            ->from(User::class, 'users')
+            ->where('users.usr = :usr')
+            ->setParameter('usr', $usr, UserUid::TYPE);
 
-        $qb->addSelect('account.id AS account_id'); /* ID аккаунта */
+        $dbal
+            ->addSelect('account.id AS account_id')
+            ->join(
+                'users',
+                Account::class,
+                'account',
+                'account.id = users.usr'
+            );
 
-        $qb->join(
-            'users',
-            AccountEntity\Account::TABLE,
+
+        $dbal
+            ->addSelect('account_event.id AS account_event')
+            ->addSelect('account_event.email AS account_email')
+            ->join(
+                'account',
+                AccountEvent::class,
+                'account_event',
+                'account_event.id = account.event'
+            );
+
+        $dbal->join(
             'account',
-            'account.id = users.usr'
-        );
-
-
-        $qb->addSelect('account_event.id AS account_event'); /* ID события */
-        $qb->addSelect('account_event.email AS account_email'); /* Email пользователя */
-
-        $qb->join(
-            'account',
-            AccountEntity\Event\AccountEvent::TABLE,
-            'account_event',
-            'account_event.id = account.event'
-        );
-
-        $qb->join(
-            'account',
-            AccountEntity\Status\AccountStatus::TABLE,
+            AccountStatus::class,
             'account_status',
             '
               account_status.event = account.event AND
@@ -87,13 +90,11 @@ final class CurrentUserAccountRepository implements CurrentUserAccountInterface
           '
         );
 
-        $qb->setParameter('status', new EmailStatus(EmailStatusActive::class), EmailStatus::TYPE);
+        $dbal->setParameter('status', EmailStatusActive::class, EmailStatus::TYPE);
 
-        /* Кешируем результат DBAL */
-        return $qb
+        return $dbal
             ->enableCache('auth-email', 3600)
             ->fetchAssociative();
-
     }
 
 }
