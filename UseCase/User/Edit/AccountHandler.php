@@ -1,6 +1,6 @@
 <?php
 /*
- *  Copyright 2024.  Baks.dev <admin@baks.dev>
+ *  Copyright 2025.  Baks.dev <admin@baks.dev>
  *  
  *  Permission is hereby granted, free of charge, to any person obtaining a copy
  *  of this software and associated documentation files (the "Software"), to deal
@@ -39,37 +39,29 @@ use BaksDev\Files\Resources\Upload\Image\ImageUploadInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use DomainException;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\DependencyInjection\Attribute\Target;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 final class AccountHandler extends AbstractHandler
 {
-    private ExistAccountByEmailInterface $existAccountByEmail;
-    private UserPasswordHasherInterface $userPasswordHasher;
-    private LoggerInterface $logger;
-
     public function __construct(
+        #[Target('authEmailLogger')] private readonly LoggerInterface $logger,
+        private readonly ExistAccountByEmailInterface $existAccountByEmail,
+        private readonly UserPasswordHasherInterface $userPasswordHasher,
+
         EntityManagerInterface $entityManager,
         MessageDispatchInterface $messageDispatch,
         ValidatorCollectionInterface $validatorCollection,
         ImageUploadInterface $imageUpload,
         FileUploadInterface $fileUpload,
-        ExistAccountByEmailInterface $existAccountByEmail,
-        UserPasswordHasherInterface $userPasswordHasher,
-        LoggerInterface $authEmailLogger
     )
     {
         parent::__construct($entityManager, $messageDispatch, $validatorCollection, $imageUpload, $fileUpload);
-
-        $this->existAccountByEmail = $existAccountByEmail;
-        $this->userPasswordHasher = $userPasswordHasher;
-        $this->logger = $authEmailLogger;
     }
 
 
     /** @see Account */
-    public function handle(
-        AccountDTO $command
-    ): string|Account
+    public function handle(AccountDTO $command): string|Account
     {
 
         /** Валидация DTO  */

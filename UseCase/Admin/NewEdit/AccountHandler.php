@@ -1,6 +1,6 @@
 <?php
 /*
- *  Copyright 2024.  Baks.dev <admin@baks.dev>
+ *  Copyright 2025.  Baks.dev <admin@baks.dev>
  *  
  *  Permission is hereby granted, free of charge, to any person obtaining a copy
  *  of this software and associated documentation files (the "Software"), to deal
@@ -43,23 +43,19 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 final class AccountHandler extends AbstractHandler
 {
-    private ExistAccountByEmailInterface $existAccountByEmail;
-    private UserPasswordHasherInterface $userPasswordHasher;
 
     public function __construct(
+        private readonly ExistAccountByEmailInterface $existAccountByEmail,
+        private readonly UserPasswordHasherInterface $userPasswordHasher,
+
         EntityManagerInterface $entityManager,
         MessageDispatchInterface $messageDispatch,
         ValidatorCollectionInterface $validatorCollection,
         ImageUploadInterface $imageUpload,
         FileUploadInterface $fileUpload,
-        ExistAccountByEmailInterface $existAccountByEmail,
-        UserPasswordHasherInterface $userPasswordHasher,
     )
     {
         parent::__construct($entityManager, $messageDispatch, $validatorCollection, $imageUpload, $fileUpload);
-
-        $this->existAccountByEmail = $existAccountByEmail;
-        $this->userPasswordHasher = $userPasswordHasher;
     }
 
 
