@@ -1,6 +1,6 @@
 <?php
 /*
- *  Copyright 2024.  Baks.dev <admin@baks.dev>
+ *  Copyright 2025.  Baks.dev <admin@baks.dev>
  *  
  *  Permission is hereby granted, free of charge, to any person obtaining a copy
  *  of this software and associated documentation files (the "Software"), to deal
@@ -51,8 +51,14 @@ final class RegistrationController extends AbstractController
         }
 
         $registrationDTO = new RegistrationDTO();
-        $form = $this->createForm(RegistrationForm::class, $registrationDTO);
-        $form->handleRequest($request);
+
+        $form = $this
+            ->createForm(
+                type: RegistrationForm::class,
+                data: $registrationDTO,
+                options: ['action' => $this->generateUrl('auth-email:user.registration')]
+            )
+            ->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid() && $form->has('registration'))
         {
