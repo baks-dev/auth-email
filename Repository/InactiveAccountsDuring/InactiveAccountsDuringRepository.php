@@ -1,6 +1,6 @@
 <?php
 /*
- *  Copyright 2024.  Baks.dev <admin@baks.dev>
+ *  Copyright 2025.  Baks.dev <admin@baks.dev>
  *  
  *  Permission is hereby granted, free of charge, to any person obtaining a copy
  *  of this software and associated documentation files (the "Software"), to deal
@@ -43,13 +43,12 @@ final readonly class InactiveAccountsDuringRepository implements InactiveAccount
     public function __construct(private ORMQueryBuilder $ORMQueryBuilder) {}
 
     /**
-     * Метод возвращает Email аккаунты, которые не были активированы в течении суток
+     * Метод возвращает Email аккаунты, которые не были активированы в течение 1 недели
      */
     public function find(): array|null
     {
         $orm = $this->ORMQueryBuilder->createQueryBuilder(self::class);
 
-        $orm->select('event');
         $orm->from(Account::class, 'account');
 
         $orm
@@ -59,20 +58,28 @@ final readonly class InactiveAccountsDuringRepository implements InactiveAccount
                 'WITH',
                 'account_status.event = account.event AND account_status.status = :status'
             )
-            ->setParameter('status', EmailStatusNew::class, EmailStatus::TYPE);
+            ->setParameter(
+                key: 'status',
+                value: EmailStatusNew::class,
+                type: EmailStatus::TYPE
+            );
 
-        $date = (new DateTimeImmutable('now'))->add(DateInterval::createFromDateString('1 week'));
+        $date = new DateTimeImmutable('now')
+            ->sub(DateInterval::createFromDateString('1 week'));
 
         $orm
             ->join(
                 AccountModify::class,
                 'modify',
                 'WITH',
-                'modify.event = account.event 
-                
-                ' // AND modify.modDate < :date
-            )//->setParameter('date', $date, Types::DATETIME_IMMUTABLE)
-        ;
+                'modify.event = account.event AND modify.modDate < :date
+                '
+            )
+            ->setParameter(
+                key: 'date',
+                value: $date,
+                type: Types::DATETIME_IMMUTABLE
+            );
 
         $orm
             ->select('event')

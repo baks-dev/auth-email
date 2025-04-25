@@ -1,6 +1,6 @@
 <?php
 /*
- *  Copyright 2024.  Baks.dev <admin@baks.dev>
+ *  Copyright 2025.  Baks.dev <admin@baks.dev>
  *  
  *  Permission is hereby granted, free of charge, to any person obtaining a copy
  *  of this software and associated documentation files (the "Software"), to deal
@@ -42,11 +42,9 @@ use InvalidArgumentException;
 #[ORM\Index(columns: ['action'])]
 class AccountModify extends EntityEvent
 {
-    public const TABLE = 'users_account_modify';
-
     /** ID события */
     #[ORM\Id]
-    #[ORM\OneToOne(inversedBy: 'modify', targetEntity: AccountEvent::class)]
+    #[ORM\OneToOne(targetEntity: AccountEvent::class, inversedBy: 'modify')]
     #[ORM\JoinColumn(name: 'event', referencedColumnName: 'id')]
     private AccountEvent $event;
 
