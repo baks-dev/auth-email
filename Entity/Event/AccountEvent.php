@@ -46,8 +46,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Index(columns: ['email'])]
 class AccountEvent extends EntityEvent implements PasswordAuthenticatedUserInterface
 {
-    public const TABLE = 'users_account_event';
-
     /**
      * Идентификатор события
      */
