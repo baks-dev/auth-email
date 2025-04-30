@@ -74,10 +74,16 @@ final class RegistrationForm extends AbstractType
             function(FormEvent $event): void {
 
                 $code = $event->getForm()->getData();
-                $verify = $this->captchaVerify->verify($code);
 
                 /** @var RegistrationDTO $RegistrationDTO */
                 $RegistrationDTO = $event->getForm()->getParent()?->getData();
+
+                if(empty($code))
+                {
+                    $RegistrationDTO->captchaValid();
+                }
+
+                $verify = $this->captchaVerify->verify($code);
 
                 if($verify)
                 {
