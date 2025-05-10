@@ -84,7 +84,7 @@ final class EditController extends AbstractController
                 $security->logout(false);
 
                 $this->addFlash('success', 'user.success.update', 'user.account');
-                return $this->redirectToRoute('auth-email:user.login');
+                return $this->redirectToRoute('auth-email:public.login');
             }
 
             $this->addFlash('danger', 'user.danger.update', 'user.account', $Account);

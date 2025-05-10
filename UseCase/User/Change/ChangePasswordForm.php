@@ -63,7 +63,7 @@ final class ChangePasswordForm extends AbstractType
             [
                 'data_class' => ChangePasswordDTO::class,
                 'method' => 'POST',
-                'translation_domain' => 'user.reset',
+                'translation_domain' => 'public.reset',
             ]
         );
     }

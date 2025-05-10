@@ -1,6 +1,6 @@
 <?php
 /*
- *  Copyright 2024.  Baks.dev <admin@baks.dev>
+ *  Copyright 2025.  Baks.dev <admin@baks.dev>
  *  
  *  Permission is hereby granted, free of charge, to any person obtaining a copy
  *  of this software and associated documentation files (the "Software"), to deal
@@ -44,7 +44,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 #[AsMessageHandler]
 final class RestoreHandler
 {
-    private const RESET_ROUTE_NAME = 'auth-email:user.reset';
+    private const RESET_ROUTE_NAME = 'auth-email:public.reset';
 
     private const TEMPLATE = '@auth-email/user/email/restore.html.twig';
 
@@ -136,7 +136,7 @@ final class RestoreHandler
                 )
             )
             ->to(new Address(new AccountEmail($Event->getEmail())))
-            ->subject($this->translator->trans('user.subject', domain: 'user.restore'))
+            ->subject($this->translator->trans('user.subject', domain: 'public.restore'))
             ->htmlTemplate(self::TEMPLATE)
             ->context([
                 'signedUrl' => $this->uriSigner->sign($uri),

@@ -1,0 +1,14 @@
+{% trans_default_domain 'public.restore' %}
+
+{# ---- ШАБЛОН ------------------------------------------------------------ #}
+{% extends Template('user/base.html.twig') %}
+
+{% block title %}{{ 'user.page'|trans }}{% endblock %}
+
+{# ---- КОНТЕНТ-БЛОК ------------------------------------------------------------ #}
+{% block content %}
+    {{ include(_self|replace({ "template.html.twig" : baks_settings.device~"/content.html.twig" })) }}
+{% endblock %}
+
+
+

@@ -76,7 +76,7 @@ final class LoginForm extends AbstractType
             [
                 'data_class' => LoginDTO::class,
                 'method' => 'POST',
-                'translation_domain' => 'user.login',
+                'translation_domain' => 'public.login',
                 'csrf_token_id' => 'authenticate',
             ]
         );

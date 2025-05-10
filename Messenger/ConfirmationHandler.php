@@ -1,6 +1,6 @@
 <?php
 /*
- *  Copyright 2024.  Baks.dev <admin@baks.dev>
+ *  Copyright 2025.  Baks.dev <admin@baks.dev>
  *  
  *  Permission is hereby granted, free of charge, to any person obtaining a copy
  *  of this software and associated documentation files (the "Software"), to deal
@@ -37,7 +37,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 #[AsMessageHandler]
 final class ConfirmationHandler
 {
-    public const VERIFY_ROUTE_NAME = 'auth-email:user.verify.email';
+    public const VERIFY_ROUTE_NAME = 'auth-email:public.verify.email';
 
     public const TEMPLATE = '@auth-email/user/email/confirmation.html.twig';
 
@@ -95,7 +95,7 @@ final class ConfirmationHandler
                 $this->parameters->get('PROJECT_NAME')
             ))
             ->to($UserUid->getOption())
-            ->subject($this->translator->trans('user.confirm.subject', domain: 'user.confirmation'))
+            ->subject($this->translator->trans('user.confirm.subject', domain: 'public.confirmation'))
             ->htmlTemplate(self::TEMPLATE);
 
         $context = $templatedEmail->getContext();
