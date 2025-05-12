@@ -47,7 +47,7 @@ final class RegistrationController extends AbstractController
         // Если пользователь авторизован - редирект
         if($this->getUsr())
         {
-            return $this->redirectToRoute('core:user.homepage');
+            return $this->redirectToRoute('core:public.homepage');
         }
 
         $registrationDTO = new RegistrationDTO();

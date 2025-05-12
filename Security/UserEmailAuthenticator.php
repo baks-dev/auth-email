@@ -82,7 +82,7 @@ final class UserEmailAuthenticator extends AbstractAuthenticator
 
 
     private const LOGIN_ROUTE = 'auth-email:public.login';
-    private const SUCCESS_REDIRECT = 'core:user.homepage';
+    private const SUCCESS_REDIRECT = 'core:public.homepage';
 
 
     public function supports(Request $request): ?bool

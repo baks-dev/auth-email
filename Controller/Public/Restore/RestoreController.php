@@ -51,7 +51,7 @@ final class RestoreController extends AbstractController
         // Если пользователь авторизован - редирект
         if($this->getUsr())
         {
-            return $this->redirectToRoute('core:user.homepage', status: 302);
+            return $this->redirectToRoute('core:public.homepage', status: 302);
         }
 
         $registrationDTO = new RestoreDTO();

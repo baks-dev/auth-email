@@ -86,7 +86,7 @@ final class LogoutController extends AbstractController
 
         $security->logout(false);
 
-        return $this->redirectToRoute('core:user.homepage');
+        return $this->redirectToRoute('core:public.homepage');
     }
 
 }

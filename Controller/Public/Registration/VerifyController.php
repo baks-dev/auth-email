@@ -58,7 +58,7 @@ final class VerifyController extends AbstractController
         // Проверяем что пользователь не авторизован
         if($this->getUsr())
         {
-            return $this->redirectToRoute('core:user.homepage');
+            return $this->redirectToRoute('core:public.homepage');
         }
 
         // Проверяем что передан идентификатор пользователя

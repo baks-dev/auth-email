@@ -45,7 +45,7 @@ final class LoginController extends AbstractController
         if($this->getUsr())
         {
             /* Редирект на главную страницу */
-            return $this->redirectToRoute('core:user.homepage');
+            return $this->redirectToRoute('core:public.homepage');
         }
 
         $LoginDTO = new LoginDTO();
