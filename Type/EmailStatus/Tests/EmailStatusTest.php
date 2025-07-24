@@ -1,6 +1,6 @@
 <?php
 /*
- *  Copyright 2024.  Baks.dev <admin@baks.dev>
+ *  Copyright 2025.  Baks.dev <admin@baks.dev>
  *  
  *  Permission is hereby granted, free of charge, to any person obtaining a copy
  *  of this software and associated documentation files (the "Software"), to deal
@@ -55,7 +55,9 @@ final class EmailStatusTest extends KernelTestCase
             self::assertTrue($EmailStatus->equals($EmailStatus)); // объект класса
 
             $EmailStatusType = new EmailStatusType();
-            $platform = $this->getMockForAbstractClass(AbstractPlatform::class);
+            $platform = $this
+                ->getMockBuilder(AbstractPlatform::class)
+                ->getMock();
 
             $convertToDatabase = $EmailStatusType->convertToDatabaseValue($EmailStatus, $platform);
             self::assertEquals($EmailStatus->getEmailStatusValue(), $convertToDatabase);
