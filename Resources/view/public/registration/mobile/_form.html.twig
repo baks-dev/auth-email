@@ -6,14 +6,14 @@
 
     <div class="w-100 d-flex flex-column gap-2">
         {{ form_row(form.email, {
-            label: 'user.form.label.email'|trans
+            label: 'form.label.email'|trans
         }) }}
     </div>
 
     <div class="w-100 d-flex flex-column gap-2">
         {{ form_row(form.passwordPlain, {
-            label: 'user.form.label.password'|trans,
-            help: 'user.form.help.password'|trans
+            label: 'form.label.password'|trans,
+            help: 'form.help.password'|trans
         }) }}
     </div>
 
@@ -49,7 +49,7 @@
         {% endif %}
 
         {{ form_row(form.registration, {
-            label: '<span>'~ 'user.btn.register'|trans() ~'</span>
+            label: '<span>'~ 'btn.register'|trans() ~'</span>
 				<span id="'~form.registration.vars.id~'-progress" class="spinner-border spinner-border-sm d-none"></span>
 			',
             attr: { class : 'btn btn-lg btn-danger w-100 rounded-3 text-uppercase fw-bolder' }

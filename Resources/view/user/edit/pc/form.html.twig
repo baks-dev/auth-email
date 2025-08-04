@@ -61,9 +61,9 @@
                 {% for password in form.passwordPlain %}
 
                     {% if form.vars.data.getEvent() %}
-                        {% set label_pass = 'user.form.password.label.'~password.vars.name %}
+                        {% set label_pass = 'form.password.label.'~password.vars.name %}
                     {% else %}
-                        {% set label_pass = 'user.form.password.new.'~password.vars.name %}
+                        {% set label_pass = 'form.password.new.'~password.vars.name %}
                     {% endif %}
 
                     <div class="mb-2" data-password-meter="true">

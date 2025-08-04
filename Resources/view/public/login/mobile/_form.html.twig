@@ -8,14 +8,14 @@
     <div class="w-100 d-flex flex-column gap-2">
         <label for="login-email">Электронная почта:</label>
         {{ form_widget(form.email, {
-            label: 'user.form.label.email'
+            label: 'form.label.email'
         }) }}
     </div>
 
     <div class="w-100 d-flex flex-column gap-2">
 
         <div class="d-flex justify-content-between gap-5 ">
-            {{ form_label(form.password, 'user.form.label.password', { attr: { tabindex : "-1" } }) }}
+            {{ form_label(form.password, 'form.label.password', { attr: { tabindex : "-1" } }) }}
 
 
             <a href="{{ path('auth-email:public.restore') }}" class="small"
@@ -33,7 +33,7 @@
 
     <div class="w-100">
         {{ form_row(form.login, {
-            label: '<span>'~ 'user.btn.save'|trans() ~'</span>
+            label: '<span>'~ 'btn.save'|trans() ~'</span>
 				<span id="'~form.login.vars.id~'-progress" class="spinner-border spinner-border-sm d-none"></span>
 			',
             attr: { class : 'btn btn-lg btn-danger w-100 rounded-3 text-uppercase fw-bolder' }

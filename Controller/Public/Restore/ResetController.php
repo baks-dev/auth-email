@@ -61,7 +61,11 @@ final class ResetController extends AbstractController
         // Проверяем, что ссылка не была ранее изменена
         if(false === $uriSigner->checkRequest($request))
         {
-            $this->addFlash('danger', 'Произошла ошибка! Обратитесь в службу техподдержки, либо попробуйте еще раз.', 'public.reset');
+            $this->addFlash(
+                type: 'danger',
+                message: 'Произошла ошибка! Обратитесь в службу техподдержки, либо попробуйте еще раз.',
+                domain: 'public.reset',
+            );
 
             return $this->redirectToRoute('auth-email:public.restore');
         }
@@ -69,7 +73,11 @@ final class ResetController extends AbstractController
         // Проверяем, что передан идентификатор события
         if(null === $AccountEventUid)
         {
-            $this->addFlash('danger', 'Произошла ошибка! Обратитесь в службу техподдержки, либо попробуйте еще раз.', 'public.reset');
+            $this->addFlash(
+                type: 'danger',
+                message: 'Произошла ошибка! Обратитесь в службу техподдержки, либо попробуйте еще раз.',
+                domain: 'public.reset',
+            );
 
             return $this->redirectToRoute('auth-email:public.restore');
         }
@@ -79,7 +87,11 @@ final class ResetController extends AbstractController
         // Проверяем что пользователь с событием не заблокирован
         if(false === $Event instanceof AccountEvent)
         {
-            $this->addFlash('danger', 'Произошла ошибка! Обратитесь в службу техподдержки, либо попробуйте еще раз.', 'public.reset');
+            $this->addFlash(
+                type: 'danger',
+                message: 'Произошла ошибка! Обратитесь в службу техподдержки, либо попробуйте еще раз.',
+                domain: 'public.reset',
+            );
 
             return $this->redirectToRoute('auth-email:public.restore');
         }
@@ -89,7 +101,11 @@ final class ResetController extends AbstractController
 
         if(false === hash_equals($knownToken, $request->get('_token')))
         {
-            $this->addFlash('danger', 'Произошла ошибка! Обратитесь в службу техподдержки, либо попробуйте еще раз.', 'public.reset');
+            $this->addFlash(
+                type: 'danger',
+                message: 'Произошла ошибка! Обратитесь в службу техподдержки, либо попробуйте еще раз.',
+                domain: 'public.reset',
+            );
 
             return $this->redirectToRoute('auth-email:public.restore');
         }
@@ -97,7 +113,11 @@ final class ResetController extends AbstractController
         // Проверяем срок действия ссылки (5 минут)
         if((time() - (int) $request->get('expires')) > 300)
         {
-            $this->addFlash('danger', 'user.danger.expired', 'public.reset');
+            $this->addFlash(
+                type: 'danger',
+                message: 'danger.expired',
+                domain: 'public.reset',
+            );
 
             return $this->redirectToRoute('auth-email:public.restore');
         }

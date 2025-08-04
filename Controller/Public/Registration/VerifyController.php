@@ -89,7 +89,12 @@ final class VerifyController extends AbstractController
         catch(VerifyEmailExceptionInterface $exception)
         {
             // Ошибка верификации ссылки подтверждения Email
-            $this->addFlash('danger', $exception->getReason(), 'public.reg');
+            $this->addFlash(
+                type: 'danger',
+                message: $exception->getReason(),
+                domain: 'public.reg',
+            );
+
             return $this->redirectToRoute('auth-email:public.login');
         }
 
@@ -103,7 +108,12 @@ final class VerifyController extends AbstractController
 
             if(!$Account instanceof Account)
             {
-                $this->addFlash('danger', 'user.danger.verified', 'public.reg', $Account);
+                $this->addFlash(
+                    type: 'danger',
+                    message: 'danger.verified',
+                    domain: 'public.reg',
+                    arguments: $Account,
+                );
 
                 return $this->redirectToRoute('auth-email:public.registration');
             }
@@ -111,7 +121,11 @@ final class VerifyController extends AbstractController
             // TODO: Отправляем мыло с подтверждением регистрации
 
             // Редирект на страницу после успешного подтверждения адреса
-            $this->addFlash('success', 'user.success.verified', 'public.reg');
+            $this->addFlash(
+                type: 'success',
+                message: 'success.verified',
+                domain: 'public.reg',
+            );
 
             return $this->redirectToRoute('auth-email:public.login');
         }

@@ -95,7 +95,7 @@ final class ConfirmationHandler
                 $this->parameters->get('PROJECT_NAME')
             ))
             ->to($UserUid->getOption())
-            ->subject($this->translator->trans('user.confirm.subject', domain: 'public.confirmation'))
+            ->subject($this->translator->trans('confirm.subject', domain: 'public.confirmation'))
             ->htmlTemplate(self::TEMPLATE);
 
         $context = $templatedEmail->getContext();

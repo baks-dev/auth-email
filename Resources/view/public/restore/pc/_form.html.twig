@@ -18,13 +18,13 @@
 
     <div class="w-100 d-flex flex-column gap-2">
         {{ form_row(form.email, {
-            label: 'user.form.label.email'|trans
+            label: 'form.label.email'|trans
         }) }}
     </div>
 
 
     {{ form_row(form.restore, {
-        label: '<span>'~ 'user.btn.restore'|trans() ~'</span>
+        label: '<span>'~ 'btn.restore'|trans() ~'</span>
 				<span id="'~form.restore.vars.id~'-progress" class="spinner-border spinner-border-sm d-none"></span>
 			',
         attr: { class : 'btn btn-lg btn-primary w-100 rounded-3 text-uppercase fw-bolder' }

@@ -83,11 +83,22 @@ final class EditController extends AbstractController
                 /* Закрываем сессию авторизации */
                 $security->logout(false);
 
-                $this->addFlash('success', 'user.success.update', 'user.account');
+                $this->addFlash(
+                    type: 'success',
+                    message: 'success.update',
+                    domain: 'user.account',
+                );
+
                 return $this->redirectToRoute('auth-email:public.login');
             }
 
-            $this->addFlash('danger', 'user.danger.update', 'user.account', $Account);
+            $this->addFlash(
+                type: 'danger',
+                message: 'danger.update',
+                domain: 'user.account',
+                arguments: $Account,
+            );
+
             return $this->redirectToRoute('auth-email:user.edit');
         }
 

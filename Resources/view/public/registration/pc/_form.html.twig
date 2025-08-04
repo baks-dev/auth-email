@@ -21,7 +21,7 @@
 
     <div class="w-100 d-flex flex-column">
         {{ form_row(form.email, {
-            label: 'user.form.label.email'|trans
+            label: 'form.label.email'|trans
         }) }}
     </div>
 
@@ -29,16 +29,9 @@
 
         <div class="mb-2" data-password-meter="true">
 
-            {{ form_label(form.passwordPlain, 'user.form.label.password'|trans) }}
+            {{ form_label(form.passwordPlain, 'form.label.password'|trans) }}
 
             {{ form_widget(form.passwordPlain, { label: false, attr: { autocomplete : "off" } }) }}
-
-
-            {# {{ form_row(form.passwordPlain, {
-					label: 'user.form.label.password'|trans,
-					help: 'user.form.help.password'|trans
-				}) }} #}
-
 
             <div class="position-relative">
 
@@ -134,7 +127,7 @@
 
 
         {{ form_row(form.registration, {
-            label: '<span>'~ 'user.btn.register'|trans() ~'</span>
+            label: '<span>'~ 'btn.register'|trans() ~'</span>
 				<span id="'~form.registration.vars.id~'-progress" class="spinner-border spinner-border-sm d-none"></span>
 			',
             attr: { class : 'btn btn-lg btn-primary w-100 rounded-3 text-uppercase fw-bolder' }

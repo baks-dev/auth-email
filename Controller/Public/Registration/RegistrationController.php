@@ -66,21 +66,30 @@ final class RegistrationController extends AbstractController
 
             $Account = $handler->handle($registrationDTO);
 
-            if(!$Account instanceof Account)
+            if(false === ($Account instanceof Account))
             {
                 // Ошибка при регистрации
                 $this->addFlash(
-                    'danger',
-                    'user.danger.reg',
-                    'public.reg',
-                    $Account
+                    type: 'danger',
+                    message: 'danger.reg',
+                    domain: 'public.reg',
+                    arguments: $Account,
                 );
 
                 return $this->redirectToReferer();
             }
 
-            $this->addFlash('success', 'user.success.reg', 'public.reg');
-            $this->addFlash('success', 'user.success.confirmation', 'public.reg');
+            $this->addFlash(
+                type: 'success',
+                message: 'success.reg',
+                domain: 'public.reg',
+            );
+
+            $this->addFlash(
+                type: 'success',
+                message: 'success.confirmation',
+                domain: 'public.reg',
+            );
 
             return $this->redirectToRoute('auth-email:public.login');
         }

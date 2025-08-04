@@ -64,11 +64,22 @@ final class NewController extends AbstractController
 
             if($Account instanceof Account)
             {
-                $this->addFlash('success', 'admin.success.new', 'admin.account');
+                $this->addFlash(
+                    type: 'success',
+                    message: 'admin.success.new',
+                    domain: 'admin.account',
+                );
+
                 return $this->redirectToRoute('auth-email:admin.index');
             }
 
-            $this->addFlash('danger', 'admin.danger.new', 'admin.account', $Account);
+            $this->addFlash(
+                type: 'danger',
+                message: 'admin.danger.new',
+                domain: 'admin.account',
+                arguments: $Account,
+            );
+
             return $this->redirectToRoute('auth-email:admin.index');
 
         }

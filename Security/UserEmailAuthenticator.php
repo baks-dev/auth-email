@@ -170,11 +170,11 @@ final class UserEmailAuthenticator extends AbstractAuthenticator
             return new JsonResponse(
                 [
                     'header' => $this->translator->trans(
-                        'user.page',
+                        'page',
                         domain: 'public.login'
                     ),
                     'message' => $this->translator->trans(
-                        'public.login.error.message',
+                        'login.error.message',
                         domain: 'public.login'
                     ),
                 ]

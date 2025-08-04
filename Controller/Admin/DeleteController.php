@@ -67,11 +67,21 @@ final class DeleteController extends AbstractController
 
             if($Account instanceof Account)
             {
-                $this->addFlash('success', 'admin.success.delete', 'admin.account');
+                $this->addFlash(
+                    type: 'success',
+                    message: 'admin.success.delete',
+                    domain: 'admin.account',
+                );
+
                 return $this->redirectToRoute('auth-email:admin.index');
             }
 
-            $this->addFlash('danger', 'admin.danger.delete', 'admin.account', $Account);
+            $this->addFlash(
+                type: 'danger',
+                message: 'admin.danger.delete',
+                domain: 'admin.account',
+                arguments: $Account,
+            );
 
             return $this->redirectToReferer();
 

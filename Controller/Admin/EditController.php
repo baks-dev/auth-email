@@ -68,11 +68,22 @@ final class EditController extends AbstractController
 
             if($Account instanceof Account)
             {
-                $this->addFlash('success', 'admin.success.update', 'admin.account');
+                $this->addFlash(
+                    type: 'success',
+                    message: 'admin.success.update',
+                    domain: 'admin.account',
+                );
+
                 return $this->redirectToRoute('auth-email:admin.index');
             }
 
-            $this->addFlash('danger', 'admin.danger.update', 'admin.account', $Account);
+            $this->addFlash(
+                type: 'danger',
+                message: 'admin.danger.update',
+                domain: 'admin.account',
+                arguments: $Account,
+            );
+
             return $this->redirectToRoute('auth-email:admin.index');
 
         }

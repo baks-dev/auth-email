@@ -136,7 +136,7 @@ final class RestoreHandler
                 )
             )
             ->to(new Address(new AccountEmail($Event->getEmail())))
-            ->subject($this->translator->trans('user.subject', domain: 'public.restore'))
+            ->subject($this->translator->trans('subject', domain: 'public.restore'))
             ->htmlTemplate(self::TEMPLATE)
             ->context([
                 'signedUrl' => $this->uriSigner->sign($uri),

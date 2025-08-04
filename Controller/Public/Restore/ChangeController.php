@@ -50,7 +50,11 @@ final class ChangeController extends AbstractController
         // Если пользователь авторизован - редирект
         if($this->getUsr())
         {
-            $this->addFlash('danger', 'Произошла ошибка! Обратитесь в службу техподдержки, либо попробуйте еще раз.', 'public.reset');
+            $this->addFlash(
+                type: 'danger',
+                message: 'Произошла ошибка! Обратитесь в службу техподдержки, либо попробуйте еще раз.',
+                domain: 'public.reset',
+            );
 
             return $this->redirectToRoute('auth-email:public.restore');
         }
@@ -61,7 +65,11 @@ final class ChangeController extends AbstractController
 
         if(null === $AccountEvent)
         {
-            $this->addFlash('danger', 'Произошла ошибка! Обратитесь в службу техподдержки, либо попробуйте еще раз.', 'public.reset');
+            $this->addFlash(
+                type: 'danger',
+                message: 'Произошла ошибка! Обратитесь в службу техподдержки, либо попробуйте еще раз.',
+                domain: 'public.reset',
+            );
 
             return $this->redirectToRoute('auth-email:public.restore');
         }
@@ -88,12 +96,21 @@ final class ChangeController extends AbstractController
             if($Account instanceof Account)
             {
                 // Редирект на страницу после активации аккаунта
-                $this->addFlash('success', 'user.success.change', 'public.reset');
+                $this->addFlash(
+                    type: 'success',
+                    message: 'success.change',
+                    domain: 'public.reset',
+                );
 
                 return $this->redirectToRoute('auth-email:public.login');
             }
 
-            $this->addFlash('danger', 'user.danger.change', 'public.reset', $Account);
+            $this->addFlash(
+                type: 'danger',
+                message: 'danger.change',
+                domain: 'public.reset',
+                arguments: $Account,
+            );
 
             return $this->redirectToRoute('auth-email:public.login');
         }

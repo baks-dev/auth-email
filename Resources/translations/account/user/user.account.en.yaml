@@ -1,7 +1,25 @@
-user:
-  page: 'Personal data'
-  link:
-    breadcrumb:
-      page: "User's personal data"
-  profile:
-    type: 'User'
+page:
+  edit: 'Персональные данные'
+
+breadcrumb:
+  edit: 'Редактировать данные авторизации пользователя'
+
+success:
+  update: 'Данные авторизации пользователя успешно обновлены'
+
+danger:
+  update: '%s: Ошибка при обновлении данных авторизации пользователя'
+
+
+profile:
+  type: 'Пользователь'
+
+form:
+  password:
+    new:
+      first: 'Укажите пароль для авторизации'
+      second: 'Повторите пароль'
+    
+    label:
+      first: 'Новый пароль для авторизации'
+      second: 'Повторите пароль'
