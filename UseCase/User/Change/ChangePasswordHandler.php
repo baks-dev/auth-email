@@ -23,90 +23,84 @@
 
 namespace BaksDev\Auth\Email\UseCase\User\Change;
 
-use BaksDev\Auth\Email\Entity as EntityAccount;
+use BaksDev\Auth\Email\Entity\Account;
+use BaksDev\Auth\Email\Entity\Event\AccountEvent;
+use BaksDev\Auth\Email\Messenger\AccountMessage;
+use BaksDev\Core\Entity\AbstractHandler;
+use BaksDev\Core\Messenger\MessageDispatchInterface;
+use BaksDev\Core\Validator\ValidatorCollectionInterface;
+use BaksDev\Files\Resources\Upload\File\FileUploadInterface;
+use BaksDev\Files\Resources\Upload\Image\ImageUploadInterface;
 use Doctrine\ORM\EntityManagerInterface;
-use Psr\Log\LoggerInterface;
-use Symfony\Component\DependencyInjection\Attribute\Target;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
-use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-final readonly class ChangePasswordHandler
+final class ChangePasswordHandler extends AbstractHandler
 {
     public function __construct(
-        #[Target('authEmailLogger')] private LoggerInterface $logger,
-        private EntityManagerInterface $entityManager,
-        private UserPasswordHasherInterface $userPasswordHasher,
-        private ValidatorInterface $validator
-    ) {}
+        EntityManagerInterface $entityManager,
+        MessageDispatchInterface $messageDispatch,
+        ValidatorCollectionInterface $validatorCollection,
+        ImageUploadInterface $imageUpload,
+        FileUploadInterface $fileUpload,
 
-
-    public function handle(
-        ChangePasswordDTO $command,
-        //?UploadedFile $cover = null
-    ): string|EntityAccount\Account
+        private readonly UserPasswordHasherInterface $UserPasswordHasher,
+    )
     {
-        /* Валидация DTO */
-        $errors = $this->validator->validate($command);
+        parent::__construct($entityManager, $messageDispatch, $validatorCollection, $imageUpload, $fileUpload);
+    }
 
-        if(count($errors) > 0)
-        {
-            /** Ошибка валидации */
-            $uniqid = uniqid('', false);
-            $this->logger->error(sprintf('%s: %s', $uniqid, $errors), [self::class.':'.__LINE__]);
-
-            return $uniqid;
-        }
-
-        $EventRepo = $this->entityManager->getRepository(EntityAccount\Event\AccountEvent::class)
+    public function handle(ChangePasswordDTO $command): string|Account
+    {
+        $Event = $this
+            ->getRepository(AccountEvent::class)
             ->find($command->getEvent());
 
-        if($EventRepo === null)
+        if(false === ($Event instanceof AccountEvent))
         {
-            $uniqid = uniqid('', false);
-            $errorsString = sprintf('Ошибка при сбросе пароля сущности AccountEvent с id: %s', $command->getEvent());
-            $this->logger->error($uniqid.': '.$errorsString);
-
-            return $uniqid;
+            return uniqid('', false);
         }
 
-        $EventRepo->setEntity($command);
-        $EventRepo->setEntityManager($this->entityManager);
-        $Event = $EventRepo->cloneEntity();
-        //        $this->entityManager->clear();
-        //        $this->entityManager->persist($Event);
+        $this->clear();
 
-        /* Хешируем и присваиваем пароль */
-        $passwordNash = $this->userPasswordHasher->hashPassword(
-            $Event,
-            $command->getPasswordPlain()
-        );
+
+        /**
+         * Хешируем и присваиваем пароль
+         */
+
+        $passwordNash = $this->UserPasswordHasher
+            ->hashPassword(
+                $Event,
+                $command->getPasswordPlain(),
+            );
+
         $command->setPasswordHash($passwordNash);
 
 
-        /* Account */
-        $Account = $this->entityManager->getRepository(EntityAccount\Account::class)->findOneBy(
-            ['event' => $command->getEvent()]
-        );
+        /**
+         * Сохраняем изменения
+         */
 
-        if($Account === null)
+        $this
+            ->setCommand($command)
+            ->preEventPersistOrUpdate(Account::class, AccountEvent::class);
+
+
+        /** Валидация всех объектов */
+        if($this->validatorCollection->isInvalid())
         {
-            $uniqid = uniqid('', false);
-            $errorsString = sprintf(
-                'Ошибка при сбросе пароля сущности Account с событием event: %s',
-                $command->getEvent()
-            );
-            $this->logger->error($uniqid.': '.$errorsString);
-
-            return $uniqid;
+            return $this->validatorCollection->getErrorUniqid();
         }
 
-        /* Присвиваем зависимости */
-        $Event->setMain($Account);
-        $Account->setEvent($Event);
+        $this->flush();
 
-        $this->entityManager->flush();
+        /* Отправляем сообщение в шину */
+        $this->messageDispatch->dispatch(
+            message: new AccountMessage($this->main->getId(), $this->main->getEvent(), $command->getEvent()),
+            transport: 'auth-email',
+        );
 
-        return $Account;
+
+        return $this->main;
     }
 
 }

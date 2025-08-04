@@ -1,17 +1,17 @@
 <?php
 /*
- *  Copyright 2023.  Baks.dev <admin@baks.dev>
- *
+ *  Copyright 2025.  Baks.dev <admin@baks.dev>
+ *  
  *  Permission is hereby granted, free of charge, to any person obtaining a copy
  *  of this software and associated documentation files (the "Software"), to deal
  *  in the Software without restriction, including without limitation the rights
  *  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  *  copies of the Software, and to permit persons to whom the Software is furnished
  *  to do so, subject to the following conditions:
- *
+ *  
  *  The above copyright notice and this permission notice shall be included in all
  *  copies or substantial portions of the Software.
- *
+ *  
  *  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  *  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  *  FITNESS FOR A PARTICULAR PURPOSE AND NON INFRINGEMENT. IN NO EVENT SHALL THE
@@ -31,36 +31,37 @@ use BaksDev\Users\User\Type\Id\UserUid;
 final class AccountMessage
 {
     /** Идентификатор  */
-    private UserUid $id;
+    private string $id;
 
     /** Идентификатор события  */
-    private AccountEventUid $event;
+    private string $event;
 
     /** Идентификатор предыдущего события  */
-    private ?AccountEventUid $last;
+    private ?string $last;
 
     public function __construct(UserUid $id, AccountEventUid $event, ?AccountEventUid $last = null)
     {
-        $this->last = $last;
-        $this->id = $id;
-        $this->event = $event;
+        $this->id = (string) $id;
+
+        $this->event = (string) $event;
+        $this->last = $last ? (string) $last : null;
     }
 
     /** Идентификатор  */
     public function getId(): UserUid
     {
-        return $this->id;
+        return new UserUid($this->id);
     }
 
     /** Идентификатор события  */
     public function getEvent(): AccountEventUid
     {
-        return $this->event;
+        return new AccountEventUid($this->event);
     }
 
     /** Идентификатор предыдущего события */
     public function getLast(): ?AccountEventUid
     {
-        return $this->last;
+        return $this->last ? new AccountEventUid($this->last) : null;
     }
 }

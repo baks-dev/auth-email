@@ -5,14 +5,14 @@
 
 <div class="d-flex justify-content-between w-100 mb-4 align-items-end small ps-3">
     <h3 class="text-uppercase h4 fw-bold mb-0">
-        {{ 'user.page'|trans }}
+        {{ 'page'|trans }}
     </h3>
 
     <a href="{{ path('auth-email:public.login') }}" class="small py-1"
-       aria-label="{{ 'user.link.breadcrumb.page'|trans({}, 'public.login') }}"
-       title="{{ 'user.link.breadcrumb.page'|trans({}, 'public.login') }}"
+       aria-label="{{ 'link.breadcrumb.page'|trans({}, 'public.login') }}"
+       title="{{ 'link.breadcrumb.page'|trans({}, 'public.login') }}"
     >
-        {{ 'user.link.breadcrumb.page'|trans({}, 'public.login') }}
+        {{ 'link.breadcrumb.page'|trans({}, 'public.login') }}
     </a>
 
 </div>
@@ -99,7 +99,7 @@
             </div>
         </div>
         <div class="text-muted small">
-            {{ 'user.form.help.password'|trans }}
+            {{ 'form.help.password'|trans }}
         </div>
 
     </div>
@@ -111,13 +111,13 @@
         <label class="form-check-label required small" for="{{ form.agreeTerms.vars.id }}">
                 <span class="small">
                     {# Согласен с #}
-                    <span class="small ">{{ 'user.form.agreterms.label'|trans }}</span>
+                    <span class="small ">{{ 'form.agreterms.label'|trans }}</span>
                     {# Пользовательское соглашение #}
                     <a href="{{ path('auth-email:public.agree.terms') }}" class="small"
-                       aria-label="{{ 'user.page'|trans({}, 'agree.terms') }}"
-                       title="{{ 'user.page'|trans({}, 'agree.terms') }}"
+                       aria-label="{{ 'page'|trans({}, 'agree.terms') }}"
+                       title="{{ 'page'|trans({}, 'agree.terms') }}"
                     >
-                        {{ 'user.form.agreterms.link'|trans({}, 'agree.terms') }}
+                        {{ 'form.agreterms.link'|trans({}, 'agree.terms') }}
                     </a>
                 </span>
         </label>

@@ -23,6 +23,7 @@
 
 namespace BaksDev\Auth\Email\Controller\Public\Restore;
 
+use BaksDev\Auth\Email\Entity\Event\AccountEvent;
 use BaksDev\Auth\Email\Repository\UserAccountEvent\UserAccountEventInterface;
 use BaksDev\Auth\Email\Security\UrlTokenGenerator;
 use BaksDev\Auth\Email\Type\Event\AccountEventUid;
@@ -76,7 +77,7 @@ final class ResetController extends AbstractController
         $Event = $accountEvent->getAccountEventNotBlockByEvent($AccountEventUid);
 
         // Проверяем что пользователь с событием не заблокирован
-        if(null === $Event)
+        if(false === $Event instanceof AccountEvent)
         {
             $this->addFlash('danger', 'Произошла ошибка! Обратитесь в службу техподдержки, либо попробуйте еще раз.', 'public.reset');
 
@@ -86,7 +87,7 @@ final class ResetController extends AbstractController
         // Проверяем переданный токен с существующим
         $knownToken = $urlTokenGenerator->createToken($Event->getAccount(), $Event->getId());
 
-        if(!hash_equals($knownToken, $request->get('_token')))
+        if(false === hash_equals($knownToken, $request->get('_token')))
         {
             $this->addFlash('danger', 'Произошла ошибка! Обратитесь в службу техподдержки, либо попробуйте еще раз.', 'public.reset');
 

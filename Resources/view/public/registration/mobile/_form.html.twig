@@ -24,13 +24,13 @@
         <label class="form-check-label required" for="{{ form.agreeTerms.vars.id }}">
                 <span class="small">
                     {# Согласен с #}
-                    {{ 'user.form.agreterms.label'|trans }}
+                    {{ 'form.agreterms.label'|trans }}
                     {# Пользовательское соглашение #}
                     <a href="{{ path('auth-email:public.agree.terms') }}"
-                       aria-label="{{ 'user.page'|trans({}, 'agree.terms') }}"
-                       title="{{ 'user.page'|trans({}, 'agree.terms') }}"
+                       aria-label="{{ 'page'|trans({}, 'agree.terms') }}"
+                       title="{{ 'page'|trans({}, 'agree.terms') }}"
                     >
-                        {{ 'user.form.agreterms.link'|trans({}, 'agree.terms') }}
+                        {{ 'form.agreterms.link'|trans({}, 'agree.terms') }}
                     </a>
                 </span>
         </label>

@@ -54,12 +54,12 @@ final class RestoreController extends AbstractController
             return $this->redirectToRoute('core:public.homepage', status: 302);
         }
 
-        $registrationDTO = new RestoreDTO();
+        $RestoreDTO = new RestoreDTO();
 
         $form = $this
             ->createForm(
                 type: RestoreForm::class,
-                data: $registrationDTO,
+                data: $RestoreDTO,
                 options: ['action' => $this->generateUrl('auth-email:public.restore')]
 
             )
@@ -72,7 +72,7 @@ final class RestoreController extends AbstractController
 
             // Делаем отправку на Email письмо для подтверждения
             $messageDispatch->dispatch(
-                message: new RestoreAccountMessage($registrationDTO->getEmail(), new Locale($translator->getLocale())),
+                message: new RestoreAccountMessage($RestoreDTO->getEmail(), new Locale($translator->getLocale())),
                 transport: 'auth-email'
             );
 

@@ -53,13 +53,8 @@ final class LogoutController extends AbstractController
         {
             /** Удаляем авторизацию доверенности пользователя */
 
-
             $Session = $request->getSession();
             $Session->remove('Authority');
-
-            //$AppCache = $cache->init('Authority');
-            //$AppCache->delete($authority);
-
 
         }
 
