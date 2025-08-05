@@ -185,8 +185,8 @@ final class UserEmailAuthenticator extends AbstractAuthenticator
         if($request->hasSession())
         {
             $request->getSession()->getFlashBag()->add(
-                $this->translator->trans('public.login.error.header', domain: 'public.login'),
-                $this->translator->trans('public.login.error.message', domain: 'public.login')
+                $this->translator->trans('login.error.header', domain: 'public.login'),
+                $this->translator->trans('login.error.message', domain: 'public.login'),
             );
         }
 
