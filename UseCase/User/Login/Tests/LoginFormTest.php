@@ -1,7 +1,7 @@
 <?php
 
 /*
- *  Copyright 2023-2025.  Baks.dev <admin@baks.dev>
+ *  Copyright 2025.  Baks.dev <admin@baks.dev>
  *  
  *  Permission is hereby granted, free of charge, to any person obtaining a copy
  *  of this software and associated documentation files (the "Software"), to deal
@@ -33,7 +33,6 @@ use PHPUnit\Framework\Attributes\Group;
 use Symfony\Component\DependencyInjection\Attribute\When;
 use Symfony\Component\Form\Test\TypeTestCase;
 
-/** @group auth-email */
 #[When(env: 'test')]
 #[Group('auth-email')]
 final class LoginFormTest extends TypeTestCase

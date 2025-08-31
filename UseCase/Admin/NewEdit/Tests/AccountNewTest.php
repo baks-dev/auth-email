@@ -40,9 +40,6 @@ use PHPUnit\Framework\Attributes\Group;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\DependencyInjection\Attribute\When;
 
-/**
- * @group auth-email
- */
 #[When(env: 'test')]
 #[Group('auth-email')]
 final class AccountNewTest extends KernelTestCase

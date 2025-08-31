@@ -33,7 +33,6 @@ use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\Attribute\When;
 use TypeError;
 
-/** @group auth-email */
 #[When(env: 'test')]
 #[Group('auth-email')]
 final class LoginDTOTest extends TestCase

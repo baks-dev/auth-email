@@ -33,7 +33,6 @@ use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\Attribute\When;
 
-/** @group auth-email */
 #[When(env: 'test')]
 #[Group('auth-email')]
 final class AllAccountsTest extends TestCase

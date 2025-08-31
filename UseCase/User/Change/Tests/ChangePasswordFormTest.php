@@ -33,7 +33,7 @@ use PHPUnit\Framework\Attributes\Group;
 use Symfony\Component\DependencyInjection\Attribute\When;
 use Symfony\Component\Form\Test\TypeTestCase;
 
-/** @group auth-email */
+
 #[When(env: 'test')]
 #[Group('auth-email')]
 final class ChangePasswordFormTest extends TypeTestCase
