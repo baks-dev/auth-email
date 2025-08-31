@@ -1,6 +1,6 @@
 <?php
 /*
- *  Copyright 2024.  Baks.dev <admin@baks.dev>
+ *  Copyright 2025.  Baks.dev <admin@baks.dev>
  *  
  *  Permission is hereby granted, free of charge, to any person obtaining a copy
  *  of this software and associated documentation files (the "Software"), to deal
@@ -27,12 +27,15 @@ namespace BaksDev\Auth\Email\UseCase\User\Login\Tests;
 
 use BaksDev\Auth\Email\Type\Email\AccountEmail;
 use BaksDev\Auth\Email\UseCase\User\Login\LoginDTO;
+use PHPUnit\Framework\Attributes\DependsOnClass;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\Attribute\When;
 use TypeError;
 
 /** @group auth-email */
 #[When(env: 'test')]
+#[Group('auth-email')]
 final class LoginDTOTest extends TestCase
 {
     private LoginDTO $dto;

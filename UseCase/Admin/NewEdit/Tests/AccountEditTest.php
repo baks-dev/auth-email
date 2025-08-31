@@ -25,8 +25,9 @@ declare(strict_types=1);
 
 namespace BaksDev\Auth\Email\UseCase\Admin\NewEdit\Tests;
 
-use BaksDev\Auth\Email\Controller\Admin\Tests\EditAdminControllerTest as AdminEditController;
-use BaksDev\Auth\Email\Controller\User\Account\Tests\AccountEditUserControllerTest as UserEditController;
+
+use BaksDev\Auth\Email\Controller\Admin\Tests\EditAdminControllerTest;
+use BaksDev\Auth\Email\Controller\User\Account\Tests\AccountEditUserControllerTest;
 use BaksDev\Auth\Email\Entity\Account;
 use BaksDev\Auth\Email\Entity\Event\AccountEvent;
 use BaksDev\Auth\Email\Type\Email\AccountEmail;
@@ -37,25 +38,18 @@ use BaksDev\Auth\Email\Type\Event\AccountEventUid;
 use BaksDev\Auth\Email\UseCase\Admin\NewEdit\AccountDTO;
 use BaksDev\Auth\Email\UseCase\Admin\NewEdit\AccountHandler;
 use Doctrine\ORM\EntityManagerInterface;
+use PHPUnit\Framework\Attributes\DependsOnClass;
+use PHPUnit\Framework\Attributes\Group;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\DependencyInjection\Attribute\When;
 
-/**
- * @group auth-email
- * @group auth-email-usecase
- *
- * @depends BaksDev\Auth\Email\UseCase\Admin\NewEdit\Tests\AccountNewTest::class
- * @depends BaksDev\Auth\Email\Controller\Admin\Tests\EditControllerTest::class
- * @depends BaksDev\Auth\Email\Controller\User\Account\Tests\EditControllerTest::class
- *
- * @see     AccountNewTest
- * @see     AdminEditController
- * @see     UserEditController
- */
 #[When(env: 'test')]
+#[Group('auth-email')]
 final class AccountEditTest extends KernelTestCase
 {
-
+    #[DependsOnClass(AccountEditTest::class)]
+    #[DependsOnClass(EditAdminControllerTest::class)]
+    #[DependsOnClass(AccountEditUserControllerTest::class)]
     public function testUseCase(): void
     {
         //self::bootKernel();

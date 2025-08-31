@@ -24,16 +24,15 @@
 namespace BaksDev\Auth\Email\Controller\Admin\Tests;
 
 use BaksDev\Auth\Email\Type\Event\AccountEventUid;
+use BaksDev\Auth\Email\UseCase\Admin\NewEdit\Tests\AccountNewTest;
 use BaksDev\Users\User\Tests\TestUserAccount;
+use PHPUnit\Framework\Attributes\DependsOnClass;
+use PHPUnit\Framework\Attributes\Group;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\DependencyInjection\Attribute\When;
 
-/**
- * @group auth-email
- *
- * @depends BaksDev\Auth\Email\UseCase\Admin\NewEdit\Tests\AccountNewTest::class
- */
 #[When(env: 'test')]
+#[Group('auth-email')]
 final class DeleteAdminControllerTest extends WebTestCase
 {
     private const string URL = '/admin/account/email/delete/%s';
@@ -49,6 +48,7 @@ final class DeleteAdminControllerTest extends WebTestCase
     //    }
 
     /** Доступ по роли */
+    #[DependsOnClass(AccountNewTest::class)]
     public function testRoleSuccessful(): void
     {
 
@@ -71,6 +71,7 @@ final class DeleteAdminControllerTest extends WebTestCase
     }
 
     // доступ по роли ROLE_ADMIN
+    #[DependsOnClass(AccountNewTest::class)]
     public function testRoleAdminSuccessful(): void
     {
         self::ensureKernelShutdown();
@@ -92,6 +93,7 @@ final class DeleteAdminControllerTest extends WebTestCase
     }
 
     // доступ по роли ROLE_USER
+    #[DependsOnClass(AccountNewTest::class)]
     public function testRoleUserDeny(): void
     {
         self::ensureKernelShutdown();
@@ -112,6 +114,7 @@ final class DeleteAdminControllerTest extends WebTestCase
     }
 
     /** Доступ по без роли */
+    #[DependsOnClass(AccountNewTest::class)]
     public function testGuestFiled(): void
     {
         self::ensureKernelShutdown();

@@ -25,11 +25,14 @@ namespace BaksDev\Auth\Email\Controller\Public\Restore\Tests;
 
 use BaksDev\Auth\Email\Controller\Public\Restore\ResetController;
 use BaksDev\Users\User\Tests\TestUserAccount;
+use PHPUnit\Framework\Attributes\DependsOnClass;
+use PHPUnit\Framework\Attributes\Group;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\DependencyInjection\Attribute\When;
 
 /** @group auth-email */
 #[When(env: 'test')]
+#[Group('auth-email')]
 final class ResetPublicControllerTest extends WebTestCase
 {
     /** @see ResetController */

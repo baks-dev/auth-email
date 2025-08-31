@@ -30,6 +30,8 @@ use BaksDev\Auth\Email\Type\EmailStatus\EmailStatusType;
 use BaksDev\Auth\Email\Type\EmailStatus\Status\Collection\EmailStatusCollection;
 use BaksDev\Auth\Telegram\Type\Status\AccountTelegramStatus\Collection\AccountTelegramStatusInterface;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
+use PHPUnit\Framework\Attributes\DependsOnClass;
+use PHPUnit\Framework\Attributes\Group;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\DependencyInjection\Attribute\When;
 
@@ -37,6 +39,7 @@ use Symfony\Component\DependencyInjection\Attribute\When;
  * @group auth-email
  */
 #[When(env: 'test')]
+#[Group('auth-email')]
 final class EmailStatusTest extends KernelTestCase
 {
     public function testUseCase(): void

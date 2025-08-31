@@ -28,16 +28,16 @@ namespace BaksDev\Auth\Email\UseCase\User\Change\Tests;
 use BaksDev\Auth\Email\Type\Event\AccountEventUid;
 use BaksDev\Auth\Email\UseCase\User\Change\ChangePasswordDTO;
 use BaksDev\Auth\Email\UseCase\User\Change\ChangePasswordHandler;
+use PHPUnit\Framework\Attributes\DependsOnClass;
 use PHPUnit\Framework\Attributes\Group;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\DependencyInjection\Attribute\When;
 
-
 /**
  * @group auth-email
  */
-#[Group('auth-email')]
 #[When(env: 'test')]
+#[Group('auth-email')]
 class ChangePasswordHandlerTest extends KernelTestCase
 {
     public function testUseCase(): void

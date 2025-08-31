@@ -1,6 +1,6 @@
 <?php
 /*
- *  Copyright 2024.  Baks.dev <admin@baks.dev>
+ *  Copyright 2025.  Baks.dev <admin@baks.dev>
  *  
  *  Permission is hereby granted, free of charge, to any person obtaining a copy
  *  of this software and associated documentation files (the "Software"), to deal
@@ -25,6 +25,8 @@ declare(strict_types=1);
 
 namespace BaksDev\Auth\Email\UseCase\Admin\Delete\Tests;
 
+use BaksDev\Auth\Email\Controller\Admin\Tests\EditAdminControllerTest;
+use BaksDev\Auth\Email\Controller\User\Account\Tests\AccountEditUserControllerTest;
 use BaksDev\Auth\Email\Entity\Account;
 use BaksDev\Auth\Email\Entity\Event\AccountEvent;
 use BaksDev\Auth\Email\Repository\UserAccountEvent\UserAccountEventInterface;
@@ -34,29 +36,24 @@ use BaksDev\Auth\Email\Type\EmailStatus\Status\EmailStatusBlock;
 use BaksDev\Auth\Email\UseCase\Admin\Delete\AccountDeleteDTO;
 use BaksDev\Auth\Email\UseCase\Admin\Delete\AccountDeleteHandler;
 use BaksDev\Auth\Email\UseCase\Admin\NewEdit\AccountDTO;
+use BaksDev\Auth\Email\UseCase\Admin\NewEdit\Tests\AccountEditTest;
 use BaksDev\Core\Doctrine\DBALQueryBuilder;
 use BaksDev\Users\User\Entity\User;
 use BaksDev\Users\User\Type\Id\UserUid;
 use Doctrine\ORM\EntityManagerInterface;
+use PHPUnit\Framework\Attributes\DependsOnClass;
+use PHPUnit\Framework\Attributes\Group;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\DependencyInjection\Attribute\When;
 
-/**
- * @group auth-email
- * @group auth-email-usecase
- *
- * @depends BaksDev\Auth\Email\UseCase\Admin\NewEdit\Tests\AccountEditTest::class
- * @depends BaksDev\Auth\Email\Controller\Admin\Tests\EditControllerTest::class
- * @depends BaksDev\Auth\Email\Controller\User\Account\Tests\EditControllerTest::class
- *
- * @see     AdminEditController
- * @see     UserEditController
- * @see     AccountEditTest
- */
 #[When(env: 'test')]
+#[Group('auth-email')]
 final class AccountDeleteTest extends KernelTestCase
 {
 
+    #[DependsOnClass(AccountEditTest::class)]
+    #[DependsOnClass(EditAdminControllerTest::class)]
+    #[DependsOnClass(AccountEditUserControllerTest::class)]
     public function testUseCase(): void
     {
         //self::bootKernel();

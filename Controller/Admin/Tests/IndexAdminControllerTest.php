@@ -24,11 +24,14 @@
 namespace BaksDev\Auth\Email\Controller\Admin\Tests;
 
 use BaksDev\Users\User\Tests\TestUserAccount;
+use PHPUnit\Framework\Attributes\DependsOnClass;
+use PHPUnit\Framework\Attributes\Group;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\DependencyInjection\Attribute\When;
 
 /** @group auth-email */
 #[When(env: 'test')]
+#[Group('auth-email')]
 final class IndexAdminControllerTest extends WebTestCase
 {
     private const string URL = '/admin/account/emails';
