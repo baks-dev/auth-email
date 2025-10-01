@@ -11,6 +11,6 @@
 {% endblock %}
 
 {% block javascript %}
-<script nonce='{{ csp_nonce() }}' async data-src="/assets/js/password.meter.min.js" class="lazy"></script>
+<script nonce='{{ csp_nonce() }}' async data-src="/assets/{{ version }}/js/password.meter.min.js" class="lazy"></script>
 {% endblock %}
 
