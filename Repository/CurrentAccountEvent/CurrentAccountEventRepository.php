@@ -30,10 +30,10 @@ use BaksDev\Auth\Email\Entity\Event\AccountEvent;
 use BaksDev\Core\Doctrine\ORMQueryBuilder;
 use BaksDev\Users\User\Type\Id\UserUid;
 
-final class CurrentAccountEventRepository implements CurrentAccountEventInterface
+final readonly class CurrentAccountEventRepository implements CurrentAccountEventInterface
 {
 
-    public function __construct(private readonly ORMQueryBuilder $ORMQueryBuilder) {}
+    public function __construct(private ORMQueryBuilder $ORMQueryBuilder) {}
 
     /** Метод возвращает активное событие по идентификатору пользователя */
     public function getByUser(UserUid|string $user): ?AccountEvent

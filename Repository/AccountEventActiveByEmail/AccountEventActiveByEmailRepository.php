@@ -31,30 +31,32 @@ use BaksDev\Auth\Email\Type\EmailStatus\EmailStatus;
 use BaksDev\Auth\Email\Type\EmailStatus\Status\EmailStatusActive;
 use BaksDev\Core\Doctrine\ORMQueryBuilder;
 
-final class AccountEventActiveByEmailRepository implements AccountEventActiveByEmailInterface
+final readonly class AccountEventActiveByEmailRepository implements AccountEventActiveByEmailInterface
 {
-    public function __construct(private readonly ORMQueryBuilder $ORMQueryBuilder) {}
+    public function __construct(private ORMQueryBuilder $ORMQueryBuilder) {}
 
     /**
      * Возвращает активное событие аккаунта по e-mail
      */
     public function getAccountEvent(AccountEmail $email): ?AccountEvent
     {
-        $qb = $this->ORMQueryBuilder->createQueryBuilder(self::class);
+        $orm = $this->ORMQueryBuilder->createQueryBuilder(self::class);
 
-        $qb->select('event');
-
-        $qb->from(AccountEvent::class, 'event');
-
-        $qb
+        $orm
+            ->select('event')
+            ->from(AccountEvent::class, 'event')
             ->where('event.email = :email')
-            ->setParameter('email', $email, AccountEmail::TYPE);
+            ->setParameter(
+                key: 'email',
+                value: $email,
+                type: AccountEmail::TYPE,
+            );
 
-        $qb->join(
+        $orm->join(
             Account::class,
             'account',
             'WITH',
-            'account.event = event.id'
+            'account.event = event.id',
         );
 
         /* Проверка статуса ACTIVE */
@@ -67,15 +69,15 @@ final class AccountEventActiveByEmailRepository implements AccountEventActiveByE
 
 
         /* Только активный пользователь */
-        $qb->setParameter(
+        $orm->setParameter(
             'status',
             new EmailStatus(EmailStatusActive::class),
-            EmailStatus::TYPE
+            EmailStatus::TYPE,
         );
 
-        $qb->andWhere($qb->expr()->exists($objQueryExistStatus->getDQL()));
+        $orm->andWhere($orm->expr()->exists($objQueryExistStatus->getDQL()));
 
-        return $qb->getOneOrNullResult();
+        return $orm->getOneOrNullResult();
 
     }
 

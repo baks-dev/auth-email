@@ -37,7 +37,6 @@ use BaksDev\Core\Validator\ValidatorCollectionInterface;
 use BaksDev\Files\Resources\Upload\File\FileUploadInterface;
 use BaksDev\Files\Resources\Upload\Image\ImageUploadInterface;
 use Doctrine\ORM\EntityManagerInterface;
-use DomainException;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\Attribute\Target;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -78,28 +77,23 @@ final class AccountHandler extends AbstractHandler
         {
             $passwordNash = $this->userPasswordHasher->hashPassword(
                 $this->event,
-                $command->getPasswordPlain()
+                $command->getPasswordPlain(),
             );
 
             /* Присваиваем новый пароль */
             $command->setPasswordHash($passwordNash);
         }
 
+        $this->setCommand($command);
 
-        try
-        {
-            $command->getEvent() ? $this->preUpdate($command, true) : $this->prePersist($command);
-        }
-        catch(DomainException $errorUniqid)
-        {
-            return $errorUniqid->getMessage();
-        }
+        $this->preEventPersistOrUpdate(new Account($command->getUsr()), AccountEvent::class);
 
 
         /**
          * Проверяем, имеется ли другой пользователь c таким Email.
          */
-        $existAccount = $this->existAccountByEmail->isExistsEmail($command->getEmail(), $this->event->getAccount());
+        $existAccount = $this->existAccountByEmail
+            ->isExistsEmail($command->getEmail(), $this->event->getAccount());
 
         if($existAccount)
         {
@@ -107,8 +101,8 @@ final class AccountHandler extends AbstractHandler
             $this->logger->error(
                 $uniqid.': '.sprintf(
                     'Пользователь с email %s уже имеется',
-                    $command->getEmail()
-                )
+                    $command->getEmail(),
+                ),
             );
 
             return $uniqid;
@@ -117,7 +111,7 @@ final class AccountHandler extends AbstractHandler
         /**
          * Если Email был изменен - присваиваем статус NEW для подтверждения
          */
-        if(!$command->getEmail()->isEqual($this->event->getEmail()))
+        if(false === $command->getEmail()->isEqual($this->event->getEmail()))
         {
             $Status = $command->getStatus();
             $Status->setStatus(new EmailStatus(EmailStatusNew::class));
@@ -130,12 +124,12 @@ final class AccountHandler extends AbstractHandler
             return $this->validatorCollection->getErrorUniqid();
         }
 
-        $this->entityManager->flush();
+        $this->flush();
 
         /* Отправляем сообщение в шину */
         $this->messageDispatch->dispatch(
             message: new AccountMessage($this->main->getId(), $this->main->getEvent(), $command->getEvent()),
-            transport: 'account'
+            transport: 'account',
         );
 
         return $this->main;
