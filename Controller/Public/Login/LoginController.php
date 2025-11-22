@@ -35,7 +35,9 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 #[AsController]
 final class LoginController extends AbstractController
 {
-    #[Route('/login', name: 'public.login')]
+    public const string LOGIN_ROUTE = 'public.login';
+
+    #[Route('/login', name: self::LOGIN_ROUTE)]
     public function login(
         Request $request,
         AuthenticationUtils $authenticationUtils,

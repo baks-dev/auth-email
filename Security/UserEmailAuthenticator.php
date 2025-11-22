@@ -23,10 +23,12 @@
 
 namespace BaksDev\Auth\Email\Security;
 
+use BaksDev\Auth\Email\Controller\Public\Login\LoginController;
 use BaksDev\Auth\Email\Repository\AccountEventActiveByEmail\AccountEventActiveByEmailInterface;
 use BaksDev\Auth\Email\UseCase\User\Login\LoginDTO;
 use BaksDev\Auth\Email\UseCase\User\Login\LoginForm;
 use BaksDev\Core\Cache\AppCacheInterface;
+use BaksDev\Core\Controller\Public\HomepageController;
 use BaksDev\Users\User\Repository\GetUserById\GetUserByIdInterface;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -79,11 +81,6 @@ final class UserEmailAuthenticator extends AbstractAuthenticator
         $this->userById = $userById;
         $this->cache = $cache;
     }
-
-
-    private const LOGIN_ROUTE = 'auth-email:public.login';
-    private const SUCCESS_REDIRECT = 'core:public.homepage';
-
 
     public function supports(Request $request): ?bool
     {
@@ -159,7 +156,7 @@ final class UserEmailAuthenticator extends AbstractAuthenticator
         }
 
         /* Редирект на главную страницу после успешной авторизации */
-        return new RedirectResponse($this->urlGenerator->generate(self::SUCCESS_REDIRECT));
+        return new RedirectResponse($this->urlGenerator->generate('core:'.HomepageController::HOMEPAGE));
     }
 
 
@@ -196,7 +193,7 @@ final class UserEmailAuthenticator extends AbstractAuthenticator
 
     protected function getLoginUrl(): string
     {
-        return $this->urlGenerator->generate(self::LOGIN_ROUTE);
+        return $this->urlGenerator->generate('auth-email:'.LoginController::LOGIN_ROUTE);
     }
 
 }
