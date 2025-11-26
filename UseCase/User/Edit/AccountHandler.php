@@ -45,7 +45,7 @@ final class AccountHandler extends AbstractHandler
 {
     public function __construct(
         #[Target('authEmailLogger')] private readonly LoggerInterface $logger,
-        private readonly ExistAccountByEmailInterface $existAccountByEmail,
+        private readonly ExistAccountByEmailInterface $existAccountByEmailRepository,
         private readonly UserPasswordHasherInterface $userPasswordHasher,
 
         EntityManagerInterface $entityManager,
@@ -62,18 +62,39 @@ final class AccountHandler extends AbstractHandler
     /** @see Account */
     public function handle(AccountDTO $command): string|Account
     {
+        $this
+            ->setCommand($command)
+            ->preEventPersistOrUpdate(new Account($command->getUsr()), AccountEvent::class);
 
-        /** Валидация DTO  */
-        $this->validatorCollection->add($command);
+        /**
+         * Проверяем, имеется ли другой пользователь c таким Email.
+         */
 
-        $this->main = new Account($command->getUsr());
-        $this->event = new AccountEvent();
+        $existAccount = $this->existAccountByEmailRepository
+            ->fromEmail($command->getEmail())
+            ->fromUser($this->event?->getAccount())
+            ->isExists();
+
+        if($existAccount)
+        {
+            $uniqid = uniqid('', false);
+            $this->logger->error(
+                $uniqid.': '.sprintf(
+                    'Пользователь с email %s уже зарегистрирован',
+                    $command->getEmail(),
+                ),
+            );
+
+            return $uniqid;
+        }
 
 
         /**
          * Если было изменение пароля
+         *
+         * @var AccountEvent $this ->event
          */
-        if(!empty($command->getPasswordPlain()))
+        if(false === empty($command->getPasswordPlain()))
         {
             $passwordNash = $this->userPasswordHasher->hashPassword(
                 $this->event,
@@ -82,31 +103,9 @@ final class AccountHandler extends AbstractHandler
 
             /* Присваиваем новый пароль */
             $command->setPasswordHash($passwordNash);
+            $this->event->setEntity($command);
         }
 
-        $this->setCommand($command);
-
-        $this->preEventPersistOrUpdate(new Account($command->getUsr()), AccountEvent::class);
-
-
-        /**
-         * Проверяем, имеется ли другой пользователь c таким Email.
-         */
-        $existAccount = $this->existAccountByEmail
-            ->isExistsEmail($command->getEmail(), $this->event->getAccount());
-
-        if($existAccount)
-        {
-            $uniqid = uniqid('', false);
-            $this->logger->error(
-                $uniqid.': '.sprintf(
-                    'Пользователь с email %s уже имеется',
-                    $command->getEmail(),
-                ),
-            );
-
-            return $uniqid;
-        }
 
         /**
          * Если Email был изменен - присваиваем статус NEW для подтверждения
@@ -115,6 +114,7 @@ final class AccountHandler extends AbstractHandler
         {
             $Status = $command->getStatus();
             $Status->setStatus(new EmailStatus(EmailStatusNew::class));
+            $this->event->setEntity($command);
         }
 
 
@@ -129,7 +129,7 @@ final class AccountHandler extends AbstractHandler
         /* Отправляем сообщение в шину */
         $this->messageDispatch->dispatch(
             message: new AccountMessage($this->main->getId(), $this->main->getEvent(), $command->getEvent()),
-            transport: 'account',
+            transport: 'auth-email',
         );
 
         return $this->main;

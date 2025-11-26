@@ -19,7 +19,6 @@
  *  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  *  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *  THE SOFTWARE.
- *
  */
 
 declare(strict_types=1);
@@ -41,13 +40,12 @@ use BaksDev\Files\Resources\Upload\Image\ImageUploadInterface;
 use BaksDev\Users\User\Entity\User;
 use BaksDev\Users\User\Type\Id\UserUid;
 use Doctrine\ORM\EntityManagerInterface;
-use DomainException;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 final class AccountHandler extends AbstractHandler
 {
     public function __construct(
-        private readonly ExistAccountByEmailInterface $existAccountByEmail,
+        private readonly ExistAccountByEmailInterface $existAccountByEmailRepository,
         private readonly UserPasswordHasherInterface $userPasswordHasher,
 
         EntityManagerInterface $entityManager,
@@ -63,40 +61,31 @@ final class AccountHandler extends AbstractHandler
     /** @see Account */
     public function handle(AccountDTO $command): string|Account
     {
-        /** Валидация DTO  */
-        $this->validatorCollection->add($command);
+        $User = null;
 
-        $User = false;
-        $this->main = new Account();
-        $this->event = new AccountEvent();
-
-        if(false === $command->getEvent() instanceof AccountEventUid)
+        if(false === ($command->getEvent() instanceof AccountEventUid))
         {
-            $User = $command->getUser() ?? new User();
-            $this->main = new Account($User);
+            $User = new User($command->getUser());
         }
+
+        $this
+            ->setCommand($command)
+            ->preEventPersistOrUpdate(new Account($User), AccountEvent::class);
+
 
         /**
          * Если было изменение пароля
          */
-        if(!empty($command->getPasswordPlain()))
+        if(false === empty($command->getPasswordPlain()))
         {
             $passwordNash = $this->userPasswordHasher->hashPassword(
                 $this->event,
-                $command->getPasswordPlain()
+                $command->getPasswordPlain(),
             );
 
             /* Присваиваем новый пароль */
             $command->setPasswordHash($passwordNash);
-        }
-
-        try
-        {
-            $command->getEvent() ? $this->preUpdate($command, true) : $this->prePersist($command);
-        }
-        catch(DomainException $errorUniqid)
-        {
-            return $errorUniqid->getMessage();
+            $this->event->setEntity($command);
         }
 
         /**
@@ -104,9 +93,12 @@ final class AccountHandler extends AbstractHandler
          *  - если пользователь еще не создан - передаем null
          *  - если редактируем уже созданного - id существующего пользователя
          */
-        $existUser = $User instanceof UserUid ? null : $this->event->getAccount();
+        $existUser = $User instanceof User ? null : $this->event->getAccount();
 
-        $existAccount = $this->existAccountByEmail->isExistsEmail($command->getEmail(), $existUser);
+        $existAccount = $this->existAccountByEmailRepository
+            ->fromEmail($command->getEmail())
+            ->fromUser($existUser)
+            ->isExists();
 
         if($existAccount)
         {
@@ -116,10 +108,11 @@ final class AccountHandler extends AbstractHandler
         /**
          * Если Email был изменен - присваиваем статус NEW для подтверждения
          */
-        if($this->event->getAccount() && !$command->getEmail()->isEqual($this->event->getEmail()))
+        if($this->event->getAccount() && false === $command->getEmail()->isEqual($this->event->getEmail()))
         {
             $Status = $command->getStatus();
             $Status->setStatus(new EmailStatus(EmailStatusNew::class));
+            $this->event->setEntity($command);
         }
 
         /** Валидация всех объектов */
@@ -138,7 +131,7 @@ final class AccountHandler extends AbstractHandler
         /* Отправляем сообщение в шину */
         $this->messageDispatch->dispatch(
             message: new AccountMessage($this->main->getId(), $this->main->getEvent(), $command->getEvent()),
-            transport: 'auth-email'
+            transport: 'auth-email',
         );
 
         return $this->main;

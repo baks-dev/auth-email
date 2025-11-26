@@ -1,6 +1,6 @@
 <?php
 /*
- *  Copyright 2024.  Baks.dev <admin@baks.dev>
+ *  Copyright 2025.  Baks.dev <admin@baks.dev>
  *  
  *  Permission is hereby granted, free of charge, to any person obtaining a copy
  *  of this software and associated documentation files (the "Software"), to deal
@@ -29,26 +29,14 @@ use BaksDev\Auth\Email\Entity\Account;
 use BaksDev\Auth\Email\Entity\Event\AccountEvent;
 use BaksDev\Auth\Email\Messenger\AccountMessage;
 use BaksDev\Core\Entity\AbstractHandler;
-use DomainException;
 
 final class AccountDeleteHandler extends AbstractHandler
 {
     public function handle(AccountDeleteDTO $command): string|Account
     {
-        /** Валидация DTO  */
-        $this->validatorCollection->add($command);
+        $this->setCommand($command);
 
-        $this->main = new Account();
-        $this->event = new AccountEvent();
-
-        try
-        {
-            $this->preRemove($command);
-        }
-        catch(DomainException $errorUniqid)
-        {
-            return $errorUniqid->getMessage();
-        }
+        $this->preEventRemove(Account::class, AccountEvent::class);
 
         /** Валидация всех объектов */
         if($this->validatorCollection->isInvalid())
@@ -56,13 +44,12 @@ final class AccountDeleteHandler extends AbstractHandler
             return $this->validatorCollection->getErrorUniqid();
         }
 
-
-        $this->entityManager->flush();
+        $this->flush();
 
         /* Отправляем сообщение в шину */
         $this->messageDispatch->dispatch(
             message: new AccountMessage($this->main->getId(), $this->main->getEvent(), $command->getEvent()),
-            transport: 'auth-email'
+            transport: 'auth-email',
         );
 
         return $this->main;

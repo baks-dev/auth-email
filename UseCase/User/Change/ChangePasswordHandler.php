@@ -51,38 +51,22 @@ final class ChangePasswordHandler extends AbstractHandler
 
     public function handle(ChangePasswordDTO $command): string|Account
     {
-        $Event = $this
-            ->getRepository(AccountEvent::class)
-            ->find($command->getEvent());
-
-        if(false === ($Event instanceof AccountEvent))
-        {
-            return uniqid('', false);
-        }
-
-        $this->clear();
+        $this
+            ->setCommand($command)
+            ->preEventPersistOrUpdate(Account::class, AccountEvent::class);
 
 
         /**
          * Хешируем и присваиваем пароль
          */
 
-        $passwordNash = $this->UserPasswordHasher
-            ->hashPassword(
-                $Event,
-                $command->getPasswordPlain(),
-            );
+        $passwordNash = $this->UserPasswordHasher->hashPassword(
+            $this->event,
+            $command->getPasswordPlain(),
+        );
 
         $command->setPasswordHash($passwordNash);
-
-
-        /**
-         * Сохраняем изменения
-         */
-
-        $this
-            ->setCommand($command)
-            ->preEventPersistOrUpdate(Account::class, AccountEvent::class);
+        $this->event->setEntity($command);
 
 
         /** Валидация всех объектов */
