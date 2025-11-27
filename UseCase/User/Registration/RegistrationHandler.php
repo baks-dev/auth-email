@@ -76,7 +76,9 @@ final class RegistrationHandler extends AbstractHandler
         }
 
         /**
-         * Хешируем и присваиваем пароль
+         * Сущность $this->event обязана имплементировать интерфейс PasswordAuthenticatedUserInterface
+         *
+         * @var AccountEvent $AccountEvent
          */
 
         $passwordNash = $this->userPasswordHasher->hashPassword(
