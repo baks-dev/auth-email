@@ -23,81 +23,38 @@
 
 namespace BaksDev\Auth\Email\UseCase\User\Verify;
 
-use BaksDev\Auth\Email\Entity as EntityAccount;
+//use BaksDev\Auth\Email\Entity as EntityAccount;
+//use BaksDev\Auth\Email\Entity\Event\AccountEvent;
+use BaksDev\Auth\Email\Entity\Account;
+use BaksDev\Auth\Email\Entity\Event\AccountEvent;
 use BaksDev\Auth\Email\Messenger\AccountMessage;
-use BaksDev\Core\Messenger\MessageDispatchInterface;
-use Doctrine\ORM\EntityManagerInterface;
-use Psr\Log\LoggerInterface;
-use Symfony\Component\DependencyInjection\Attribute\Target;
-use Symfony\Component\Validator\Validator\ValidatorInterface;
+use BaksDev\Core\Entity\AbstractHandler;
 
-final readonly class VerifyHandler
+final  class VerifyHandler extends AbstractHandler
 {
-    public function __construct(
-        #[Target('authEmailLogger')] private LoggerInterface $logger,
-        private EntityManagerInterface $entityManager,
-        private ValidatorInterface $validator,
-        private MessageDispatchInterface $messageDispatch,
-    ) {}
-
-    public function handle(VerifyDTO $command): string|EntityAccount\Account
+    public function handle(VerifyDTO $command): string|Account
     {
-        /* Валидация DTO */
-        $errors = $this->validator->validate($command);
+        $this
+            ->setCommand($command)
+            ->preEventPersistOrUpdate(Account::class, AccountEvent::class);
 
-        if(count($errors) > 0)
+        /**
+         * Валидация всех объектов
+         */
+
+        if($this->validatorCollection->isInvalid())
         {
-            /** Ошибка валидации */
-            $uniqid = uniqid('', false);
-            $this->logger->error(sprintf('%s: %s', $uniqid, $errors), [self::class.':'.__LINE__]);
-
-            return $uniqid;
+            return $this->validatorCollection->getErrorUniqid();
         }
 
-        $EventRepo = $this->entityManager->getRepository(EntityAccount\Event\AccountEvent::class)->find(
-            $command->getEvent(),
-        );
-
-        if(null === $EventRepo)
-        {
-            $uniqid = uniqid('', false);
-            $errorsString = sprintf('Ошибка при активации сущности AccountEvent с id: %s', $command->getEvent());
-            $this->logger->error($uniqid.': '.$errorsString);
-
-            return $uniqid;
-        }
-
-        /* AccountEvent */
-        $EventRepo->setEntity($command);
-        $EventRepo->setEntityManager($this->entityManager);
-        $Event = $EventRepo->cloneEntity();
-
-        /* Account */
-        $Account = $this->entityManager->getRepository(EntityAccount\Account::class)->findOneBy(
-            ['event' => $command->getEvent()],
-        );
-
-        if(null === $Account)
-        {
-            $uniqid = uniqid('', false);
-            $errorsString = sprintf('Ошибка при активации сущности Account с событием event: %s', $command->getEvent());
-            $this->logger->error($uniqid.': '.$errorsString);
-
-            return $uniqid;
-        }
-
-        /* Присвиваем зависимости */
-        $Event->setMain($Account);
-        $Account->setEvent($Event);
-
-        $this->entityManager->flush();
+        $this->flush();
 
         /* Отправляем сообщение в шину */
         $this->messageDispatch->dispatch(
-            message: new AccountMessage($Account->getId(), $Account->getEvent(), $command->getEvent()),
+            message: new AccountMessage($this->main->getId(), $this->main->getEvent(), $command->getEvent()),
             transport: 'auth-email',
         );
 
-        return $Account;
+        return $this->main;
     }
 }

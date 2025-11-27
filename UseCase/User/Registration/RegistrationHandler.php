@@ -40,14 +40,13 @@ use BaksDev\Files\Resources\Upload\File\FileUploadInterface;
 use BaksDev\Files\Resources\Upload\Image\ImageUploadInterface;
 use BaksDev\Users\User\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
-use DomainException;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 final class RegistrationHandler extends AbstractHandler
 {
     public function __construct(
         private readonly UserPasswordHasherInterface $userPasswordHasher,
-        private readonly ExistAccountByEmailInterface $existAccountByEmail,
+        private readonly ExistAccountByEmailInterface $existAccountByEmailRepository,
 
         EntityManagerInterface $entityManager,
         MessageDispatchInterface $messageDispatch,
@@ -62,8 +61,13 @@ final class RegistrationHandler extends AbstractHandler
 
     public function handle(RegistrationDTO $command): string|Account
     {
-        /* Проверяем, имеется ли пользователь c таким Email */
-        $existAccount = $this->existAccountByEmail->isExistsEmail($command->getEmail());
+        /**
+         * Проверяем, имеется ли пользователь c таким Email
+         */
+
+        $existAccount = $this->existAccountByEmailRepository
+            ->fromEmail($command->getEmail())
+            ->isExists();
 
         if($existAccount)
         {
@@ -71,44 +75,44 @@ final class RegistrationHandler extends AbstractHandler
             return $this->validatorCollection->getErrorUniqid();
         }
 
-        /** Валидация DTO  */
-        $this->validatorCollection->add($command);
+        /**
+         * Хешируем и присваиваем пароль
+         */
 
-        /* User */
-        $User = new User();
-        $this->main = new Account($User);
-        $this->event = new AccountEvent();
-
-        /* Хешируем и присваиваем пароль */
         $passwordNash = $this->userPasswordHasher->hashPassword(
-            $this->event,
-            $command->getPasswordPlain()
+            new AccountEvent(),
+            $command->getPasswordPlain(),
         );
 
         $command->setPasswordHash($passwordNash);
 
-        try
-        {
-            $this->prePersist($command);
-            $this->entityManager->persist($User);
-        }
-        catch(DomainException $errorUniqid)
-        {
-            return $errorUniqid->getMessage();
-        }
+        /**
+         * Создаем аккаут пользователя
+         */
 
-        /** Валидация всех объектов */
+        $User = new User();
+
+        $this
+            ->setCommand($command)
+            ->preEventPersistOrUpdate(new Account($User), AccountEvent::class);
+
+        /**
+         * Валидация всех объектов
+         */
+
         if($this->validatorCollection->isInvalid())
         {
             return $this->validatorCollection->getErrorUniqid();
         }
 
-        $this->entityManager->flush();
+        $this->persist($User);
+
+        $this->flush();
 
         /* Отправляем сообщение в шину */
         $this->messageDispatch->dispatch(
             message: new ConfirmationAccountMessage($this->main->getId(), $this->main->getEvent(), new Locale(Ru::class)),
-            transport: 'account'
+            transport: 'auth-email',
         );
 
         return $this->main;

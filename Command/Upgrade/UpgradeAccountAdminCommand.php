@@ -1,6 +1,6 @@
 <?php
 /*
- *  Copyright 2024.  Baks.dev <admin@baks.dev>
+ *  Copyright 2025.  Baks.dev <admin@baks.dev>
  *  
  *  Permission is hereby granted, free of charge, to any person obtaining a copy
  *  of this software and associated documentation files (the "Software"), to deal
@@ -47,27 +47,22 @@ use function bin2hex;
 #[AutoconfigureTag('baks.project.upgrade')]
 class UpgradeAccountAdminCommand extends Command implements ProjectUpgradeInterface
 {
-    private ExistAccountByEmailInterface $existAccountByEmail;
-    private string $HOST;
-    private AccountHandler $accountHandler;
-
     public function __construct(
-        #[Autowire(env: 'HOST')] string $HOST,
-        ExistAccountByEmailInterface $existAccountByEmail,
-        AccountHandler $accountHandler,
+        #[Autowire(env: 'HOST')] private readonly string $HOST,
+        private readonly ExistAccountByEmailInterface $existAccountByEmailRepository,
+        private readonly AccountHandler $accountHandler,
     )
     {
         parent::__construct();
-
-        $this->existAccountByEmail = $existAccountByEmail;
-        $this->HOST = $HOST;
-        $this->accountHandler = $accountHandler;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $AccountEmail = new  AccountEmail('admin@'.$this->HOST);
-        $existAccount = $this->existAccountByEmail->isExistsEmail($AccountEmail);
+
+        $existAccount = $this->existAccountByEmailRepository
+            ->fromEmail($AccountEmail)
+            ->isExists();
 
         if(!$existAccount)
         {
@@ -92,7 +87,7 @@ class UpgradeAccountAdminCommand extends Command implements ProjectUpgradeInterf
             if(!$handle instanceof Account)
             {
                 $io->success(
-                    sprintf('Ошибка %s при создании аккаунта', $handle)
+                    sprintf('Ошибка %s при создании аккаунта', $handle),
                 );
 
                 return Command::FAILURE;
@@ -102,8 +97,8 @@ class UpgradeAccountAdminCommand extends Command implements ProjectUpgradeInterf
                 sprintf(
                     'Администратор ресурса: %s / %s',
                     $AccountDTO->getEmail(),
-                    $AccountDTO->getPasswordPlain()
-                )
+                    $AccountDTO->getPasswordPlain(),
+                ),
             );
         }
 

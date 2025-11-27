@@ -1,6 +1,6 @@
 <?php
 /*
- *  Copyright 2024.  Baks.dev <admin@baks.dev>
+ *  Copyright 2025.  Baks.dev <admin@baks.dev>
  *  
  *  Permission is hereby granted, free of charge, to any person obtaining a copy
  *  of this software and associated documentation files (the "Software"), to deal
@@ -26,35 +26,83 @@ namespace BaksDev\Auth\Email\Repository\ExistAccountByEmail;
 use BaksDev\Auth\Email\Entity\Event\AccountEvent;
 use BaksDev\Auth\Email\Type\Email\AccountEmail;
 use BaksDev\Core\Doctrine\DBALQueryBuilder;
+use BaksDev\Users\User\Entity\User;
 use BaksDev\Users\User\Type\Id\UserUid;
+use InvalidArgumentException;
 
 final class ExistAccountByEmailRepository implements ExistAccountByEmailInterface
 {
-    private DBALQueryBuilder $DBALQueryBuilder;
 
-    public function __construct(DBALQueryBuilder $DBALQueryBuilder)
+    private AccountEmail|false $email = false;
+
+    private UserUid|false $user = false;
+
+    public function __construct(private readonly DBALQueryBuilder $DBALQueryBuilder) {}
+
+    public function fromEmail(AccountEmail|string $email): self
     {
-        $this->DBALQueryBuilder = $DBALQueryBuilder;
+        if(is_string($email))
+        {
+            $email = new AccountEmail($email);
+        }
+
+        $this->email = $email;
+
+        return $this;
+    }
+
+    /**
+     * Вызвать если необходимо найти кроме указанного пользователя
+     */
+    public function fromUser(User|UserUid|null|false $user): self
+    {
+        if(empty($user))
+        {
+            $this->user = false;
+            return $this;
+        }
+
+        if($user instanceof User)
+        {
+            $user = $user->getId();
+        }
+
+        $this->user = $user;
+
+        return $this;
     }
 
     /**
      * Метод проверяет наличие указанного e-mail.
      */
-    public function isExistsEmail(AccountEmail $email, ?UserUid $userUid = null): bool
+    public function isExists(): bool
     {
+        if(false === ($this->email instanceof AccountEmail))
+        {
+            throw new InvalidArgumentException('Invalid Argument AccountEmail');
+        }
+
         $dbal = $this->DBALQueryBuilder->createQueryBuilder(self::class);
 
         $dbal
             ->from(AccountEvent::class, 'users')
             ->where('users.email = :account_email')
-            ->setParameter('account_email', $email, AccountEmail::TYPE);
+            ->setParameter(
+                key: 'account_email',
+                value: $this->email,
+                type: AccountEmail::TYPE,
+            );
 
         /* Если указан идентификатор пользователя - исключаем из поиска */
-        if($userUid)
+        if($this->user instanceof UserUid)
         {
             $dbal
                 ->andWhere('users.account != :account')
-                ->setParameter('account', $userUid, UserUid::TYPE);
+                ->setParameter(
+                    key: 'account',
+                    value: $this->user,
+                    type: UserUid::TYPE,
+                );
         }
 
         return $dbal->fetchExist();
