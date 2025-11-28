@@ -70,6 +70,11 @@
                 </div>
             {% endif %}
 
+            {# Иконка авторизации через Google #}
+            {% if constant('BaksDev\\Auth\\Google\\Type\\Event\\AccountGoogleEventUid::TYPE') is defined %}
+                {{ account_google_button() }}
+            {% endif %}
+
         </div>
 
         {{ form_end(form) }}
