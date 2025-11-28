@@ -19,13 +19,14 @@
  *  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  *  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *  THE SOFTWARE.
- *
  */
 
 declare(strict_types=1);
 
-namespace BaksDev\Auth\Email\Messenger\CreateAccount;
+namespace BaksDev\Auth\Email\Messenger\CreateAccount\Tests;
 
+use BaksDev\Auth\Email\Messenger\CreateAccount\CreateAccountDispatcher;
+use BaksDev\Auth\Email\Messenger\CreateAccount\CreateAccountMessage;
 use BaksDev\Auth\Email\Type\Email\AccountEmail;
 use BaksDev\Users\User\Type\Id\UserUid;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;

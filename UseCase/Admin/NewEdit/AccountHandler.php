@@ -65,7 +65,7 @@ final class AccountHandler extends AbstractHandler
 
         if(false === ($command->getEvent() instanceof AccountEventUid))
         {
-            $User = new User($command->getUser());
+            $User = $command->getUser() ?? new User();
         }
 
         $this
@@ -78,8 +78,16 @@ final class AccountHandler extends AbstractHandler
          */
         if(false === empty($command->getPasswordPlain()))
         {
+            /**
+             * Сущность $this->event обязана имплементировать интерфейс PasswordAuthenticatedUserInterface
+             *
+             * @var AccountEvent $AccountEvent
+             */
+
+            $AccountEvent = $this->event;
+
             $passwordNash = $this->userPasswordHasher->hashPassword(
-                $this->event,
+                $AccountEvent,
                 $command->getPasswordPlain(),
             );
 
@@ -121,7 +129,7 @@ final class AccountHandler extends AbstractHandler
             return $this->validatorCollection->getErrorUniqid();
         }
 
-        if(true === $User instanceof User)
+        if(true === ($User instanceof User))
         {
             $this->persist($User);
         }
