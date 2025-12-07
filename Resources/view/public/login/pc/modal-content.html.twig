@@ -70,9 +70,19 @@
                 </div>
             {% endif %}
 
-            {# Иконка авторизации через Google #}
-            {% if constant('BaksDev\\Auth\\Google\\Type\\Event\\AccountGoogleEventUid::TYPE') is defined %}
-                {{ account_google_button() }}
+            {# Регистрация/Аутентификация через Яндекс #}
+            {% if constant('BaksDev\\Auth\\Yandex\\BaksDevAuthYandexBundle::PATH') is defined %}
+                {{ include(_self|replace({ "modal-content.html.twig" : "auth/yandex.html.twig" })) }}
+            {% endif %}
+
+            {# Регистрация/Аутентификация через Google #}
+            {% if constant('BaksDev\\Auth\\Google\\BaksDevAuthGoogleBundle::PATH') is defined %}
+                {{ include(_self|replace({ "modal-content.html.twig" : "auth/google.html.twig" })) }}
+            {% endif %}
+
+            {# Регистрация/Аутентификация через VK #}
+            {% if constant('BaksDev\\Auth\\VK\\BaksDevAuthVkBundle::PATH') is defined %}
+                {{ include(_self|replace({ "modal-content.html.twig" : "auth/vk.html.twig" })) }}
             {% endif %}
 
         </div>
