@@ -1,6 +1,6 @@
 <?php
 /*
- *  Copyright 2025.  Baks.dev <admin@baks.dev>
+ *  Copyright 2026.  Baks.dev <admin@baks.dev>
  *  
  *  Permission is hereby granted, free of charge, to any person obtaining a copy
  *  of this software and associated documentation files (the "Software"), to deal
@@ -41,17 +41,28 @@ use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\Attributes\DependsOnClass;
 use PHPUnit\Framework\Attributes\Group;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Event\ConsoleCommandEvent;
+use Symfony\Component\Console\Input\StringInput;
+use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\DependencyInjection\Attribute\When;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 #[When(env: 'test')]
 #[Group('auth-email')]
 final class AccountEditTest extends KernelTestCase
 {
-    #[DependsOnClass(AccountEditTest::class)]
+    #[DependsOnClass(AccountNewTest::class)]
     #[DependsOnClass(EditAdminControllerTest::class)]
     #[DependsOnClass(AccountEditUserControllerTest::class)]
     public function testUseCase(): void
     {
+
+        // Бросаем событие консольной комманды
+        $dispatcher = self::getContainer()->get(EventDispatcherInterface::class);
+        $event = new ConsoleCommandEvent(new Command(), new StringInput(''), new NullOutput());
+        $dispatcher->dispatch($event, 'console.command');
+
         //self::bootKernel();
         $container = self::getContainer();
 

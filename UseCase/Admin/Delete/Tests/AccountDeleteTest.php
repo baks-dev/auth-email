@@ -1,6 +1,6 @@
 <?php
 /*
- *  Copyright 2025.  Baks.dev <admin@baks.dev>
+ *  Copyright 2026.  Baks.dev <admin@baks.dev>
  *  
  *  Permission is hereby granted, free of charge, to any person obtaining a copy
  *  of this software and associated documentation files (the "Software"), to deal
@@ -29,7 +29,7 @@ use BaksDev\Auth\Email\Controller\Admin\Tests\EditAdminControllerTest;
 use BaksDev\Auth\Email\Controller\User\Account\Tests\AccountEditUserControllerTest;
 use BaksDev\Auth\Email\Entity\Account;
 use BaksDev\Auth\Email\Entity\Event\AccountEvent;
-use BaksDev\Auth\Email\Repository\UserAccountEvent\UserAccountEventInterface;
+use BaksDev\Auth\Email\Repository\CurrentAccountEvent\CurrentAccountEventInterface;
 use BaksDev\Auth\Email\Type\Email\AccountEmail;
 use BaksDev\Auth\Email\Type\EmailStatus\Status\EmailStatusActive;
 use BaksDev\Auth\Email\Type\EmailStatus\Status\EmailStatusBlock;
@@ -37,6 +37,7 @@ use BaksDev\Auth\Email\UseCase\Admin\Delete\AccountDeleteDTO;
 use BaksDev\Auth\Email\UseCase\Admin\Delete\AccountDeleteHandler;
 use BaksDev\Auth\Email\UseCase\Admin\NewEdit\AccountDTO;
 use BaksDev\Auth\Email\UseCase\Admin\NewEdit\Tests\AccountEditTest;
+use BaksDev\Auth\Email\UseCase\User\Change\Tests\ChangePasswordHandlerTest;
 use BaksDev\Core\Doctrine\DBALQueryBuilder;
 use BaksDev\Users\User\Entity\User;
 use BaksDev\Users\User\Type\Id\UserUid;
@@ -54,6 +55,7 @@ final class AccountDeleteTest extends KernelTestCase
     #[DependsOnClass(AccountEditTest::class)]
     #[DependsOnClass(EditAdminControllerTest::class)]
     #[DependsOnClass(AccountEditUserControllerTest::class)]
+    #[DependsOnClass(ChangePasswordHandlerTest::class)]
     public function testUseCase(): void
     {
         //self::bootKernel();
@@ -63,18 +65,18 @@ final class AccountDeleteTest extends KernelTestCase
         $em = $container->get(EntityManagerInterface::class);
 
 
-        /** @var UserAccountEventInterface $UserAccountEvent */
-        $UserAccountEvent = $container->get(UserAccountEventInterface::class);
-        $AccountEvent = $UserAccountEvent->getAccountEventByUser(new UserUid());
-        self::assertNotNull($AccountEvent);
+        /** @var $CurrentAccountEventRepository CurrentAccountEventInterface */
+        $CurrentAccountEventRepository = $container->get(CurrentAccountEventInterface::class);
+
+        $AccountEvent = $CurrentAccountEventRepository->getByUser(new UserUid(UserUid::TEST));
+        self::assertInstanceOf(AccountEvent::class, $AccountEvent);
 
 
         /** @var AccountDTO $AccountDTO */
         $AccountDTO = $AccountEvent->getDto(AccountDTO::class);
-
         $AccountEmail = new AccountEmail('test@test.edit');
-        self::assertTrue($AccountEmail->isEqual($AccountDTO->getEmail()));
-        self::assertEquals('SULKpzLBIZ', $AccountDTO->getPassword());
+
+        self::assertTrue($AccountEmail->isEqual($AccountDTO->getEmail()->getValue()));
 
         $StatusDTO = $AccountDTO->getStatus();
         self::assertEquals(EmailStatusActive::STATUS, $StatusDTO->getStatus()->getEmailStatusValue());
