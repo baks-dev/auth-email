@@ -1,6 +1,6 @@
 <?php
 /*
- *  Copyright 2025.  Baks.dev <admin@baks.dev>
+ *  Copyright 2026.  Baks.dev <admin@baks.dev>
  *  
  *  Permission is hereby granted, free of charge, to any person obtaining a copy
  *  of this software and associated documentation files (the "Software"), to deal
@@ -28,6 +28,7 @@ use BaksDev\Auth\Email\Repository\UserNew\UserNewInterface;
 use BaksDev\Auth\Email\Services\EmailVerify\VerifyEmailInterface;
 use BaksDev\Auth\Email\Type\Email\AccountEmail;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
+use Symfony\Component\DependencyInjection\Attribute\Autoconfigure;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
@@ -35,6 +36,7 @@ use Symfony\Component\Mime\Address;
 use Symfony\Component\Translation\LocaleSwitcher;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
+#[Autoconfigure(public: true)]
 #[AsMessageHandler(priority: 0)]
 final class ConfirmationHandler
 {
