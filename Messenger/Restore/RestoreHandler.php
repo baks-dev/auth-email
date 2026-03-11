@@ -41,7 +41,7 @@ use Symfony\Component\Translation\LocaleSwitcher;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 //use Symfony\Component\HttpKernel\UriSigner;
-#[Autoconfigure(public: true)]
+// #[Autoconfigure(public: true)]
 #[AsMessageHandler(priority: 0)]
 final class RestoreHandler
 {
