@@ -39,11 +39,6 @@ final class ChangePasswordDTOTest extends TestCase
 {
     private ChangePasswordDTO $dto;
 
-    protected function setUp(): void
-    {
-        $this->dto = new ChangePasswordDTO(new AccountEventUid());
-    }
-
     public function testId(): void
     {
         $id = new AccountEventUid();
@@ -72,6 +67,11 @@ final class ChangePasswordDTOTest extends TestCase
         $violations = $validator->validate($this->dto);
 
         self::assertEquals(0, $violations->count());
+    }
+
+    protected function setUp(): void
+    {
+        $this->dto = new ChangePasswordDTO(new AccountEventUid());
     }
 
     //    public function testValidationFiled(): void

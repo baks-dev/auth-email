@@ -46,15 +46,15 @@ final class RestoreForm extends AbstractType
                 function($email) {
 
                     return new AccountEmail($email);
-                }
-            )
+                },
+            ),
         );
 
         /** Восстановить */
         $builder->add(
             'restore',
             SubmitType::class,
-            ['label' => 'Restore', 'label_html' => true]
+            ['label' => 'Restore', 'label_html' => true],
         );
 
     }
@@ -67,7 +67,7 @@ final class RestoreForm extends AbstractType
                 'data_class' => RestoreDTO::class,
                 'method' => 'POST',
                 'attr' => ['autocomplete' => "off"],
-            ]
+            ],
         );
     }
 

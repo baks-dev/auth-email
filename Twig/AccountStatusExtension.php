@@ -36,7 +36,7 @@ final class AccountStatusExtension extends AbstractExtension
             new TwigFunction(
                 EmailStatus::TYPE,
                 [$this, 'status'],
-                ['needs_environment' => true, 'is_safe' => ['html']]
+                ['needs_environment' => true, 'is_safe' => ['html']],
             ),
         ];
     }

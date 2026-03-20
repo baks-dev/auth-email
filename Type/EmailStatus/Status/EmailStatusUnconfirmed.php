@@ -33,16 +33,16 @@ final class EmailStatusUnconfirmed implements EmailStatusInterface
 {
     public const STATUS = 'unc';
 
-    public function getValue(): string
-    {
-        return self::STATUS;
-    }
-
     /**
      * Сортировка (чем меньше число - тем первым в итерации будет значение)
      */
     public static function sort(): int
     {
         return 400;
+    }
+
+    public function getValue(): string
+    {
+        return self::STATUS;
     }
 }

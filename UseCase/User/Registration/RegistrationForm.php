@@ -53,8 +53,8 @@ final class RegistrationForm extends AbstractType
                 },
                 function($email) {
                     return new AccountEmail($email);
-                }
-            )
+                },
+            ),
         );
 
         /** Пароль */
@@ -89,14 +89,14 @@ final class RegistrationForm extends AbstractType
                 {
                     $RegistrationDTO->captchaValid();
                 }
-            }
+            },
         );
 
         /** Регистрация */
         $builder->add(
             'registration',
             SubmitType::class,
-            ['label' => 'Registration', 'label_html' => true]
+            ['label' => 'Registration', 'label_html' => true],
         );
 
     }
@@ -109,7 +109,7 @@ final class RegistrationForm extends AbstractType
                 'data_class' => RegistrationDTO::class,
                 'method' => 'POST',
                 'attr' => ['autocomplete' => "off"],
-            ]
+            ],
         );
     }
 

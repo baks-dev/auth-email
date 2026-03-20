@@ -39,11 +39,6 @@ final class LoginDTOTest extends TestCase
 {
     private LoginDTO $dto;
 
-    protected function setUp(): void
-    {
-        $this->dto = new LoginDTO();
-    }
-
     public function testEmail(): void
     {
         $email = new AccountEmail('test@example.com');
@@ -62,6 +57,11 @@ final class LoginDTOTest extends TestCase
         $password = 'NSGCywJotj';
         $this->dto->setPassword($password);
         self::assertSame($password, $this->dto->getPassword());
+    }
+
+    protected function setUp(): void
+    {
+        $this->dto = new LoginDTO();
     }
 
     //    public function testValidation(): void

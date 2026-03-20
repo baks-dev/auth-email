@@ -29,6 +29,6 @@ use Symfony\Config\TwigConfig;
 return static function(TwigConfig $twig) {
     $twig->path(
         BaksDevAuthEmailBundle::PATH.implode(DIRECTORY_SEPARATOR, ['Resources', 'view', '']),
-        'auth-email'
+        'auth-email',
     );
 };

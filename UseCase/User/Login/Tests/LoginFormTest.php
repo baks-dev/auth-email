@@ -50,7 +50,7 @@ final class LoginFormTest extends TypeTestCase
         $formData = [
             'email' => $AccountEmail->getValue(),
             'password' => $password,
-            'login' => true
+            'login' => true,
         ];
 
         $form->submit($formData);

@@ -80,7 +80,7 @@ final class AccountEventNotBlockByEventRepository implements AccountEventNotBloc
                 Account::class,
                 'account',
                 'WITH',
-                'account.id = event.account'
+                'account.id = event.account',
             );
 
         $orm
@@ -88,12 +88,12 @@ final class AccountEventNotBlockByEventRepository implements AccountEventNotBloc
                 AccountStatus::class,
                 'status',
                 'WITH',
-                'status.event = account.event AND status.status != :status'
+                'status.event = account.event AND status.status != :status',
             )
             ->setParameter(
                 'status',
                 EmailStatusBlock::class,
-                EmailStatus::TYPE
+                EmailStatus::TYPE,
             );
 
 
@@ -103,7 +103,7 @@ final class AccountEventNotBlockByEventRepository implements AccountEventNotBloc
                 AccountEvent::class,
                 'account_event',
                 'WITH',
-                'account_event.id = account.event'
+                'account_event.id = account.event',
             );
 
 

@@ -45,7 +45,7 @@ final class StatusForm extends AbstractType
                 return $status->getEmailStatusValue();
             },
             'label' => false,
-            'translation_domain' => 'account.status'
+            'translation_domain' => 'account.status',
         ]);
 
     }

@@ -33,16 +33,16 @@ final class EmailStatusNew implements EmailStatusInterface
 {
     public const STATUS = 'new';
 
-    public function getValue(): string
-    {
-        return self::STATUS;
-    }
-
     /**
      * Сортировка (чем меньше число - тем первым в итерации будет значение)
      */
     public static function sort(): int
     {
         return 100;
+    }
+
+    public function getValue(): string
+    {
+        return self::STATUS;
     }
 }

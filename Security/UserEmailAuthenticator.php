@@ -87,6 +87,10 @@ final class UserEmailAuthenticator extends AbstractAuthenticator
         return $request->isMethod('POST') && $this->getLoginUrl() === $request->getPathInfo();
     }
 
+    protected function getLoginUrl(): string
+    {
+        return $this->urlGenerator->generate('auth-email:'.LoginController::LOGIN_ROUTE);
+    }
 
     public function authenticate(Request $request): Passport
     {
@@ -135,9 +139,9 @@ final class UserEmailAuthenticator extends AbstractAuthenticator
             }),
 
             badges: [
-                new CsrfTokenBadge('authenticate', ($request->get('login_form')['_token'] ?? ''))
+                new CsrfTokenBadge('authenticate', ($request->get('login_form')['_token'] ?? '')),
                 //new RememberMeBadge(),
-            ]
+            ],
         );
     }
 
@@ -159,7 +163,6 @@ final class UserEmailAuthenticator extends AbstractAuthenticator
         return new RedirectResponse($this->urlGenerator->generate('core:'.HomepageController::HOMEPAGE));
     }
 
-
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception): ?Response
     {
         if($request->isXmlHttpRequest())
@@ -168,14 +171,14 @@ final class UserEmailAuthenticator extends AbstractAuthenticator
                 [
                     'header' => $this->translator->trans(
                         'page',
-                        domain: 'public.login'
+                        domain: 'public.login',
                     ),
                     'message' => $this->translator->trans(
                         'login.error.message',
-                        domain: 'public.login'
+                        domain: 'public.login',
                     ),
                 ]
-                , 401
+                , 401,
             );
         }
 
@@ -188,12 +191,6 @@ final class UserEmailAuthenticator extends AbstractAuthenticator
         }
 
         return new RedirectResponse($this->getLoginUrl());
-    }
-
-
-    protected function getLoginUrl(): string
-    {
-        return $this->urlGenerator->generate('auth-email:'.LoginController::LOGIN_ROUTE);
     }
 
 }

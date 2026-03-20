@@ -65,7 +65,7 @@ final class AllAccountsRepository implements AllAccountsInterface
             'account',
             AccountEvent::class,
             'account_event',
-            'account_event.id = account.event'
+            'account_event.id = account.event',
         );
 
         /* Статус */
@@ -74,7 +74,7 @@ final class AllAccountsRepository implements AllAccountsInterface
             'account',
             AccountStatus::class,
             'account_status',
-            'account_status.event = account.event'
+            'account_status.event = account.event',
         );
 
         /* Модификатор */
@@ -83,7 +83,7 @@ final class AllAccountsRepository implements AllAccountsInterface
             'account',
             AccountModify::class,
             'account_modify',
-            'account_modify.event = account.event'
+            'account_modify.event = account.event',
         );
 
         /* Поиск */

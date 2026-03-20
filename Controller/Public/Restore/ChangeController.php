@@ -80,7 +80,7 @@ final class ChangeController extends AbstractController
             ->createForm(
                 type: ChangePasswordForm::class,
                 data: $ChangePasswordDTO,
-                options: ['action' => $this->generateUrl('auth-email:public.change', ['event' => $event])]
+                options: ['action' => $this->generateUrl('auth-email:public.change', ['event' => $event])],
             )
             ->handleRequest($request);
 

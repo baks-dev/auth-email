@@ -92,7 +92,7 @@ final class VerifyEmail implements VerifyEmailInterface
         return new VerifyEmailSignatureComponents(
             DateTimeImmutable::createFromFormat('U', (string) $expiryTimestamp),
             $signature,
-            $generatedAt
+            $generatedAt,
         );
     }
 

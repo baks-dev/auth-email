@@ -52,7 +52,7 @@ final class NewController extends AbstractController
             ->createForm(
                 type: AccountForm::class,
                 data: $account,
-                options: ['action' => $this->generateUrl('auth-email:admin.newedit.new')]
+                options: ['action' => $this->generateUrl('auth-email:admin.newedit.new')],
 
             )->handleRequest($request);
 

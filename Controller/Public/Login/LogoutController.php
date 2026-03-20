@@ -68,7 +68,7 @@ final class LogoutController extends AbstractController
                 $impersonationToken = new  UsernamePasswordToken(
                     $CurrentUser,
                     "user",
-                    $CurrentUser->getRoles()
+                    $CurrentUser->getRoles(),
                 );
 
                 $tokenStorage->setToken($impersonationToken);

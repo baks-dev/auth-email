@@ -55,7 +55,7 @@ final class DeleteController extends AbstractController
             ->createForm(
                 type: AccountDeleteForm::class,
                 data: $AccountDeleteDTO,
-                options: ['action' => $this->generateUrl('auth-email:admin.delete', ['id' => $AccountDeleteDTO->getEvent()]),]
+                options: ['action' => $this->generateUrl('auth-email:admin.delete', ['id' => $AccountDeleteDTO->getEvent()]),],
             )
             ->handleRequest($request);
 

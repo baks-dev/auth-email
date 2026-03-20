@@ -42,7 +42,7 @@ final class LoginForm extends AbstractType
             EmailType::class,
             [
                 'attr' => ['autocomplete' => 'email'],
-            ]
+            ],
         );
 
         $builder->get('email')->addModelTransformer(
@@ -52,8 +52,8 @@ final class LoginForm extends AbstractType
                 },
                 function($email) {
                     return new AccountEmail($email);
-                }
-            )
+                },
+            ),
         );
 
 
@@ -65,7 +65,7 @@ final class LoginForm extends AbstractType
         $builder->add(
             'login',
             SubmitType::class,
-            ['label' => 'Login', 'label_html' => true]
+            ['label' => 'Login', 'label_html' => true],
         );
     }
 
@@ -78,7 +78,7 @@ final class LoginForm extends AbstractType
                 'method' => 'POST',
                 'translation_domain' => 'public.login',
                 'csrf_token_id' => 'authenticate',
-            ]
+            ],
         );
     }
 

@@ -23,33 +23,35 @@
 
 /* Статус */
 
-let $status = document.getElementById('account_form_status_status');
+let $status = document.getElementById("account_form_status_status");
 
 changeUserStaus($status.options[$status.selectedIndex].value);
 
-$status.addEventListener('change', function()
+$status.addEventListener("change", function()
 {
     changeUserStaus(this.value);
-})
+});
 
 function changeUserStaus($status)
 {
 
-    let $circle = document.getElementById('user_status_circle');
+    let $circle = document.getElementById("user_status_circle");
 
-    $circle.classList.remove('bg-primary');
-    $circle.classList.remove('bg-danger');
-    $circle.classList.remove('bg-warning');
+    $circle.classList.remove("bg-primary");
+    $circle.classList.remove("bg-danger");
+    $circle.classList.remove("bg-warning");
 
 
-    if($status === 'new')
+    if($status === "new")
     {
-        $circle.classList.add('bg-warning');
-    } else if($status === 'act')
+        $circle.classList.add("bg-warning");
+    }
+    else if($status === "act")
     {
-        $circle.classList.add('bg-primary');
-    } else if($status === 'ban')
+        $circle.classList.add("bg-primary");
+    }
+    else if($status === "ban")
     {
-        $circle.classList.add('bg-danger');
+        $circle.classList.add("bg-danger");
     }
 }

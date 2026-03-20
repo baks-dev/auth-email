@@ -58,26 +58,24 @@ class Account
         }
     }
 
-    public function __toString(): string
-    {
-        return (string) $this->id;
-    }
-
     public function getId(): UserUid
     {
         return $this->id;
     }
 
-
-    public function setEvent(AccountEvent $event): void
+    public function __toString(): string
     {
-        $this->event = $event->getId();
+        return (string) $this->id;
     }
-
 
     public function getEvent(): AccountEventUid
     {
         return $this->event;
+    }
+
+    public function setEvent(AccountEvent $event): void
+    {
+        $this->event = $event->getId();
     }
 
 }

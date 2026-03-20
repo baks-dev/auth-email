@@ -52,7 +52,7 @@ final class ExistUserDeviceRepository implements ExistUserDeviceInterface
             'event',
             AccountModify::class,
             'modify',
-            'modify.event = event.id'
+            'modify.event = event.id',
         );
 
         $qb

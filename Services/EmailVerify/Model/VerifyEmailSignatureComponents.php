@@ -78,6 +78,16 @@ final class VerifyEmailSignatureComponents
     }
 
     /**
+     * @throws LogicException
+     */
+    public function getExpirationMessageData(): array
+    {
+        $this->getExpirationMessageKey();
+
+        return ['%count%' => $this->transInterval];
+    }
+
+    /**
      * Get the translation message for when a signature expires.
      *
      * This is used in conjunction with the getExpirationMessageData() method.
@@ -116,16 +126,6 @@ final class VerifyEmailSignatureComponents
 
                 return '%count% minute|%count% minutes';
         }
-    }
-
-    /**
-     * @throws LogicException
-     */
-    public function getExpirationMessageData(): array
-    {
-        $this->getExpirationMessageKey();
-
-        return ['%count%' => $this->transInterval];
     }
 
     /**

@@ -110,17 +110,15 @@ class AccountEvent extends EntityEvent implements PasswordAuthenticatedUserInter
         return (string) $this->id;
     }
 
-    public function getId(): AccountEventUid
-    {
-        return $this->id;
-    }
-
-
     public function setMain(Account|UserUid $account): void
     {
         $this->account = $account instanceof Account ? $account->getId() : $account;
     }
 
+    public function getId(): AccountEventUid
+    {
+        return $this->id;
+    }
 
     public function getAccount(): ?UserUid
     {

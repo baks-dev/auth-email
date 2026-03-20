@@ -56,7 +56,7 @@ final class LoginController extends AbstractController
             ->createForm(
                 type: LoginForm::class,
                 data: $LoginDTO,
-                options: ['action' => $this->generateUrl('auth-email:public.login'),]
+                options: ['action' => $this->generateUrl('auth-email:public.login'),],
             );
 
         return $this->render([

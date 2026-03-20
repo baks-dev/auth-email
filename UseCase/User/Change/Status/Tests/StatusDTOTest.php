@@ -38,16 +38,16 @@ final class StatusDTOTest extends TestCase
 {
     private StatusDTO $dto;
 
-    protected function setUp(): void
-    {
-        $this->dto = new StatusDTO();
-    }
-
     public function testStatus(): void
     {
         $status = $this->dto->getStatus();
 
         self::assertEquals(EmailStatusActive::STATUS, $status->getEmailStatus()->getValue());
+    }
+
+    protected function setUp(): void
+    {
+        $this->dto = new StatusDTO();
     }
 
     //    public function testValidation(): void

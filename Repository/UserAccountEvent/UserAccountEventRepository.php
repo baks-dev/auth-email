@@ -67,7 +67,7 @@ final class UserAccountEventRepository implements UserAccountEventInterface
                 AccountEvent::class,
                 'account_event',
                 'WITH',
-                'account_event.id = account.event'
+                'account_event.id = account.event',
             );
 
 
@@ -95,14 +95,14 @@ final class UserAccountEventRepository implements UserAccountEventInterface
             AccountStatus::class,
             'status',
             'WITH',
-            'status.event = event.id AND  status.status != :status'
+            'status.event = event.id AND  status.status != :status',
         );
 
         // Только не заблокированный пользователь
         $qb->setParameter(
             'status',
             new EmailStatus(EmailStatusBlock::class),
-            EmailStatus::TYPE
+            EmailStatus::TYPE,
         );
 
         return $qb->getQuery()->getOneOrNullResult();
@@ -128,21 +128,21 @@ final class UserAccountEventRepository implements UserAccountEventInterface
             Account::class,
             'account',
             'WITH',
-            'account.event = event.id'
+            'account.event = event.id',
         );
 
         $qb->join(
             AccountStatus::class,
             'status',
             'WITH',
-            'status.event = event.id AND  status.status != :status'
+            'status.event = event.id AND  status.status != :status',
         );
 
         // Только не заблокированный пользователь
         $qb->setParameter(
             'status',
             new EmailStatus(EmailStatusBlock::class),
-            EmailStatus::TYPE
+            EmailStatus::TYPE,
         );
 
         return $qb->getQuery()->getOneOrNullResult();

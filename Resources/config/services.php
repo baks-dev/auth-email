@@ -46,7 +46,7 @@ return static function(ContainerConfigurator $configurator) {
 
     $services->load(
         $NAMESPACE.'Type\EmailStatus\Status\\',
-        $PATH.implode(DIRECTORY_SEPARATOR, ['Type', 'EmailStatus', 'Status']) //'Type/EmailStatus/Status')
+        $PATH.implode(DIRECTORY_SEPARATOR, ['Type', 'EmailStatus', 'Status']), //'Type/EmailStatus/Status')
     );
 
 };

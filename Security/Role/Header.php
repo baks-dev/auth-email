@@ -33,6 +33,14 @@ use Symfony\Component\DependencyInjection\Attribute\AutoconfigureTag;
 #[AutoconfigureTag('baks.menu.admin')]
 final class Header implements MenuAdminInterface
 {
+    /**
+     * Метод возвращает позицию, в которую располагается ссылка в секции меню
+     */
+    public static function getSortMenu(): int
+    {
+        return 100;
+    }
+
     public function getRole(): string
     {
         return Role::ROLE;
@@ -61,14 +69,6 @@ final class Header implements MenuAdminInterface
     public function getGroupMenu(): MenuAdminSectionGroupCollectionInterface|bool
     {
         return new MenuGroupUser();
-    }
-
-    /**
-     * Метод возвращает позицию, в которую располагается ссылка в секции меню
-     */
-    public static function getSortMenu(): int
-    {
-        return 100;
     }
 
     /**

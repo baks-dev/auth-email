@@ -28,10 +28,10 @@ use Symfony\Component\DependencyInjection\Attribute\AutoconfigureTag;
 #[AutoconfigureTag('baks.email.status')]
 interface EmailStatusInterface
 {
-    /** Возвращает значение (value) */
-    public function getValue(): string;
-
     /** Сортировка */
     public static function sort(): int;
+
+    /** Возвращает значение (value) */
+    public function getValue(): string;
 
 }

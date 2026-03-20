@@ -55,7 +55,7 @@ final readonly class CurrentAccountEventRepository implements CurrentAccountEven
             AccountEvent::class,
             'event',
             'WITH',
-            'event.id = main.event'
+            'event.id = main.event',
         );
 
         return $orm->getOneOrNullResult();

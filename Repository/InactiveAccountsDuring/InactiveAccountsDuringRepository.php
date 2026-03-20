@@ -56,12 +56,12 @@ final readonly class InactiveAccountsDuringRepository implements InactiveAccount
                 AccountStatus::class,
                 'account_status',
                 'WITH',
-                'account_status.event = account.event AND account_status.status = :status'
+                'account_status.event = account.event AND account_status.status = :status',
             )
             ->setParameter(
                 key: 'status',
                 value: EmailStatusNew::class,
-                type: EmailStatus::TYPE
+                type: EmailStatus::TYPE,
             );
 
         $date = new DateTimeImmutable('now')
@@ -73,12 +73,12 @@ final readonly class InactiveAccountsDuringRepository implements InactiveAccount
                 'modify',
                 'WITH',
                 'modify.event = account.event AND modify.modDate < :date
-                '
+                ',
             )
             ->setParameter(
                 key: 'date',
                 value: $date,
-                type: Types::DATETIME_IMMUTABLE
+                type: Types::DATETIME_IMMUTABLE,
             );
 
         $orm
@@ -87,7 +87,7 @@ final readonly class InactiveAccountsDuringRepository implements InactiveAccount
                 AccountEvent::class,
                 'event',
                 'WITH',
-                'event.id = account.event'
+                'event.id = account.event',
             );
 
         return $orm->getResult();

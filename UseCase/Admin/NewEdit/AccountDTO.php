@@ -75,6 +75,11 @@ final class AccountDTO implements AccountEventInterface
         return $this->id;
     }
 
+    public function getUser(): ?UserUid
+    {
+        return $this->user;
+    }
+
     /**
      * User
      */
@@ -82,11 +87,6 @@ final class AccountDTO implements AccountEventInterface
     {
         $this->user = $user;
         return $this;
-    }
-
-    public function getUser(): ?UserUid
-    {
-        return $this->user;
     }
 
     /**

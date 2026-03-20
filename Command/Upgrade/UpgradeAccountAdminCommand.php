@@ -56,6 +56,12 @@ class UpgradeAccountAdminCommand extends Command implements ProjectUpgradeInterf
         parent::__construct();
     }
 
+    /** Чам выше число - тем первым в итерации будет значение */
+    public static function priority(): int
+    {
+        return 100;
+    }
+
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $AccountEmail = new  AccountEmail('admin@'.$this->HOST);
@@ -103,11 +109,5 @@ class UpgradeAccountAdminCommand extends Command implements ProjectUpgradeInterf
         }
 
         return Command::SUCCESS;
-    }
-
-    /** Чам выше число - тем первым в итерации будет значение */
-    public static function priority(): int
-    {
-        return 100;
     }
 }

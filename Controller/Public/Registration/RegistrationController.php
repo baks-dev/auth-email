@@ -56,7 +56,7 @@ final class RegistrationController extends AbstractController
             ->createForm(
                 type: RegistrationForm::class,
                 data: $registrationDTO,
-                options: ['action' => $this->generateUrl('auth-email:public.registration')]
+                options: ['action' => $this->generateUrl('auth-email:public.registration')],
             )
             ->handleRequest($request);
 

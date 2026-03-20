@@ -34,16 +34,16 @@ final class EmailStatusActive implements EmailStatusInterface
 
     public const STATUS = 'act';
 
-    public function getValue(): string
-    {
-        return self::STATUS;
-    }
-
     /**
      * Сортировка (чем меньше число - тем первым в итерации будет значение)
      */
     public static function sort(): int
     {
         return 200;
+    }
+
+    public function getValue(): string
+    {
+        return self::STATUS;
     }
 }

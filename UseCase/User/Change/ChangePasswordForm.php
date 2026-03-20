@@ -52,7 +52,7 @@ final class ChangePasswordForm extends AbstractType
         $builder->add(
             'change',
             SubmitType::class,
-            ['label' => 'Change', 'label_html' => true]
+            ['label' => 'Change', 'label_html' => true],
         );
     }
 
@@ -64,7 +64,7 @@ final class ChangePasswordForm extends AbstractType
                 'data_class' => ChangePasswordDTO::class,
                 'method' => 'POST',
                 'translation_domain' => 'public.reset',
-            ]
+            ],
         );
     }
 

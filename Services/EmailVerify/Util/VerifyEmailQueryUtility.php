@@ -32,18 +32,6 @@ class VerifyEmailQueryUtility
         return $params['token'];
     }
 
-    public function getExpiryTimestamp(string $uri): int
-    {
-        $params = $this->getQueryParams($uri);
-
-        if(empty($params['expires']))
-        {
-            return 0;
-        }
-
-        return (int) $params['expires'];
-    }
-
     private function getQueryParams(string $uri): array
     {
         $params = [];
@@ -55,5 +43,17 @@ class VerifyEmailQueryUtility
         }
 
         return $params;
+    }
+
+    public function getExpiryTimestamp(string $uri): int
+    {
+        $params = $this->getQueryParams($uri);
+
+        if(empty($params['expires']))
+        {
+            return 0;
+        }
+
+        return (int) $params['expires'];
     }
 }

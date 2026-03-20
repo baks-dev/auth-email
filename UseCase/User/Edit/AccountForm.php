@@ -46,8 +46,8 @@ final class AccountForm extends AbstractType
                 },
                 function($email) {
                     return new AccountEmail($email);
-                }
-            )
+                },
+            ),
         );
 
         /*
@@ -70,7 +70,7 @@ final class AccountForm extends AbstractType
         $builder->add(
             'account',
             SubmitType::class,
-            ['label' => 'Save', 'label_html' => true, 'attr' => ['class' => 'btn-primary']]
+            ['label' => 'Save', 'label_html' => true, 'attr' => ['class' => 'btn-primary']],
         );
     }
 
@@ -81,7 +81,7 @@ final class AccountForm extends AbstractType
                 'data_class' => AccountDTO::class,
                 'method' => 'POST',
                 'attr' => ['class' => 'w-100', 'autocomplete' => "off"],
-            ]
+            ],
         );
     }
 }

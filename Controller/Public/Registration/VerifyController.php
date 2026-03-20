@@ -83,7 +83,7 @@ final class VerifyController extends AbstractController
             $verifyEmail->validateEmailConfirmation(
                 $request->getUri(),
                 $NewUser,
-                new AccountEmail($NewUser->getOption())
+                new AccountEmail($NewUser->getOption()),
             );
         }
         catch(VerifyEmailExceptionInterface $exception)

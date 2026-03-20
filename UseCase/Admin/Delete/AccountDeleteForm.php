@@ -38,7 +38,7 @@ final class AccountDeleteForm extends AbstractType
         $builder->add(
             'account_delete',
             SubmitType::class,
-            ['label' => 'Delete', 'label_html' => true, 'attr' => ['class' => 'btn-danger']]
+            ['label' => 'Delete', 'label_html' => true, 'attr' => ['class' => 'btn-danger']],
         );
     }
 

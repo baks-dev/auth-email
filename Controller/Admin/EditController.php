@@ -55,7 +55,7 @@ final class EditController extends AbstractController
             ->createForm(
                 type: AccountForm::class,
                 data: $account,
-                options: ['action' => $this->generateUrl('auth-email:admin.newedit.edit', ['id' => $Event->getId()])]
+                options: ['action' => $this->generateUrl('auth-email:admin.newedit.edit', ['id' => $Event->getId()])],
 
             )
             ->handleRequest($request);

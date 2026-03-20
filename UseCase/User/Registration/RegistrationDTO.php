@@ -30,18 +30,21 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 final class RegistrationDTO implements AccountEventInterface
 {
+    /** Пользовательское соглашение */
+    #[Assert\NotBlank]
+    public bool $agreeTerms = false;
+    /** Пользовательское соглашение */
+    #[Assert\NotBlank]
+    public ?string $code = null;
     /** UserEvent ID */
     #[Assert\IsNull]
     private readonly ?AccountEventUid $id;
-
     /** Email */
     #[Assert\NotBlank]
     #[Assert\Email]
     private readonly AccountEmail $email;
-
     /** Дайджест Пароля */
     private readonly string $password;
-
     /** Пароль */
     #[Assert\NotBlank]
     #[Assert\Length(
@@ -49,21 +52,11 @@ final class RegistrationDTO implements AccountEventInterface
         max: 4096
     )]
     private readonly string $passwordPlain;
-
     #[Assert\Valid]
     private Status\StatusDTO $status;
-
-    /** Пользовательское соглашение */
-    #[Assert\NotBlank]
-    public bool $agreeTerms = false;
-
     /** Пользовательское соглашение */
     #[Assert\NotBlank]
     private bool $captcha = false;
-
-    /** Пользовательское соглашение */
-    #[Assert\NotBlank]
-    public ?string $code = null;
 
     public function __construct()
     {

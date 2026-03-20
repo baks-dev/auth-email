@@ -66,7 +66,7 @@ final class CurrentUserAccountRepository implements CurrentUserAccountInterface
                 'users',
                 Account::class,
                 'account',
-                'account.id = users.usr'
+                'account.id = users.usr',
             );
 
 
@@ -77,7 +77,7 @@ final class CurrentUserAccountRepository implements CurrentUserAccountInterface
                 'account',
                 AccountEvent::class,
                 'account_event',
-                'account_event.id = account.event'
+                'account_event.id = account.event',
             );
 
         $dbal->join(
@@ -87,7 +87,7 @@ final class CurrentUserAccountRepository implements CurrentUserAccountInterface
             '
               account_status.event = account.event AND
               account_status.status = :status
-          '
+          ',
         );
 
         $dbal->setParameter('status', EmailStatusActive::class, EmailStatus::TYPE);

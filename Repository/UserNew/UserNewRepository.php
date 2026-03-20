@@ -59,21 +59,21 @@ final class UserNewRepository implements UserNewInterface
             AccountEntity\Event\AccountEvent::class,
             'event',
             'WITH',
-            'event.id = account.event'
+            'event.id = account.event',
         );
 
         $qb->join(
             AccountEntity\Status\AccountStatus::class,
             'status',
             'WITH',
-            'status.event = event.id AND status.status = :status'
+            'status.event = event.id AND status.status = :status',
         );
 
 
         $qb->setParameter(
             'status',
             new EmailStatus(EmailStatusNew::class), /* только НОВЫЙ */
-            EmailStatus::TYPE
+            EmailStatus::TYPE,
         );
 
         return $qb->getQuery()->getOneOrNullResult();
@@ -98,7 +98,7 @@ final class UserNewRepository implements UserNewInterface
             AccountEntity\Event\AccountEvent::class,
             'event',
             'WITH',
-            'event.id = account.event'
+            'event.id = account.event',
         );
 
         /* только со статусом НОВЫЙ */
@@ -106,13 +106,13 @@ final class UserNewRepository implements UserNewInterface
             AccountEntity\Status\AccountStatus::class,
             'status',
             'WITH',
-            'status.event = event.id AND status.status = :status'
+            'status.event = event.id AND status.status = :status',
         );
 
         $qb->setParameter(
             'status',
             new EmailStatus(EmailStatusNew::class),
-            EmailStatus::TYPE
+            EmailStatus::TYPE,
         );
 
         return $qb->getQuery()->getOneOrNullResult();

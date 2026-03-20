@@ -43,15 +43,15 @@ final class UserProfileUsername implements UserProfileInterface
         $this->currentUserAccount = $currentUserProfile;
     }
 
+    public static function priority(): int
+    {
+        return 800;
+    }
+
     /** Возвращает значение (value) */
     public function getValue(UserUid $usr): mixed
     {
         $current = $this->currentUserAccount->fetchAccountAssociative($usr);
         return $current['account_email'] ?? false;
-    }
-
-    public static function priority(): int
-    {
-        return 800;
     }
 }

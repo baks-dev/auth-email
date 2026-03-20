@@ -92,7 +92,7 @@ final class ConfirmationHandler
         $templatedEmail
             ->from(new Address(
                 $this->parameters->get('PROJECT_NO_REPLY'),
-                $this->parameters->get('PROJECT_NAME')
+                $this->parameters->get('PROJECT_NAME'),
             ))
             ->to($UserUid->getOption())
             ->subject($this->translator->trans('confirm.subject', domain: 'public.confirmation'))
@@ -105,7 +105,7 @@ final class ConfirmationHandler
             self::VERIFY_ROUTE_NAME,
             $UserUid,
             new AccountEmail($UserUid->getOption()),
-            ['id' => $UserUid->getValue()]
+            ['id' => $UserUid->getValue()],
         );
 
         $context['signedUrl'] = $signature->getSignedUrl();

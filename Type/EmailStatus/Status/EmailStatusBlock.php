@@ -33,16 +33,16 @@ final class EmailStatusBlock implements EmailStatusInterface
 {
     public const STATUS = 'ban';
 
-    public function getValue(): string
-    {
-        return self::STATUS;
-    }
-
     /**
      * Сортировка (чем меньше число - тем первым в итерации будет значение)
      */
     public static function sort(): int
     {
         return 300;
+    }
+
+    public function getValue(): string
+    {
+        return self::STATUS;
     }
 }

@@ -133,8 +133,8 @@ final class RestoreHandler
             ->from(
                 new Address(
                     $this->parameters->get('PROJECT_NO_REPLY'), // email отправителя
-                    $this->parameters->get('PROJECT_NAME') // подпись
-                )
+                    $this->parameters->get('PROJECT_NAME'), // подпись
+                ),
             )
             ->to(new Address(new AccountEmail($Event->getEmail())))
             ->subject($this->translator->trans('subject', domain: 'public.restore'))

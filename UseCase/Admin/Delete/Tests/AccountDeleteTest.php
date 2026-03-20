@@ -52,6 +52,45 @@ use Symfony\Component\DependencyInjection\Attribute\When;
 final class AccountDeleteTest extends KernelTestCase
 {
 
+    /**
+     * Этот метод вызывается после выполнения последнего теста этого тестового класса.
+     */
+    public static function tearDownAfterClass(): void
+    {
+        /** @var EntityManagerInterface $em */
+        $em = self::getContainer()->get(EntityManagerInterface::class);
+
+        $AccountEventCollection = $em->getRepository(AccountEvent::class)
+            ->findBy(['account' => UserUid::TEST]);
+
+        foreach($AccountEventCollection as $remove)
+        {
+            $em->remove($remove);
+        }
+
+        $em->flush();
+
+        /** @var DBALQueryBuilder $dbal */
+        $dbal = self::getContainer()->get(DBALQueryBuilder::class);
+
+        $qb = $dbal->createQueryBuilder(self::class);
+        $qb
+            ->delete(User::class)
+            ->where('usr = :usr')
+            ->setParameter('usr', UserUid::TEST)
+            ->executeQuery();
+
+        $qb = $dbal->createQueryBuilder(self::class);
+        $qb
+            ->delete(Account::class)
+            ->where('id = :account')
+            ->setParameter('account', UserUid::TEST)
+            ->executeQuery();
+
+        $em->clear();
+        //$em->close();
+    }
+
     #[DependsOnClass(AccountEditTest::class)]
     #[DependsOnClass(EditAdminControllerTest::class)]
     #[DependsOnClass(AccountEditUserControllerTest::class)]
@@ -107,44 +146,5 @@ final class AccountDeleteTest extends KernelTestCase
         $em->clear();
         //$em->close();
 
-    }
-
-    /**
-     * Этот метод вызывается после выполнения последнего теста этого тестового класса.
-     */
-    public static function tearDownAfterClass(): void
-    {
-        /** @var EntityManagerInterface $em */
-        $em = self::getContainer()->get(EntityManagerInterface::class);
-
-        $AccountEventCollection = $em->getRepository(AccountEvent::class)
-            ->findBy(['account' => UserUid::TEST]);
-
-        foreach($AccountEventCollection as $remove)
-        {
-            $em->remove($remove);
-        }
-
-        $em->flush();
-
-        /** @var DBALQueryBuilder $dbal */
-        $dbal = self::getContainer()->get(DBALQueryBuilder::class);
-
-        $qb = $dbal->createQueryBuilder(self::class);
-        $qb
-            ->delete(User::class)
-            ->where('usr = :usr')
-            ->setParameter('usr', UserUid::TEST)
-            ->executeQuery();
-
-        $qb = $dbal->createQueryBuilder(self::class);
-        $qb
-            ->delete(Account::class)
-            ->where('id = :account')
-            ->setParameter('account', UserUid::TEST)
-            ->executeQuery();
-
-        $em->clear();
-        //$em->close();
     }
 }

@@ -77,7 +77,7 @@ final readonly class CreateAccountDispatcher
                     '%s: Ошибка создания аккаунта',
                     $this->translator->trans($Account, domain: 'admin.account'),
                 ),
-                context: [self::class.':'.__LINE__,]
+                context: [self::class.':'.__LINE__,],
             );
         }
     }
