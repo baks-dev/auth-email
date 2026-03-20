@@ -22,65 +22,44 @@
  *
  */
 
-namespace BaksDev\Auth\Email\Entity;
+namespace BaksDev\Auth\Email\UseCase\Admin\ReplaceAccount;
 
 use BaksDev\Auth\Email\Entity\Event\AccountEvent;
+use BaksDev\Auth\Email\Entity\Event\AccountEventInterface;
 use BaksDev\Auth\Email\Type\Event\AccountEventUid;
-use BaksDev\Users\User\Entity\User;
 use BaksDev\Users\User\Type\Id\UserUid;
-use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
-/* Аккаунт пользователя */
-
-#[ORM\Entity]
-#[ORM\Table(name: 'users_account')]
-class Account
+/** @see AccountEvent */
+final class ReplaceAccountDTO implements AccountEventInterface
 {
-    /** ID */
-    #[Assert\NotBlank]
     #[Assert\Uuid]
-    #[ORM\Id]
-    #[ORM\Column(type: UserUid::TYPE)]
-    private UserUid $id;
+    private AccountEventUid $id;
 
-    /** ID События */
-    #[Assert\NotBlank]
+    /** User */
     #[Assert\Uuid]
-    #[ORM\Column(type: AccountEventUid::TYPE, unique: true)]
-    private AccountEventUid $event;
+    private UserUid $account;
 
+    public function __construct() {}
 
-    public function __construct(User|UserUid|null $usr = null)
+    public function setId(AccountEventUid $id): void
     {
-        if($usr)
-        {
-            $this->id = $usr instanceof User ? $usr->getId() : $usr;
-        }
+        $this->id = $id;
     }
 
-    public function getId(): UserUid
+    public function getEvent(): ?AccountEventUid
     {
         return $this->id;
     }
 
-    public function __toString(): string
+    public function setAccount(UserUid $account): ReplaceAccountDTO
     {
-        return (string) $this->id;
+        $this->account = $account;
+        return $this;
     }
 
-    public function getEvent(): AccountEventUid
+    public function getAccount(): UserUid
     {
-        return $this->event;
-    }
-
-    public function setEvent(AccountEvent $event): void
-    {
-        $this->event = $event->getId();
-    }
-
-    public function replaceId(UserUid $id): void
-    {
-        $this->id = $id;
+        return $this->account;
     }
 }
