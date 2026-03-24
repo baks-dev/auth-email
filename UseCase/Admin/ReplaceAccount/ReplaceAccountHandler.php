@@ -35,7 +35,6 @@ use BaksDev\Core\Entity\AbstractHandler;
  */
 final class ReplaceAccountHandler extends AbstractHandler
 {
-
     public function handle(ReplaceAccountDTO $command): bool
     {
         /** @var $Account Account|null */
