@@ -48,7 +48,7 @@ final class ReplaceAccountHandler extends AbstractHandler
 
         /** @var $AccountEvents array<int, AccountEvent>|null */
         $AccountEvents = $this->getRepository(AccountEvent::class)
-            ->findBy(['id' => $Account->getEvent()]);
+            ->findBy(['main' => $Account->getId()]);
 
         if(true === empty($AccountEvents))
         {
