@@ -38,19 +38,32 @@ final class ReplaceAccountHandler extends AbstractHandler
     public function handle(ReplaceAccountDTO $command): bool
     {
         /** @var $Account Account|null */
-        $Account = $this->getRepository(Account::class)->findOneBy(['event' => $command->getEvent()]);
+        $Account = $this->getRepository(Account::class)
+            ->findOneBy(['event' => $command->getEvent()]);
 
-        /** @var $AccountEvent AccountEvent|null */
-        $AccountEvent = $this->getRepository(AccountEvent::class)->find($command->getEvent());
-
-        if(true === $Account instanceof Account && true === $AccountEvent instanceof AccountEvent)
-        {
-            $Account->replaceId($command->getAccount());
-            $AccountEvent->setMain($command->getAccount());
-        }
-        else
+        if(false === $Account instanceof Account)
         {
             return false;
+        }
+
+        /** @var $AccountEvents array<int, AccountEvent>|null */
+        $AccountEvents = $this->getRepository(AccountEvent::class)
+            ->findBy(['id' => $Account->getEvent()]);
+
+        if(true === empty($AccountEvents))
+        {
+            return false;
+        }
+
+        /**
+         * Заменяем идентификатор аккаунта пользователя
+         */
+
+        $Account->replaceId($command->getAccount());
+
+        foreach($AccountEvents as $AccountEvent)
+        {
+            $AccountEvent->setMain($command->getAccount());
         }
 
         $this->flush();
