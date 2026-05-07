@@ -30,6 +30,7 @@ use BaksDev\Auth\Email\Type\Event\AccountEventUid;
 use BaksDev\Core\Cache\AppCacheInterface;
 use BaksDev\Core\Controller\AbstractController;
 use BaksDev\Core\Type\UidType\ParamConverter;
+use BaksDev\Users\User\Entity\User;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\UriSigner;
@@ -53,7 +54,7 @@ final class ResetController extends AbstractController
     ): Response
     {
         // Проверяем что пользователь не авторизован
-        if($this->getUsr())
+        if(true === ($this->getUsr() instanceof User))
         {
             return $this->redirectToRoute('core:public.homepage');
         }

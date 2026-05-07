@@ -26,6 +26,7 @@ namespace BaksDev\Auth\Email\Controller\Public\Login;
 use BaksDev\Auth\Email\UseCase\User\Login\LoginDTO;
 use BaksDev\Auth\Email\UseCase\User\Login\LoginForm;
 use BaksDev\Core\Controller\AbstractController;
+use BaksDev\Users\User\Entity\User;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\AsController;
@@ -44,7 +45,7 @@ final class LoginController extends AbstractController
     ): Response
     {
 
-        if($this->getUsr())
+        if(true === ($this->getUsr() instanceof User))
         {
             /* Редирект на главную страницу */
             return $this->redirectToRoute('core:public.homepage');

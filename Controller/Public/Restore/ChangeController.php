@@ -30,6 +30,7 @@ use BaksDev\Auth\Email\UseCase\User\Change\ChangePasswordForm;
 use BaksDev\Auth\Email\UseCase\User\Change\ChangePasswordHandler;
 use BaksDev\Core\Cache\AppCacheInterface;
 use BaksDev\Core\Controller\AbstractController;
+use BaksDev\Users\User\Entity\User;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\AsController;
@@ -48,7 +49,7 @@ final class ChangeController extends AbstractController
     ): Response
     {
         // Если пользователь авторизован - редирект
-        if($this->getUsr())
+        if(true === ($this->getUsr() instanceof User))
         {
             $this->addFlash(
                 type: 'danger',

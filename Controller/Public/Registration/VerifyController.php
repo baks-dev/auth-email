@@ -33,6 +33,7 @@ use BaksDev\Auth\Email\UseCase\User\Verify\VerifyDTO;
 use BaksDev\Auth\Email\UseCase\User\Verify\VerifyHandler;
 use BaksDev\Core\Controller\AbstractController;
 use BaksDev\Core\Type\UidType\ParamConverter;
+use BaksDev\Users\User\Entity\User;
 use BaksDev\Users\User\Type\Id\UserUid;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -56,7 +57,7 @@ final class VerifyController extends AbstractController
     {
 
         // Проверяем что пользователь не авторизован
-        if($this->getUsr())
+        if(true === ($this->getUsr() instanceof User))
         {
             return $this->redirectToRoute('core:public.homepage');
         }

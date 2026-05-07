@@ -25,6 +25,7 @@ namespace BaksDev\Auth\Email\Controller\Public\Login;
 
 use BaksDev\Core\Cache\AppCacheInterface;
 use BaksDev\Core\Controller\AbstractController;
+use BaksDev\Users\User\Entity\User;
 use BaksDev\Users\User\Repository\GetUserById\GetUserByIdInterface;
 use BaksDev\Users\User\Type\Id\UserUid;
 use Symfony\Bundle\SecurityBundle\Security;
@@ -47,12 +48,19 @@ final class LogoutController extends AbstractController
         AppCacheInterface $cache
     ): Response
     {
-        $authority = $this->getUsr()?->getUserIdentifier();
+
+        $User = $this->getUsr();
+
+        if(false === ($User instanceof User))
+        {
+            return $this->redirectToReferer();
+        }
+
+        $authority = $User->getUserIdentifier();
 
         if($authority)
         {
             /** Удаляем авторизацию доверенности пользователя */
-
             $Session = $request->getSession();
             $Session->remove('Authority');
 

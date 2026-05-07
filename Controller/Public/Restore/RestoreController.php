@@ -29,6 +29,7 @@ use BaksDev\Auth\Email\UseCase\User\Restore\RestoreForm;
 use BaksDev\Core\Controller\AbstractController;
 use BaksDev\Core\Messenger\MessageDispatchInterface;
 use BaksDev\Core\Type\Locale\Locale;
+use BaksDev\Users\User\Entity\User;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\AsController;
@@ -49,7 +50,7 @@ final class RestoreController extends AbstractController
     ): Response
     {
         // Если пользователь авторизован - редирект
-        if($this->getUsr())
+        if(true === ($this->getUsr() instanceof User))
         {
             return $this->redirectToRoute('core:public.homepage', status: 302);
         }
