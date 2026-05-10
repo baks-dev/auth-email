@@ -47,7 +47,7 @@ final class LogoutPublicControllerTest extends WebTestCase
             $client->setServerParameter('HTTP_USER_AGENT', $device);
             $client->request('GET', $this->controller);
 
-            self::assertResponseStatusCodeSame(500); // ошибка 500 т.к. пользователь неавторизован
+            self::assertResponseRedirects();
         }
 
         self::assertTrue(true);
